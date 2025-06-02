@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prova Immagine Lontra</title>
+    <title>Prova Immagine Lontra - Colori Caldi Numerati</title>
     <style>
         body {
             font-family: sans-serif;
@@ -34,12 +34,18 @@
             margin-bottom: 20px;
         }
 
+        .color-option-wrapper {
+            display: inline-flex; /* Per allineare cerchio e numero */
+            flex-direction: column; /* Per mettere il numero sotto il cerchio */
+            align-items: center;
+            margin: 0 5px; /* Spazio tra le opzioni */
+            vertical-align: top; /* Allinea in alto gli wrapper */
+        }
+
         .color-option {
-            display: inline-block;
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            margin: 0 10px;
             cursor: pointer;
             border: 2px solid transparent;
             transition: border-color 0.3s ease;
@@ -53,6 +59,12 @@
             border-color: #007bff; /* Colore di bordo per l'opzione selezionata */
         }
 
+        .option-number {
+            font-size: 0.75em; /* Dimensione piccola per il numero */
+            color: #555;
+            margin-top: 5px; /* Spazio tra cerchio e numero */
+        }
+
         h2 {
             color: #333;
         }
@@ -64,12 +76,16 @@
         /* Stili per i colori di sfondo */
         .bg-white { background-color: #FFFFFF; }
         .bg-lightgray { background-color: #F0F0F0; }
-        .bg-lightblue { background-color: #E0F7FA; }
-        .bg-lightgreen { background-color: #F1F8E9; }
-        .bg-beige { background-color: #F5F5DC; }
-        .bg-darkgray { background-color: #4A4A4A; }
-        .bg-darkblue { background-color: #263238; }
-        .bg-rosa-lontra { background-color: #FAE6EF; } /* Il rosa esatto della tua immagine! */
+        .bg-rosa-lontra { background-color: #FAE6EF; } /* Il tuo rosa originale, intatto! */
+
+        /* Nuovi colori caldi e pastello */
+        .bg-peach { background-color: #FFDAB9; } /* Pesca chiaro */
+        .bg-lightcoral { background-color: #F08080; } /* Corallo chiaro (rosso pastello) */
+        .bg-lightorange { background-color: #FFD4A2; } /* Arancione chiaro */
+        .bg-vanilla { background-color: #F3E5AB; } /* Vaniglia */
+        .bg-palevioletred { background-color: #DB7093; } /* Rosa violaceo pastello */
+        .bg-lavender { background-color: #E6E6FA; } /* Lavanda (può essere caldo o freddo, ma qui con gli altri pastello si abbina bene) */
+
 
         /* Testo chiaro per sfondi scuri */
         .dark-background-text h2, .dark-background-text p {
@@ -83,24 +99,53 @@
     <p>Clicca sui cerchi colorati per cambiare il colore di sfondo e vedere l'effetto.</p>
 
     <div class="container" id="mainContainer">
-        <img src="castoro.JPG" alt="Immagine di una lontra con fiori" id="otterImage"> <h2 id="titleText">La tua Lontra!</h2>
+        <img src="castoro.JPG" alt="Immagine di una lontra con fiori" id="otterImage">
+        <h2 id="titleText">La tua Lontra!</h2>
         <p id="descriptionText">Questa è la tua immagine di prova. Scegli il colore di sfondo che preferisci.</p>
     </div>
 
     <div>
-        <div class="color-option bg-white selected" data-color="#FFFFFF" data-text-dark="true" title="Sfondo Bianco"></div>
-        <div class="color-option bg-rosa-lontra" data-color="#FAE6EF" data-text-dark="true" title="Sfondo Rosa Originale"></div>
-        <div class="color-option bg-lightgray" data-color="#F0F0F0" data-text-dark="true" title="Sfondo Grigio Chiaro"></div>
-        <div class="color-option bg-lightblue" data-color="#E0F7FA" data-text-dark="true" title="Sfondo Azzurro Chiaro"></div>
-        <div class="color-option bg-lightgreen" data-color="#F1F8E9" data-text-dark="true" title="Sfondo Verde Chiaro"></div>
-        <div class="color-option bg-beige" data-color="#F5F5DC" data-text-dark="true" title="Sfondo Beige"></div>
-        <div class="color-option bg-darkgray" data-color="#4A4A4A" data-text-dark="false" title="Sfondo Grigio Scuro"></div>
-        <div class="color-option bg-darkblue" data-color="#263238" data-text-dark="false" title="Sfondo Blu Scuro"></div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-rosa-lontra selected" data-color="#FAE6EF" data-text-dark="true" title="Il Tuo Rosa Originale"></div>
+            <span class="option-number">1</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-lightcoral" data-color="#F08080" data-text-dark="true" title="Rosso Pastello"></div>
+            <span class="option-number">2</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-peach" data-color="#FFDAB9" data-text-dark="true" title="Pesca"></div>
+            <span class="option-number">3</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-lightorange" data-color="#FFD4A2" data-text-dark="true" title="Arancione Chiaro"></div>
+            <span class="option-number">4</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-vanilla" data-color="#F3E5AB" data-text-dark="true" title="Vaniglia"></div>
+            <span class="option-number">5</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-palevioletred" data-color="#DB7093" data-text-dark="true" title="Rosa Violaceo Pastello"></div>
+            <span class="option-number">6</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-lavender" data-color="#E6E6FA" data-text-dark="true" title="Lavanda Pastello"></div>
+            <span class="option-number">7</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-white" data-color="#FFFFFF" data-text-dark="true" title="Bianco"></div>
+            <span class="option-number">8</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-lightgray" data-color="#F0F0F0" data-text-dark="true" title="Grigio Chiaro"></div>
+            <span class="option-number">9</span>
+        </div>
     </div>
 
     <script>
         const mainContainer = document.getElementById('mainContainer');
-        const colorOptions = document.querySelectorAll('.color-option');
+        const colorOptions = document.querySelectorAll('.color-option'); // Seleziona solo i div dei colori
         const titleText = document.getElementById('titleText');
         const descriptionText = document.getElementById('descriptionText');
 
@@ -123,8 +168,10 @@
             });
         });
 
-        // Imposta il colore iniziale come bianco (o il colore che preferisci all'avvio)
-        mainContainer.style.backgroundColor = '#FFFFFF';
+        // Imposta il colore iniziale sul tuo rosa originale quando la pagina carica
+        mainContainer.style.backgroundColor = '#FAE6EF';
+        // Imposta anche il cerchio del tuo rosa originale come selezionato all'avvio
+        document.querySelector('.color-option.bg-rosa-lontra').classList.add('selected');
         mainContainer.classList.remove('dark-background-text');
     </script>
 
