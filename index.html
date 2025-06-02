@@ -115,9 +115,9 @@
       background-color: #ffc3e6;
     }
 
-    /* NUOVE CLASSI PER LA PAGINA DELLA DOMANDA CON L'ORSETTO */
+    /* CLASSI PER LA PAGINA DELLA DOMANDA CON LA FOTO (CASTORO) */
     .question-page {
-      display: none; /* INIZIALMENTE NASCOSTA - MODIFICATO */
+      display: none; /* INIZIALMENTE NASCOSTA */
       background-color: #fff0f5;
       position: fixed;
       top: 0; left: 0;
@@ -188,10 +188,11 @@
     .no-button:hover {
       background-color: #ffc3e6;
     }
-    /* FINE NUOVE CLASSI */
+    /* FINE CLASSI PAGINA FOTO */
 
+    /* CLASSI PER LA LETTERA DAL QUIZ/FOTO */
     .letter-page {
-      display: none; /* INIZIALMENTE NASCOSTA - MODIFICATO */
+      display: none; /* INIZIALMENTE NASCOSTA */
       background-color: #fff0f5;
       position: fixed;
       top: 0; left: 0;
@@ -202,6 +203,20 @@
       z-index: 999;
       overflow-y: auto;
     }
+    /* CLASSI PER LA LETTERA SPECIALE (20 BISCOTTI) */
+    .special-letter-page { /* NUOVA CLASSE */
+      display: none; /* INIZIALMENTE NASCOSTA */
+      background-color: #fff0f5; /* Puoi cambiare il colore se vuoi */
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 1000; /* Z-index più alto per sovrapporre tutto */
+      overflow-y: auto;
+    }
+
 
     .letter-content {
       background-color: #ffe6f0;
@@ -222,6 +237,61 @@
       color: white;
       cursor: pointer;
     }
+
+    /* STILI PER IL MINI-GIOCO */
+    .biscotti-game-area {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Permette di cliccare attraverso se non si è sul biscotto */
+        z-index: 100; /* Sopra tutto, ma sotto i modali */
+    }
+
+    .falling-biscotto {
+        position: absolute;
+        font-size: 40px;
+        cursor: pointer;
+        user-select: none; /* Impedisce la selezione del testo */
+        pointer-events: auto; /* Rende cliccabile solo il biscotto */
+        animation: fall linear forwards;
+        opacity: 1;
+        transition: opacity 0.3s ease-out; /* Per la scomparsa al click */
+    }
+
+    .falling-biscotto.caught {
+        opacity: 0;
+        transform: scale(1.5); /* Piccolo effetto all'eliminazione */
+    }
+
+
+    @keyframes fall {
+        from {
+            transform: translateY(-50px); /* Inizia un po' sopra lo schermo */
+        }
+        to {
+            transform: translateY(calc(100vh + 50px)); /* Cade fuori dallo schermo */
+        }
+    }
+
+    /* Stili per messaggio di "Cattura i biscotti!" */
+    #gameMessage {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px 30px;
+        border-radius: 15px;
+        border: 2px solid #e49ecf;
+        font-size: 2em;
+        color: #5c2a6b;
+        z-index: 1000;
+        display: none; /* Nascosto di default */
+        box-shadow: 0 0 20px rgba(228, 158, 207, 0.5);
+    }
+
   </style>
 </head>
 <body>
@@ -260,14 +330,18 @@
 
       <div class="question" id="question3" style="display:none;">
         3. Il tuo mood quando hai il ciclo?
+      </div>
         <button class="answer" data-question-id="3" onclick="selectAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
         <button class="answer" data-question-id="3" onclick="selectAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
         <button class="answer" data-question-id="3" onclick="selectAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
-      </div>
     </div>
 
     <div class="result-box" id="resultBox"></div>
   </div>
+
+  <div class="biscotti-game-area" id="biscottiGameArea"></div>
+  <div id="gameMessage">Cattura i biscotti!</div>
+
 
   <div class="question-page" id="questionPage">
     <div class="question-content">
@@ -289,129 +363,234 @@
       🧸💜  
       — Tuo rompiscatole preferito
       <br><br>
-      <button class="back-btn" onclick="goBack()">🔙 Torna alla pagina principale</button>
+      <button class="back-btn" onclick="goBack('mainPage')">🔙 Torna alla pagina principale</button>
     </div>
   </div>
+
+  <div class="special-letter-page" id="specialLetterPage">
+    <div class="letter-content">
+      <h2>🎉 Complimenti! Hai raggiunto un traguardo speciale! 🎉</h2>
+      <p>Mia piccola gioia,</p>
+      <p>
+        Ogni volta che penso a te, il mio cuore fa un piccolo salto. Sei davvero una di quelle persone rare e preziose che riescono a illuminare anche le giornate più grigie, un po' come un raggio di sole inaspettato.
+        <br><br>
+        Sei forte, sensibile, e hai un modo tutto tuo di rendere il mondo un posto più bello. Non dimenticarlo mai, neanche per un secondo! Anche quando la vita sembra un po' una salita, ricorda che c'è sempre qualcuno che crede in te, e che ti vuole un bene immenso.
+        <br><br>
+        Ti penso spesso, e mi manchi un sacco.
+        <br><br>
+        🧸💜
+        <br>
+        — Il tuo rompiscatole preferito
+      </p>
+      <button class="back-btn" onclick="goBack('mainPage')">🔙 Torna alla pagina principale</button>
+    </div>
+  </div>
+
 
   <script>
     let biscotti = 0;
     let answers = [];
     let currentQuestion = 1;
+    let specialLetterUnlocked = false; // Flag per evitare di mostrare la lettera speciale più volte
 
     // VARIABILI GLOBALI per il ridimensionamento dei bottoni SÌ/NO (per la questionPage)
-    let yesScale = 1; // Scala iniziale del bottone "Sì"
-    let noScale = 1;  // Scala iniziale del bottone "No"
-    let noOpacity = 1; // Opacità iniziale del bottone "No"
+    let yesScale = 1;
+    let noScale = 1;
+    let noOpacity = 1;
 
-    // Ottieni i riferimenti ai bottoni SÌ e NO (saranno disponibili solo quando la questionPage è visibile)
     let yesButton, noButton;
 
-    // Funzione per inizializzare i riferimenti ai bottoni Yes/No e i loro eventi
-    // Chiamata quando la questionPage viene mostrata
     function setupQuestionPageButtons() {
-        if (!yesButton) { // Esegui solo la prima volta che vengono recuperati i riferimenti
+        if (!yesButton) {
             yesButton = document.getElementById('yesButton');
             noButton = document.getElementById('noButton');
 
-            // Event Listener per il bottone "No"
             noButton.addEventListener('click', () => {
-                // Diminuisci il "No" e aumenta il "Sì"
-                noScale = Math.max(0.05, noScale - 0.2); // Scala minima 0.05, riduci di 0.2 per click
-                yesScale = Math.min(2.5, yesScale + 0.25); // Scala massima 2.5, aumenta di 0.25 per click
-                noOpacity = Math.max(0, noOpacity - 0.25); // Opacità minima 0, riduci di 0.25 per click
-
-                updateButtonSizes(); // Applica i cambiamenti
+                noScale = Math.max(0.05, noScale - 0.2);
+                yesScale = Math.min(2.5, yesScale + 0.25);
+                noOpacity = Math.max(0, noOpacity - 0.25);
+                updateButtonSizes();
             });
 
-            // Event Listener per il bottone "Sì"
+            // Questo bottone continua a mostrare la LETTERA ORIGINALE
             yesButton.addEventListener('click', () => {
-                // Quando "Sì" viene cliccato, si procede alla pagina della lettera
                 document.getElementById('questionPage').style.display = "none";
-                document.getElementById('letterPage').style.display = "block";
+                document.getElementById('letterPage').style.display = "block"; // Mostra la LETTERA ORIGINALE
 
-                // (Opzionale) Aggiungi un'animazione di "sparkle" al bottone Sì per un momento
                 yesButton.style.animation = 'sparkle 1s infinite alternate';
                 setTimeout(() => {
-                    if (yesButton) { // Controlla che il bottone esista ancora prima di rimuovere l'animazione
+                    if (yesButton) {
                         yesButton.style.animation = '';
                     }
-                }, 2000); // Dopo 2 secondi
+                }, 2000);
             });
         }
     }
 
-
-    // Funzione per aggiornare le dimensioni e l'opacità dei bottoni Yes/No
     function updateButtonSizes() {
-        if (yesButton && noButton) { // Assicurati che i bottoni siano stati inizializzati
+        if (yesButton && noButton) {
             yesButton.style.transform = `scale(${yesScale})`;
             noButton.style.transform = `scale(${noScale})`;
             noButton.style.opacity = noOpacity;
 
-            // Rendi il bottone "No" non cliccabile e fallo scomparire quasi del tutto
             if (noScale < 0.2 || noOpacity < 0.1) {
-                noButton.style.pointerEvents = 'none'; // Disabilita gli eventi del mouse
-                noButton.style.display = 'none'; // Potresti anche nasconderlo del tutto
+                noButton.style.pointerEvents = 'none';
+                noButton.style.display = 'none';
             } else {
-                noButton.style.pointerEvents = 'auto'; // Assicurati che sia cliccabile altrimenti
-                noButton.style.display = 'block'; // Assicurati che sia visibile
+                noButton.style.pointerEvents = 'auto';
+                noButton.style.display = 'block';
             }
         }
     }
 
     function giveBiscotto() {
-      biscotti++;
-      document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
-      document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
-      
-      const biscottiList = document.getElementById('biscottiList');
-      const newBiscotto = document.createElement("span");
-      newBiscotto.innerText = "🍪 ";
-      biscottiList.appendChild(newBiscotto);
-
-      updateMoodBar();
-
-      if (biscotti >= 5) {
-        document.getElementById('heartBtn').style.display = "inline-block";
-      }
+        startGame();
     }
+
+    const biscottiGameArea = document.getElementById('biscottiGameArea');
+    const gameMessage = document.getElementById('gameMessage');
+    let gameInterval;
+    let biscottiSpawned = 0;
+    const maxBiscottiToSpawn = 30; // Aumentato per facilitare il raggiungimento dei 20 biscotti
+    const gameDuration = 6000; // Durata del gioco aumentata (6 secondi)
+
+
+    function startGame() {
+        // Se la lettera speciale è già sbloccata, non avviare il gioco
+        if (specialLetterUnlocked) {
+            document.getElementById('biscotto-message').innerText = "Hai già sbloccato la sorpresa più grande! 💖";
+            return;
+        }
+
+        gameMessage.style.display = 'block';
+        setTimeout(() => {
+            gameMessage.style.display = 'none';
+        }, 1000);
+
+        biscottiSpawned = 0;
+        document.querySelector('.orsetto').style.pointerEvents = 'none';
+        biscottiGameArea.style.pointerEvents = 'auto';
+
+        biscottiGameArea.innerHTML = '';
+
+        gameInterval = setInterval(() => {
+            if (biscottiSpawned < maxBiscottiToSpawn) {
+                createFallingBiscotto();
+                biscottiSpawned++;
+            } else {
+                clearInterval(gameInterval);
+            }
+        }, gameDuration / maxBiscottiToSpawn);
+
+        setTimeout(() => {
+            clearInterval(gameInterval);
+            document.querySelectorAll('.falling-biscotto').forEach(b => b.remove());
+            
+            // Riabilita l'orsetto solo se la lettera SPECIALE non è stata ancora mostrata
+            if (!specialLetterUnlocked) {
+                document.querySelector('.orsetto').style.pointerEvents = 'auto';
+            }
+            biscottiGameArea.style.pointerEvents = 'none';
+        }, gameDuration + 500);
+    }
+
+
+    function createFallingBiscotto() {
+        const biscotto = document.createElement('span');
+        biscotto.classList.add('falling-biscotto');
+        biscotto.innerText = '🍪';
+        
+        const startX = Math.random() * (window.innerWidth - 50);
+        biscotto.style.left = `${startX}px`;
+
+        const fallDuration = 2 + Math.random() * 2;
+        biscotto.style.animationDuration = `${fallDuration}s`;
+
+        biscotto.addEventListener('click', function() {
+            if (!this.classList.contains('caught')) {
+                this.classList.add('caught');
+                this.remove();
+                biscotti++;
+                updateBiscottiCount();
+                updateMoodBar();
+                document.getElementById('biscotto-message').innerText = "Hai catturato un biscotto! 🍪";
+                const biscottiList = document.getElementById('biscottiList');
+                const newBiscottoVisual = document.createElement("span");
+                newBiscottoVisual.innerText = "🍪 ";
+                biscottiList.appendChild(newBiscottoVisual);
+            }
+        });
+
+        biscottiGameArea.appendChild(biscotto);
+
+        biscotto.addEventListener('animationend', () => {
+            if (!biscotto.classList.contains('caught')) {
+                biscotto.remove();
+            }
+        });
+    }
+
+    function updateBiscottiCount() {
+        document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
+
+        // NUOVA CONDIZIONE PER LA LETTERA SPECIALE (20 BISCOTTI)
+        if (biscotti >= 20 && !specialLetterUnlocked) {
+            specialLetterUnlocked = true; // Imposta il flag a true
+            clearInterval(gameInterval); // Ferma il gioco
+            document.querySelector('.orsetto').style.pointerEvents = 'auto';
+            biscottiGameArea.style.pointerEvents = 'none';
+            document.querySelectorAll('.falling-biscotto').forEach(b => b.remove());
+
+            // Nascondi tutte le altre pagine per mostrare solo la speciale
+            document.getElementById('mainPage').style.display = "none";
+            document.getElementById('quizBox').style.display = "none";
+            document.getElementById('resultBox').style.display = "none";
+            document.getElementById('questionPage').style.display = "none";
+            document.getElementById('letterPage').style.display = "none"; // Assicurati che l'altra lettera sia nascosta
+
+            // Mostra la lettera SPECIALE
+            document.getElementById('specialLetterPage').style.display = "block";
+            document.getElementById('biscotto-message').innerText = "Hai sbloccato una sorpresa speciale! ✨";
+
+        } else if (biscotti >= 5) { // La condizione per abilitare il bottone del quiz rimane
+            document.getElementById('heartBtn').style.display = "inline-block";
+        }
+    }
+
 
     function updateMoodBar() {
       const bar = document.getElementById('moodBar');
-      let percentage = Math.min((biscotti / 5) * 100, 100);
+      let percentage = Math.min((biscotti / 20) * 100, 100); // Scala la mood bar su 20 biscotti
       bar.style.width = percentage + "%";
 
-      if (biscotti <= 2) {
+      if (biscotti <= 5) { // Primo terzo
         bar.style.backgroundColor = "#aaa";
-      } else if (biscotti <= 4) {
+      } else if (biscotti <= 13) { // Secondo terzo
         bar.style.backgroundColor = "#ffcc66";
-      } else {
+      } else { // Ultimo terzo
         bar.style.backgroundColor = "#e49ecf";
       }
     }
 
     function showQuiz() {
+      // Nascondi la mainPage e mostra il quiz
+      document.getElementById('mainPage').style.display = "none";
       document.getElementById('quizBox').style.display = "block";
       showQuestion(1);
     }
 
-    // MODIFICA QUI: showQuestion per mostrare/nascondere correttamente i bottoni
     function showQuestion(n) {
-        // Nascondi tutte le domande e tutti i bottoni
         document.querySelectorAll('.quiz-box .question').forEach(q => q.style.display = 'none');
         document.querySelectorAll('.quiz-box .answer').forEach(a => a.style.display = 'none');
 
-        // Mostra la domanda corrente
         const currentQ = document.getElementById(`question${n}`);
         if (currentQ) {
             currentQ.style.display = 'block';
-            // Mostra i bottoni associati a questa domanda
             document.querySelectorAll(`.answer[data-question-id="${n}"]`).forEach(btn => {
                 btn.style.display = "block";
             });
         }
     }
-
 
     function selectAnswer(val) {
       answers.push(val);
@@ -423,7 +602,6 @@
       }
     }
 
-    // FUNZIONE showResult() MODIFICATA
     function showResult() {
       let resultText = "";
       const total = answers.reduce((a, b) => a + b, 0);
@@ -435,36 +613,41 @@
       document.getElementById('resultBox').style.display = "block";
       document.getElementById('resultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
 
-      // Dopo un breve ritardo, nascondi la mainPage e mostra la questionPage
       setTimeout(() => {
-        document.getElementById('mainPage').style.display = "none";
-        document.getElementById('resultBox').style.display = "none"; // Nascondi anche il box del risultato
-        document.getElementById('questionPage').style.display = "flex"; // Mostra la pagina della domanda
+        document.getElementById('mainPage').style.display = "none"; // Nascondi la mainPage
+        document.getElementById('resultBox').style.display = "none"; // Nascondi il box del risultato
+        document.getElementById('questionPage').style.display = "flex"; // Mostra la pagina della lontra
 
-        // Resetta le scale e l'opacità dei bottoni Yes/No per la nuova visualizzazione
         yesScale = 1;
         noScale = 1;
         noOpacity = 1;
-        setupQuestionPageButtons(); // Assicurati che i bottoni siano inizializzati e gli eventi collegati
-        updateButtonSizes(); // Applica i valori iniziali ai bottoni
+        setupQuestionPageButtons();
+        updateButtonSizes();
       }, 1500);
     }
 
-    function goBack() {
-      // Questa funzione ti riporta alla pagina principale dalla pagina della lettera
-      // Puoi decidere se mantenerla o rimuoverla se la lettera è il vero finale.
+    // Funzione goBack modificata per poter tornare alla mainPage da qualsiasi lettera
+    function goBack(targetPageId) {
       document.getElementById('letterPage').style.display = "none";
-      document.getElementById('mainPage').style.display = "block";
+      document.getElementById('specialLetterPage').style.display = "none"; // Nascondi anche la lettera speciale
+      document.getElementById(targetPageId).style.display = "block"; // Mostra la pagina target
+      // Resetta lo stato del gioco se necessario al ritorno alla mainPage, ad esempio, se si vuole rigiocare
+      if(targetPageId === 'mainPage') {
+          // Potresti resettare i biscotti o il quiz se vuoi ricominciare da zero
+          // biscotti = 0; updateBiscottiCount(); updateMoodBar();
+          // answers = []; currentQuestion = 1;
+          // document.getElementById('heartBtn').style.display = "none";
+          // specialLetterUnlocked = false;
+      }
     }
 
-    // Assicurati che i riferimenti ai bottoni Yes/No siano pronti al caricamento del DOM
-    // e che i loro eventi siano collegati una volta.
-    // MODIFICATO: Nascondi le pagine non iniziali all'avvio
     document.addEventListener('DOMContentLoaded', () => {
-        setupQuestionPageButtons(); // Inizializza i bottoni Yes/No
-        document.getElementById('questionPage').style.display = 'none'; // Nascondi la pagina della lontra
-        document.getElementById('letterPage').style.display = 'none';   // Nascondi la pagina della lettera
-        document.getElementById('mainPage').style.display = 'block';    // Assicurati che la mainPage sia visibile all'inizio
+        setupQuestionPageButtons();
+        document.getElementById('questionPage').style.display = 'none';
+        document.getElementById('letterPage').style.display = 'none';
+        document.getElementById('specialLetterPage').style.display = 'none'; // Nascondi la nuova lettera all'avvio
+        document.getElementById('mainPage').style.display = 'block';
+        updateBiscottiCount();
     });
   </script>
 </body>
