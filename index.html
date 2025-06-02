@@ -6,7 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #FAE6EF; /* Modificato: stesso rosa della foto */
+      background-color: #FAE6EF; /* Stesso rosa della foto */
       font-family: 'Quicksand', sans-serif;
       color: #5c2a6b;
       text-align: center;
@@ -117,7 +117,7 @@
 
     /* NUOVE CLASSI PER LA PAGINA DELLA DOMANDA CON L'ORSETTO */
     .question-page {
-      display: none; /* Inizialmente nascosta */
+      display: none; /* INIZIALMENTE NASCOSTA - MODIFICATO */
       background-color: #fff0f5;
       position: fixed;
       top: 0; left: 0;
@@ -191,7 +191,7 @@
     /* FINE NUOVE CLASSI */
 
     .letter-page {
-      display: none;
+      display: none; /* INIZIALMENTE NASCOSTA - MODIFICATO */
       background-color: #fff0f5;
       position: fixed;
       top: 0; left: 0;
@@ -246,24 +246,24 @@
       <h2>Mini Quiz 💫</h2>
       <div class="question" id="question1">
         1. Cosa fai appena torni a casa dopo una giornata pesante?
+        <button class="answer" data-question-id="1" onclick="selectAnswer(0)">🥔 Mi butto sul letto come una patata</button>
+        <button class="answer" data-question-id="1" onclick="selectAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
+        <button class="answer" data-question-id="1" onclick="selectAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
       </div>
-      <button class="answer" onclick="selectAnswer(0)">🥔 Mi butto sul letto come una patata</button>
-      <button class="answer" onclick="selectAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
-      <button class="answer" onclick="selectAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
 
       <div class="question" id="question2" style="display:none;">
         2. Che tipo di coccole preferisci?
+        <button class="answer" data-question-id="2" onclick="selectAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
+        <button class="answer" data-question-id="2" onclick="selectAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
+        <button class="answer" data-question-id="2" onclick="selectAnswer(2)">💌 Tutte, anche virtuali se servono</button>
       </div>
-      <button class="answer" onclick="selectAnswer(0)" style="display:none;">🫂 Quelle silenziose, solo abbracci forti</button>
-      <button class="answer" onclick="selectAnswer(1)" style="display:none;">🍪📺 Quelle con biscotti, film e zero pensieri</button>
-      <button class="answer" onclick="selectAnswer(2)" style="display:none;">💌 Tutte, anche virtuali se servono</button>
 
       <div class="question" id="question3" style="display:none;">
         3. Il tuo mood quando hai il ciclo?
+        <button class="answer" data-question-id="3" onclick="selectAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
+        <button class="answer" data-question-id="3" onclick="selectAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
+        <button class="answer" data-question-id="3" onclick="selectAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
       </div>
-      <button class="answer" onclick="selectAnswer(0)" style="display:none;">🍫 “Parlatemi solo se portate cioccolato”</button>
-      <button class="answer" onclick="selectAnswer(1)" style="display:none;">💤 “Voglio solo dormire 18 ore”</button>
-      <button class="answer" onclick="selectAnswer(2)" style="display:none;">🐼🔥 “Sono un mix tra un panda e un drago”</button>
     </div>
 
     <div class="result-box" id="resultBox"></div>
@@ -271,8 +271,7 @@
 
   <div class="question-page" id="questionPage">
     <div class="question-content">
-      <img src="image.jpg" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image">
-      <div class="like-buttons-container">
+      <img src="castoro.JPG" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image"> <div class="like-buttons-container">
         <button id="yesButton" class="like-button yes-button">Sì! 💜</button>
         <button id="noButton" class="like-button no-button">No... 😔</button>
       </div>
@@ -396,20 +395,21 @@
       showQuestion(1);
     }
 
+    // MODIFICA QUI: showQuestion per mostrare/nascondere correttamente i bottoni
     function showQuestion(n) {
-      for (let i = 1; i <= 3; i++) {
-        document.getElementById(`question${i}`).style.display = i === n ? "block" : "none";
-        const buttons = document.querySelectorAll(`#quizBox .answer`); // Seleziona solo all'interno di quizBox
-        buttons.forEach((btn) => {
-          // Nascondi tutti i bottoni e mostra solo quelli della domanda corrente
-          // Nota: questo metodo di controllo con toString() è un po' grezzo,
-          // ma funziona per questo contesto. In progetti più grandi si userebbero attributi data-
-          if (btn.onclick.toString().includes(`selectAnswer(0)`) && i === n) { btn.style.display = "block"; }
-          else if (btn.onclick.toString().includes(`selectAnswer(1)`) && i === n) { btn.style.display = "block"; }
-          else if (btn.onclick.toString().includes(`selectAnswer(2)`) && i === n) { btn.style.display = "block"; }
-          else { btn.style.display = "none"; }
-        });
-      }
+        // Nascondi tutte le domande e tutti i bottoni
+        document.querySelectorAll('.quiz-box .question').forEach(q => q.style.display = 'none');
+        document.querySelectorAll('.quiz-box .answer').forEach(a => a.style.display = 'none');
+
+        // Mostra la domanda corrente
+        const currentQ = document.getElementById(`question${n}`);
+        if (currentQ) {
+            currentQ.style.display = 'block';
+            // Mostra i bottoni associati a questa domanda
+            document.querySelectorAll(`.answer[data-question-id="${n}"]`).forEach(btn => {
+                btn.style.display = "block";
+            });
+        }
     }
 
 
@@ -459,7 +459,13 @@
 
     // Assicurati che i riferimenti ai bottoni Yes/No siano pronti al caricamento del DOM
     // e che i loro eventi siano collegati una volta.
-    document.addEventListener('DOMContentLoaded', setupQuestionPageButtons);
+    // MODIFICATO: Nascondi le pagine non iniziali all'avvio
+    document.addEventListener('DOMContentLoaded', () => {
+        setupQuestionPageButtons(); // Inizializza i bottoni Yes/No
+        document.getElementById('questionPage').style.display = 'none'; // Nascondi la pagina della lontra
+        document.getElementById('letterPage').style.display = 'none';   // Nascondi la pagina della lettera
+        document.getElementById('mainPage').style.display = 'block';    // Assicurati che la mainPage sia visibile all'inizio
+    });
   </script>
 </body>
 </html>
