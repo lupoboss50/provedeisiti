@@ -1,187 +1,465 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prova Immagine Lontra - Rosa, Rosso e Viola</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #F0F0F0; /* Sfondo generale della pagina */
-        }
+  <meta charset="UTF-8">
+  <title>Sorpresa 💜</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #FAE6EF; /* Modificato: stesso rosa della foto */
+      font-family: 'Quicksand', sans-serif;
+      color: #5c2a6b;
+      text-align: center;
+      padding: 30px;
+      overflow-x: hidden; /* Evita scroll orizzontale */
+    }
 
-        .container {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #FFFFFF; /* Colore di sfondo iniziale del contenitore */
-        }
+    .orsetto {
+      font-size: 60px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+    .orsetto:hover {
+      transform: scale(1.1);
+    }
 
-        .color-option-wrapper {
-            display: inline-flex; /* Per allineare cerchio e numero */
-            flex-direction: column; /* Per mettere il numero sotto il cerchio */
-            align-items: center;
-            margin: 0 5px; /* Spazio tra le opzioni */
-            vertical-align: top; /* Allinea in alto gli wrapper */
-        }
+    .biscotti-box {
+      margin-top: 20px;
+      background-color: #ffe6f0;
+      padding: 15px;
+      border-radius: 15px;
+      display: inline-block;
+      border: 2px solid #e49ecf;
+    }
 
-        .color-option {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.3s ease;
-        }
+    .biscotti-box h2 {
+      margin-top: 0;
+    }
 
-        .color-option:hover {
-            border-color: #333;
-        }
+    .biscotti {
+      font-size: 24px;
+      margin-top: 10px;
+    }
 
-        .color-option.selected {
-            border-color: #007bff; /* Colore di bordo per l'opzione selezionata */
-        }
+    .biscotti-list {
+      margin-top: 10px;
+      font-size: 30px;
+    }
 
-        .option-number {
-            font-size: 0.75em; /* Dimensione piccola per il numero */
-            color: #555;
-            margin-top: 5px; /* Spazio tra cerchio e numero */
-        }
+    .heart-button {
+      display: none;
+      margin-top: 20px;
+      font-size: 24px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #e49ecf;
+      color: white;
+      cursor: pointer;
+      animation: sparkle 1s infinite alternate;
+    }
 
-        h2 {
-            color: #333;
-        }
+    @keyframes sparkle {
+      from { box-shadow: 0 0 10px #e49ecf; }
+      to { box-shadow: 0 0 20px #ff99cc; }
+    }
 
-        p {
-            color: #666;
-        }
+    .mood-bar-container {
+      width: 100%;
+      max-width: 500px;
+      background-color: #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px auto;
+      height: 20px;
+      border: 2px solid #ccc;
+    }
 
-        /* Stili per i colori di sfondo */
-        .bg-rosa-lontra { background-color: #FAE6EF; } /* Il tuo rosa originale, intatto! */
-        .bg-lightcoral { background-color: #F08080; } /* Corallo chiaro (rosso pastello) */
-        .bg-salmon { background-color: #FA8072; } /* Salmone */
-        .bg-palevioletred { background-color: #DB7093; } /* Rosa violaceo pastello */
-        .bg-hotpink { background-color: #FF69B4; } /* Rosa acceso */
-        .bg-tomato { background-color: #FF6347; } /* Rosso pomodoro */
-        .bg-indianred { background-color: #CD5C5C; } /* Rosso indiano */
-        .bg-mediumvioletred { background-color: #C71585; } /* Rosso violaceo medio */
+    .mood-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #aaa;
+      transition: width 0.5s ease, background-color 0.5s ease;
+    }
 
-        /* Nuovi viola */
-        .bg-plum { background-color: #DDA0DD; } /* Prugna chiaro/Viola rosato */
-        .bg-thistle { background-color: #D8BFD8; } /* Cardo (viola molto chiaro) */
-        .bg-lightpurple { background-color: #E0BBE4; } /* Viola pastello */
+    .quiz-box, .result-box {
+      display: none;
+      background-color: #ffe6f0;
+      padding: 20px;
+      border-radius: 15px;
+      border: 2px solid #e49ecf;
+      margin-top: 30px;
+    }
 
+    .question {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
 
-        /* Testo chiaro per sfondi scuri */
-        .dark-background-text h2, .dark-background-text p {
-            color: #FFF;
-        }
-    </style>
+    .answer {
+      display: block;
+      margin: 8px auto;
+      background-color: #fcd6ec;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      width: 80%;
+      max-width: 300px;
+    }
+
+    .answer:hover {
+      background-color: #ffc3e6;
+    }
+
+    /* NUOVE CLASSI PER LA PAGINA DELLA DOMANDA CON L'ORSETTO */
+    .question-page {
+      display: none; /* Inizialmente nascosta */
+      background-color: #fff0f5;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+      display: flex; /* Per centrare il contenuto */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .question-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 500px; /* Adatta la larghezza al contenuto dell'immagine */
+      text-align: center;
+    }
+
+    .otter-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    .like-buttons-container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 40px; /* Spazio tra i bottoni */
+      align-items: center; /* Assicura che i bottoni rimangano allineati verticalmente */
+      flex-wrap: wrap; /* Utile per schermi piccoli se i bottoni diventano molto grandi */
+    }
+
+    .like-button {
+      font-size: 28px; /* Dimensione base del testo */
+      padding: 15px 30px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+      min-width: 150px; /* Per evitare che il testo si rompa se diventa troppo piccolo */
+      white-space: nowrap; /* Evita che il testo vada a capo */
+    }
+
+    .yes-button {
+      background-color: #e49ecf; /* Colore rosa/viola */
+      color: white;
+      box-shadow: 0 0 10px rgba(228, 158, 207, 0.7); /* Piccolo bagliore */
+    }
+
+    .yes-button:hover {
+      background-color: #d17fb8;
+      transform: scale(1.05); /* Piccolo ingrandimento al passaggio del mouse */
+    }
+
+    .no-button {
+      background-color: #fcd6ec; /* Colore più chiaro */
+      color: #5c2a6b;
+      border: 2px solid #e49ecf;
+    }
+
+    .no-button:hover {
+      background-color: #ffc3e6;
+    }
+    /* FINE NUOVE CLASSI */
+
+    .letter-page {
+      display: none;
+      background-color: #fff0f5;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+    }
+
+    .letter-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 600px;
+      margin: 50px auto;
+      font-size: 18px;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #e49ecf;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>Come sta la tua Lontra?</h1>
-    <p>Clicca sui cerchi colorati per cambiare il colore di sfondo e vedere l'effetto.</p>
+  <div id="mainPage">
+    <h1>🍪 Clicka l’orsetto per una sorpresa!</h1>
+    <div class="orsetto" onclick="giveBiscotto()">🧸</div>
 
-    <div class="container" id="mainContainer">
-        <img src="castoro.JPG" alt="Immagine di una lontra con fiori" id="otterImage">
-        <h2 id="titleText">La tua Lontra!</h2>
-        <p id="descriptionText">Questa è la tua immagine di prova. Scegli il colore di sfondo che preferisci.</p>
+    <div class="mood-bar-container">
+      <div class="mood-bar" id="moodBar"></div>
     </div>
 
-    <div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-rosa-lontra selected" data-color="#FAE6EF" data-text-dark="true" title="Il Tuo Rosa Originale"></div>
-            <span class="option-number">1</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-hotpink" data-color="#FF69B4" data-text-dark="true" title="Rosa Acceso"></div>
-            <span class="option-number">2</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-palevioletred" data-color="#DB7093" data-text-dark="true" title="Rosa Violaceo Pastello"></div>
-            <span class="option-number">3</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-lightcoral" data-color="#F08080" data-text-dark="true" title="Rosso Pastello"></div>
-            <span class="option-number">4</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-salmon" data-color="#FA8072" data-text-dark="true" title="Salmone"></div>
-            <span class="option-number">5</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-tomato" data-color="#FF6347" data-text-dark="true" title="Rosso Pomodoro"></div>
-            <span class="option-number">6</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-indianred" data-color="#CD5C5C" data-text-dark="true" title="Rosso Indiano"></div>
-            <span class="option-number">7</span>
-        </div>
-         <div class="color-option-wrapper">
-            <div class="color-option bg-mediumvioletred" data-color="#C71585" data-text-dark="true" title="Rosso Violaceo Intenso"></div>
-            <span class="option-number">8</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-plum" data-color="#DDA0DD" data-text-dark="true" title="Prugna Chiaro"></div>
-            <span class="option-number">9</span>
-        </div>
-         <div class="color-option-wrapper">
-            <div class="color-option bg-thistle" data-color="#D8BFD8" data-text-dark="true" title="Cardo (Viola Chiaro)"></div>
-            <span class="option-number">10</span>
-        </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-lightpurple" data-color="#E0BBE4" data-text-dark="true" title="Viola Pastello"></div>
-            <span class="option-number">11</span>
-        </div>
+    <div class="biscotti-box">
+      <h2>Biscotti 🍪</h2>
+      <div id="biscotti">Hai 0 biscotti!</div>
+      <div class="biscotti-list" id="biscottiList"></div>
+      <p id="biscotto-message" style="margin-top:10px;"></p>
+      <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
     </div>
 
-    <script>
-        const mainContainer = document.getElementById('mainContainer');
-        const colorOptions = document.querySelectorAll('.color-option');
-        const titleText = document.getElementById('titleText');
-        const descriptionText = document.getElementById('descriptionText');
+    <div class="quiz-box" id="quizBox">
+      <h2>Mini Quiz 💫</h2>
+      <div class="question" id="question1">
+        1. Cosa fai appena torni a casa dopo una giornata pesante?
+      </div>
+      <button class="answer" onclick="selectAnswer(0)">🥔 Mi butto sul letto come una patata</button>
+      <button class="answer" onclick="selectAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
+      <button class="answer" onclick="selectAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
 
-        colorOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                colorOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
+      <div class="question" id="question2" style="display:none;">
+        2. Che tipo di coccole preferisci?
+      </div>
+      <button class="answer" onclick="selectAnswer(0)" style="display:none;">🫂 Quelle silenziose, solo abbracci forti</button>
+      <button class="answer" onclick="selectAnswer(1)" style="display:none;">🍪📺 Quelle con biscotti, film e zero pensieri</button>
+      <button class="answer" onclick="selectAnswer(2)" style="display:none;">💌 Tutte, anche virtuali se servono</button>
 
-                const newColor = option.dataset.color;
-                const isTextDark = option.dataset.textDark === 'true';
+      <div class="question" id="question3" style="display:none;">
+        3. Il tuo mood quando hai il ciclo?
+      </div>
+      <button class="answer" onclick="selectAnswer(0)" style="display:none;">🍫 “Parlatemi solo se portate cioccolato”</button>
+      <button class="answer" onclick="selectAnswer(1)" style="display:none;">💤 “Voglio solo dormire 18 ore”</button>
+      <button class="answer" onclick="selectAnswer(2)" style="display:none;">🐼🔥 “Sono un mix tra un panda e un drago”</button>
+    </div>
 
-                mainContainer.style.backgroundColor = newColor;
+    <div class="result-box" id="resultBox"></div>
+  </div>
 
-                if (isTextDark) {
-                    mainContainer.classList.remove('dark-background-text');
-                } else {
-                    mainContainer.classList.add('dark-background-text');
-                }
+  <div class="question-page" id="questionPage">
+    <div class="question-content">
+      <img src="image.jpg" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image">
+      <div class="like-buttons-container">
+        <button id="yesButton" class="like-button yes-button">Sì! 💜</button>
+        <button id="noButton" class="like-button no-button">No... 😔</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="letter-page" id="letterPage">
+    <div class="letter-content">
+      💌 Grazie per aver cliccato fino a qui…  
+      <br><br>
+      Volevo solo dirti che ti voglio un bene da morire.  
+      Sei speciale, e anche se non posso sempre starti vicino, ci tengo davvero tanto a te.  
+      Ti penso spesso, anche nei momenti più piccoli.  
+      <br><br>
+      🧸💜  
+      — Tuo rompiscatole preferito
+      <br><br>
+      <button class="back-btn" onclick="goBack()">🔙 Torna alla pagina principale</button>
+    </div>
+  </div>
+
+  <script>
+    let biscotti = 0;
+    let answers = [];
+    let currentQuestion = 1;
+
+    // VARIABILI GLOBALI per il ridimensionamento dei bottoni SÌ/NO (per la questionPage)
+    let yesScale = 1; // Scala iniziale del bottone "Sì"
+    let noScale = 1;  // Scala iniziale del bottone "No"
+    let noOpacity = 1; // Opacità iniziale del bottone "No"
+
+    // Ottieni i riferimenti ai bottoni SÌ e NO (saranno disponibili solo quando la questionPage è visibile)
+    let yesButton, noButton;
+
+    // Funzione per inizializzare i riferimenti ai bottoni Yes/No e i loro eventi
+    // Chiamata quando la questionPage viene mostrata
+    function setupQuestionPageButtons() {
+        if (!yesButton) { // Esegui solo la prima volta che vengono recuperati i riferimenti
+            yesButton = document.getElementById('yesButton');
+            noButton = document.getElementById('noButton');
+
+            // Event Listener per il bottone "No"
+            noButton.addEventListener('click', () => {
+                // Diminuisci il "No" e aumenta il "Sì"
+                noScale = Math.max(0.05, noScale - 0.2); // Scala minima 0.05, riduci di 0.2 per click
+                yesScale = Math.min(2.5, yesScale + 0.25); // Scala massima 2.5, aumenta di 0.25 per click
+                noOpacity = Math.max(0, noOpacity - 0.25); // Opacità minima 0, riduci di 0.25 per click
+
+                updateButtonSizes(); // Applica i cambiamenti
             });
+
+            // Event Listener per il bottone "Sì"
+            yesButton.addEventListener('click', () => {
+                // Quando "Sì" viene cliccato, si procede alla pagina della lettera
+                document.getElementById('questionPage').style.display = "none";
+                document.getElementById('letterPage').style.display = "block";
+
+                // (Opzionale) Aggiungi un'animazione di "sparkle" al bottone Sì per un momento
+                yesButton.style.animation = 'sparkle 1s infinite alternate';
+                setTimeout(() => {
+                    if (yesButton) { // Controlla che il bottone esista ancora prima di rimuovere l'animazione
+                        yesButton.style.animation = '';
+                    }
+                }, 2000); // Dopo 2 secondi
+            });
+        }
+    }
+
+
+    // Funzione per aggiornare le dimensioni e l'opacità dei bottoni Yes/No
+    function updateButtonSizes() {
+        if (yesButton && noButton) { // Assicurati che i bottoni siano stati inizializzati
+            yesButton.style.transform = `scale(${yesScale})`;
+            noButton.style.transform = `scale(${noScale})`;
+            noButton.style.opacity = noOpacity;
+
+            // Rendi il bottone "No" non cliccabile e fallo scomparire quasi del tutto
+            if (noScale < 0.2 || noOpacity < 0.1) {
+                noButton.style.pointerEvents = 'none'; // Disabilita gli eventi del mouse
+                noButton.style.display = 'none'; // Potresti anche nasconderlo del tutto
+            } else {
+                noButton.style.pointerEvents = 'auto'; // Assicurati che sia cliccabile altrimenti
+                noButton.style.display = 'block'; // Assicurati che sia visibile
+            }
+        }
+    }
+
+    function giveBiscotto() {
+      biscotti++;
+      document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
+      document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
+      
+      const biscottiList = document.getElementById('biscottiList');
+      const newBiscotto = document.createElement("span");
+      newBiscotto.innerText = "🍪 ";
+      biscottiList.appendChild(newBiscotto);
+
+      updateMoodBar();
+
+      if (biscotti >= 5) {
+        document.getElementById('heartBtn').style.display = "inline-block";
+      }
+    }
+
+    function updateMoodBar() {
+      const bar = document.getElementById('moodBar');
+      let percentage = Math.min((biscotti / 5) * 100, 100);
+      bar.style.width = percentage + "%";
+
+      if (biscotti <= 2) {
+        bar.style.backgroundColor = "#aaa";
+      } else if (biscotti <= 4) {
+        bar.style.backgroundColor = "#ffcc66";
+      } else {
+        bar.style.backgroundColor = "#e49ecf";
+      }
+    }
+
+    function showQuiz() {
+      document.getElementById('quizBox').style.display = "block";
+      showQuestion(1);
+    }
+
+    function showQuestion(n) {
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById(`question${i}`).style.display = i === n ? "block" : "none";
+        const buttons = document.querySelectorAll(`#quizBox .answer`); // Seleziona solo all'interno di quizBox
+        buttons.forEach((btn) => {
+          // Nascondi tutti i bottoni e mostra solo quelli della domanda corrente
+          // Nota: questo metodo di controllo con toString() è un po' grezzo,
+          // ma funziona per questo contesto. In progetti più grandi si userebbero attributi data-
+          if (btn.onclick.toString().includes(`selectAnswer(0)`) && i === n) { btn.style.display = "block"; }
+          else if (btn.onclick.toString().includes(`selectAnswer(1)`) && i === n) { btn.style.display = "block"; }
+          else if (btn.onclick.toString().includes(`selectAnswer(2)`) && i === n) { btn.style.display = "block"; }
+          else { btn.style.display = "none"; }
         });
+      }
+    }
 
-        // Imposta il colore iniziale sul tuo rosa originale quando la pagina carica
-        mainContainer.style.backgroundColor = '#FAE6EF';
-        document.querySelector('.color-option.bg-rosa-lontra').classList.add('selected');
-        mainContainer.classList.remove('dark-background-text');
-    </script>
 
+    function selectAnswer(val) {
+      answers.push(val);
+      currentQuestion++;
+      if (currentQuestion <= 3) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    // FUNZIONE showResult() MODIFICATA
+    function showResult() {
+      let resultText = "";
+      const total = answers.reduce((a, b) => a + b, 0);
+      if (total <= 2) resultText = "🥔 Patatella da coccolare";
+      else if (total <= 4) resultText = "👑 Regina del Relax";
+      else resultText = "🐯 Tigre tenera con cuore gigante";
+
+      document.getElementById('quizBox').style.display = "none";
+      document.getElementById('resultBox').style.display = "block";
+      document.getElementById('resultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
+
+      // Dopo un breve ritardo, nascondi la mainPage e mostra la questionPage
+      setTimeout(() => {
+        document.getElementById('mainPage').style.display = "none";
+        document.getElementById('resultBox').style.display = "none"; // Nascondi anche il box del risultato
+        document.getElementById('questionPage').style.display = "flex"; // Mostra la pagina della domanda
+
+        // Resetta le scale e l'opacità dei bottoni Yes/No per la nuova visualizzazione
+        yesScale = 1;
+        noScale = 1;
+        noOpacity = 1;
+        setupQuestionPageButtons(); // Assicurati che i bottoni siano inizializzati e gli eventi collegati
+        updateButtonSizes(); // Applica i valori iniziali ai bottoni
+      }, 1500);
+    }
+
+    function goBack() {
+      // Questa funzione ti riporta alla pagina principale dalla pagina della lettera
+      // Puoi decidere se mantenerla o rimuoverla se la lettera è il vero finale.
+      document.getElementById('letterPage').style.display = "none";
+      document.getElementById('mainPage').style.display = "block";
+    }
+
+    // Assicurati che i riferimenti ai bottoni Yes/No siano pronti al caricamento del DOM
+    // e che i loro eventi siano collegati una volta.
+    document.addEventListener('DOMContentLoaded', setupQuestionPageButtons);
+  </script>
 </body>
 </html>
