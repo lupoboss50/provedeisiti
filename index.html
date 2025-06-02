@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prova Immagine Lontra - Colori Caldi Numerati</title>
+    <title>Prova Immagine Lontra - Rosa, Rosso e Viola</title>
     <style>
         body {
             font-family: sans-serif;
@@ -74,17 +74,19 @@
         }
 
         /* Stili per i colori di sfondo */
-        .bg-white { background-color: #FFFFFF; }
-        .bg-lightgray { background-color: #F0F0F0; }
         .bg-rosa-lontra { background-color: #FAE6EF; } /* Il tuo rosa originale, intatto! */
-
-        /* Nuovi colori caldi e pastello */
-        .bg-peach { background-color: #FFDAB9; } /* Pesca chiaro */
         .bg-lightcoral { background-color: #F08080; } /* Corallo chiaro (rosso pastello) */
-        .bg-lightorange { background-color: #FFD4A2; } /* Arancione chiaro */
-        .bg-vanilla { background-color: #F3E5AB; } /* Vaniglia */
+        .bg-salmon { background-color: #FA8072; } /* Salmone */
         .bg-palevioletred { background-color: #DB7093; } /* Rosa violaceo pastello */
-        .bg-lavender { background-color: #E6E6FA; } /* Lavanda (può essere caldo o freddo, ma qui con gli altri pastello si abbina bene) */
+        .bg-hotpink { background-color: #FF69B4; } /* Rosa acceso */
+        .bg-tomato { background-color: #FF6347; } /* Rosso pomodoro */
+        .bg-indianred { background-color: #CD5C5C; } /* Rosso indiano */
+        .bg-mediumvioletred { background-color: #C71585; } /* Rosso violaceo medio */
+
+        /* Nuovi viola */
+        .bg-plum { background-color: #DDA0DD; } /* Prugna chiaro/Viola rosato */
+        .bg-thistle { background-color: #D8BFD8; } /* Cardo (viola molto chiaro) */
+        .bg-lightpurple { background-color: #E0BBE4; } /* Viola pastello */
 
 
         /* Testo chiaro per sfondi scuri */
@@ -110,48 +112,55 @@
             <span class="option-number">1</span>
         </div>
         <div class="color-option-wrapper">
-            <div class="color-option bg-lightcoral" data-color="#F08080" data-text-dark="true" title="Rosso Pastello"></div>
+            <div class="color-option bg-hotpink" data-color="#FF69B4" data-text-dark="true" title="Rosa Acceso"></div>
             <span class="option-number">2</span>
         </div>
         <div class="color-option-wrapper">
-            <div class="color-option bg-peach" data-color="#FFDAB9" data-text-dark="true" title="Pesca"></div>
+            <div class="color-option bg-palevioletred" data-color="#DB7093" data-text-dark="true" title="Rosa Violaceo Pastello"></div>
             <span class="option-number">3</span>
         </div>
         <div class="color-option-wrapper">
-            <div class="color-option bg-lightorange" data-color="#FFD4A2" data-text-dark="true" title="Arancione Chiaro"></div>
+            <div class="color-option bg-lightcoral" data-color="#F08080" data-text-dark="true" title="Rosso Pastello"></div>
             <span class="option-number">4</span>
         </div>
         <div class="color-option-wrapper">
-            <div class="color-option bg-vanilla" data-color="#F3E5AB" data-text-dark="true" title="Vaniglia"></div>
+            <div class="color-option bg-salmon" data-color="#FA8072" data-text-dark="true" title="Salmone"></div>
             <span class="option-number">5</span>
         </div>
         <div class="color-option-wrapper">
-            <div class="color-option bg-palevioletred" data-color="#DB7093" data-text-dark="true" title="Rosa Violaceo Pastello"></div>
+            <div class="color-option bg-tomato" data-color="#FF6347" data-text-dark="true" title="Rosso Pomodoro"></div>
             <span class="option-number">6</span>
         </div>
         <div class="color-option-wrapper">
-            <div class="color-option bg-lavender" data-color="#E6E6FA" data-text-dark="true" title="Lavanda Pastello"></div>
+            <div class="color-option bg-indianred" data-color="#CD5C5C" data-text-dark="true" title="Rosso Indiano"></div>
             <span class="option-number">7</span>
         </div>
-        <div class="color-option-wrapper">
-            <div class="color-option bg-white" data-color="#FFFFFF" data-text-dark="true" title="Bianco"></div>
+         <div class="color-option-wrapper">
+            <div class="color-option bg-mediumvioletred" data-color="#C71585" data-text-dark="true" title="Rosso Violaceo Intenso"></div>
             <span class="option-number">8</span>
         </div>
         <div class="color-option-wrapper">
-            <div class="color-option bg-lightgray" data-color="#F0F0F0" data-text-dark="true" title="Grigio Chiaro"></div>
+            <div class="color-option bg-plum" data-color="#DDA0DD" data-text-dark="true" title="Prugna Chiaro"></div>
             <span class="option-number">9</span>
+        </div>
+         <div class="color-option-wrapper">
+            <div class="color-option bg-thistle" data-color="#D8BFD8" data-text-dark="true" title="Cardo (Viola Chiaro)"></div>
+            <span class="option-number">10</span>
+        </div>
+        <div class="color-option-wrapper">
+            <div class="color-option bg-lightpurple" data-color="#E0BBE4" data-text-dark="true" title="Viola Pastello"></div>
+            <span class="option-number">11</span>
         </div>
     </div>
 
     <script>
         const mainContainer = document.getElementById('mainContainer');
-        const colorOptions = document.querySelectorAll('.color-option'); // Seleziona solo i div dei colori
+        const colorOptions = document.querySelectorAll('.color-option');
         const titleText = document.getElementById('titleText');
         const descriptionText = document.getElementById('descriptionText');
 
         colorOptions.forEach(option => {
             option.addEventListener('click', () => {
-                // Rimuovi la selezione da tutti e aggiungi al corrente
                 colorOptions.forEach(opt => opt.classList.remove('selected'));
                 option.classList.add('selected');
 
@@ -170,7 +179,6 @@
 
         // Imposta il colore iniziale sul tuo rosa originale quando la pagina carica
         mainContainer.style.backgroundColor = '#FAE6EF';
-        // Imposta anche il cerchio del tuo rosa originale come selezionato all'avvio
         document.querySelector('.color-option.bg-rosa-lontra').classList.add('selected');
         mainContainer.classList.remove('dark-background-text');
     </script>
