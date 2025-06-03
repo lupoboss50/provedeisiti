@@ -12,40 +12,66 @@
       text-align: center;
       padding: 30px;
       overflow-x: hidden; /* Evita scroll orizzontale */
+      margin: 0; /* Rimuovi margini predefiniti del body */
+      padding-top: 100px; /* Spazio per la cesta in alto */
     }
 
     .orsetto {
       font-size: 60px;
       cursor: pointer;
       transition: transform 0.2s;
+      margin-top: 50px; /* Sposta l'orsetto un po' in basso per dare spazio */
     }
 
     .orsetto:hover {
       transform: scale(1.1);
     }
 
+    /* Modifiche per la cesta dei biscotti in alto a destra */
     .biscotti-box {
-      margin-top: 20px;
-      background-color: #ffe6f0;
-      padding: 15px;
-      border-radius: 15px;
-      display: inline-block;
-      border: 2px solid #e49ecf;
+      position: fixed; /* Rende la cesta fissa nella finestra */
+      top: 20px;       /* Distanza dal bordo superiore */
+      right: 20px;     /* Distanza dal bordo destro */
+      background-color: #ffe6f0; /* Ripristinato background */
+      border-radius: 50%; /* Riportato a circolare */
+      border: 2px solid #e49ecf; /* Riportato il bordo */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Piccola ombra sotto l'emoji */
+      z-index: 1000; /* Assicura che sia sopra gli altri elementi */
+      display: flex; /* Per centrare l'emoji se non posizionata assolutamente */
+      justify-content: center;
+      align-items: center;
+      width: 70px; /* Larghezza fissa per contenere bene la cesta */
+      height: 70px; /* Altezza fissa */
+      position: relative; /* Fondamentale per posizionare il numero in modo assoluto al suo interno */
     }
 
-    .biscotti-box h2 {
-      margin-top: 0;
+    .basket-icon {
+      font-size: 50px; /* Dimensione grande per la cesta */
+      line-height: 1; /* Assicurati che non ci sia spazio extra intorno all'emoji */
+      position: absolute; /* Posiziona l'icona in modo assoluto per controllo fine */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Centra l'icona perfettamente */
+      z-index: 1; /* Assicura che l'icona sia sotto il numero ma sopra il background del box */
     }
 
-    .biscotti {
-      font-size: 24px;
-      margin-top: 10px;
+    #biscotti-count-overlay { /* Nuovo ID per il numero di biscotti */
+      position: absolute; /* Posiziona il numero sopra la cesta */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -25%); /* Regola per posizionarlo al centro della pancia della cesta */
+      font-size: 1.2em; /* Dimensione del numero */
+      font-weight: bold; /* Rende il numero più leggibile */
+      color: #5c2a6b; /* Colore del numero */
+      z-index: 2; /* Assicura che il numero sia sopra la cesta */
+      text-shadow: 0 0 5px rgba(255,255,255,0.7); /* Piccola ombra per contrasto */
     }
 
-    .biscotti-list {
-      margin-top: 10px;
-      font-size: 30px;
+    /* Nascondi gli elementi non più usati per la visualizzazione del contatore */
+    .biscotti-box h2, .biscotti-list, #biscotto-message {
+        display: none;
     }
+
 
     .heart-button {
       display: none;
@@ -213,7 +239,7 @@
       height: 100%;
       padding: 30px;
       box-sizing: border-box;
-      z-index: 1000; /* Z-index più alto per sovrapporre tutto */
+      z-index: 1001; /* Z-index più alto per sovrapporre tutto, anche la cesta */
       overflow-y: auto;
     }
 
@@ -246,18 +272,19 @@
         width: 100%;
         height: 100%;
         pointer-events: none; /* Permette di cliccare attraverso se non si è sul biscotto */
-        z-index: 100; /* Sopra tutto, ma sotto i modali */
+        z-index: 100; /* Sopra la main page, sotto le pagine modali */
     }
 
     .falling-biscotto {
         position: absolute;
-        font-size: 40px;
+        font-size: 40px; /* Dimensione del biscotto */
         cursor: pointer;
         user-select: none; /* Impedisce la selezione del testo */
         pointer-events: auto; /* Rende cliccabile solo il biscotto */
         animation: fall linear forwards;
         opacity: 1;
-        transition: opacity 0.3s ease-out; /* Per la scomparsa al click */
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Per la scomparsa al click */
+        z-index: 101; /* Assicura che i biscotti siano cliccabili sopra l'area di gioco */
     }
 
     .falling-biscotto.caught {
@@ -305,12 +332,11 @@
     </div>
 
     <div class="biscotti-box">
-      <h2>Biscotti 🍪</h2>
-      <div id="biscotti">Hai 0 biscotti!</div>
-      <div class="biscotti-list" id="biscottiList"></div>
-      <p id="biscotto-message" style="margin-top:10px;"></p>
-      <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
-    </div>
+      <span class="basket-icon">🧺</span>
+      <span id="biscotti-count-overlay">0</span> </div>
+
+    <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
+
 
     <div class="quiz-box" id="quizBox">
       <h2>Mini Quiz 💫</h2>
@@ -345,7 +371,7 @@
 
   <div class="question-page" id="questionPage">
     <div class="question-content">
-      <img src="castoro.JPG" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image"> <div class="like-buttons-container">
+      <img src="castoro.JPG" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image"> <h3>Do you like me?</h3> <div class="like-buttons-container">
         <button id="yesButton" class="like-button yes-button">Sì! 💜</button>
         <button id="noButton" class="like-button no-button">No... 😔</button>
       </div>
@@ -372,15 +398,15 @@
       <h2>🎉 Complimenti! Hai raggiunto un traguardo speciale! 🎉</h2>
       <p>Mia piccola gioia,</p>
       <p>
-        Ogni volta che penso a te, il mio cuore fa un piccolo salto. Sei davvero una di quelle persone rare e preziose che riescono a illuminare anche le giornate più grigie, un po' come un raggio di sole inaspettato.
+        Questa è la lettera speciale per ringraziarti di tutta la pazienza e l'affetto che hai messo nel catturare questi biscotti! Significano tanto, perché ogni singolo clic è un po' come una coccola che mi hai dato.
         <br><br>
-        Sei forte, sensibile, e hai un modo tutto tuo di rendere il mondo un posto più bello. Non dimenticarlo mai, neanche per un secondo! Anche quando la vita sembra un po' una salita, ricorda che c'è sempre qualcuno che crede in te, e che ti vuole un bene immenso.
+        Volevo solo ricordarti quanto sei importante per me. Non importa cosa succeda, o quanto siamo distanti, il mio affetto per te non cambia mai. Sei una persona incredibile, con un cuore d'oro, e sono davvero fortunato/a ad averti nella mia vita.
         <br><br>
-        Ti penso spesso, e mi manchi un sacco.
+        Spero che questo piccolo gesto ti strappi un sorriso. Ricorda che ti porto sempre con me, anche quando non lo sai.
         <br><br>
-        🧸💜
+        Con tanto tanto amore,
         <br>
-        — Il tuo rompiscatole preferito
+        Il tuo rompiscatole preferito/a che ti pensa sempre
       </p>
       <button class="back-btn" onclick="goBack('mainPage')">🔙 Torna alla pagina principale</button>
     </div>
@@ -391,7 +417,8 @@
     let biscotti = 0;
     let answers = [];
     let currentQuestion = 1;
-    let specialLetterUnlocked = false; // Flag per evitare di mostrare la lettera speciale più volte
+    let specialLetterUnlocked = false; // Flag per evitare di mostrare la lettera speciale più volte (la lettera, non il gioco biscotti)
+    let gameActive = false; // Flag per gestire lo stato del gioco biscotti (se è in corso o meno)
 
     // VARIABILI GLOBALI per il ridimensionamento dei bottoni SÌ/NO (per la questionPage)
     let yesScale = 1;
@@ -443,55 +470,58 @@
         }
     }
 
-    function giveBiscotto() {
-        startGame();
-    }
-
     const biscottiGameArea = document.getElementById('biscottiGameArea');
     const gameMessage = document.getElementById('gameMessage');
     let gameInterval;
     let biscottiSpawned = 0;
-    const maxBiscottiToSpawn = 30; // Aumentato per facilitare il raggiungimento dei 20 biscotti
-    const gameDuration = 6000; // Durata del gioco aumentata (6 secondi)
+    const maxBiscottiToSpawn = 30; // Abbastanza biscotti per arrivare a 20 con un po' di margine
+    const gameDuration = 10000; // Durata del gioco aumentata a 10 secondi
+    const spawnInterval = gameDuration / maxBiscottiToSpawn; // Calcola l'intervallo tra un biscotto e l'altro
 
-
-    function startGame() {
-        // Se la lettera speciale è già sbloccata, non avviare il gioco
-        if (specialLetterUnlocked) {
-            document.getElementById('biscotto-message').innerText = "Hai già sbloccato la sorpresa più grande! 💖";
+    function giveBiscotto() {
+        // Se il gioco è già attivo, non riavviarlo
+        if (gameActive) {
+            console.log("Gioco biscotti già in corso.");
             return;
         }
+        startGame();
+    }
 
-        gameMessage.style.display = 'block';
+    function startGame() {
+        gameActive = true; // Imposta il flag a true: il gioco dei biscotti è attivo
+        gameMessage.style.display = 'block'; // Mostra il messaggio "Cattura i biscotti!"
         setTimeout(() => {
-            gameMessage.style.display = 'none';
+            gameMessage.style.display = 'none'; // Nascondi il messaggio dopo 1 secondo
         }, 1000);
 
         biscottiSpawned = 0;
-        document.querySelector('.orsetto').style.pointerEvents = 'none';
-        biscottiGameArea.style.pointerEvents = 'auto';
+        document.querySelector('.orsetto').style.pointerEvents = 'none'; // Disabilita click orsetto mentre il gioco è attivo
+        biscottiGameArea.style.pointerEvents = 'auto'; // Abilita click su area gioco per catturare i biscotti
 
-        biscottiGameArea.innerHTML = '';
+        biscottiGameArea.innerHTML = ''; // Pulisci i biscotti precedenti
 
         gameInterval = setInterval(() => {
             if (biscottiSpawned < maxBiscottiToSpawn) {
                 createFallingBiscotto();
                 biscottiSpawned++;
             } else {
-                clearInterval(gameInterval);
+                clearInterval(gameInterval); // Ferma la generazione di nuovi biscotti se raggiunto il limite
             }
-        }, gameDuration / maxBiscottiToSpawn);
+        }, spawnInterval); // Usa l'intervallo calcolato per la caduta "uno alla volta"
 
         setTimeout(() => {
-            clearInterval(gameInterval);
-            document.querySelectorAll('.falling-biscotto').forEach(b => b.remove());
+            clearInterval(gameInterval); // Assicurati che l'intervallo sia fermato al termine della durata del gioco
+            // Rimuovi eventuali biscotti rimanenti che non sono stati catturati
+            document.querySelectorAll('.falling-biscotto').forEach(b => {
+                if (!b.classList.contains('caught')) {
+                    b.remove();
+                }
+            });
             
-            // Riabilita l'orsetto solo se la lettera SPECIALE non è stata ancora mostrata
-            if (!specialLetterUnlocked) {
-                document.querySelector('.orsetto').style.pointerEvents = 'auto';
-            }
-            biscottiGameArea.style.pointerEvents = 'none';
-        }, gameDuration + 500);
+            document.querySelector('.orsetto').style.pointerEvents = 'auto'; // Riabilita l'orsetto per una nuova partita
+            biscottiGameArea.style.pointerEvents = 'none'; // Disabilita l'area di gioco per i biscotti
+            gameActive = false; // Il gioco è terminato
+        }, gameDuration + 500); // Durata del gioco + un piccolo extra per farli cadere
     }
 
 
@@ -503,56 +533,53 @@
         const startX = Math.random() * (window.innerWidth - 50);
         biscotto.style.left = `${startX}px`;
 
-        const fallDuration = 2 + Math.random() * 2;
+        const fallDuration = 6 + Math.random() * 3; // Da 6 a 9 secondi (ancora più lento e vario)
         biscotto.style.animationDuration = `${fallDuration}s`;
 
         biscotto.addEventListener('click', function() {
             if (!this.classList.contains('caught')) {
                 this.classList.add('caught');
-                this.remove();
+                // Aggiungi un piccolo ritardo per l'animazione di scomparsa
+                setTimeout(() => {
+                    this.remove();
+                }, 300); 
                 biscotti++;
                 updateBiscottiCount();
                 updateMoodBar();
-                document.getElementById('biscotto-message').innerText = "Hai catturato un biscotto! 🍪";
-                const biscottiList = document.getElementById('biscottiList');
-                const newBiscottoVisual = document.createElement("span");
-                newBiscottoVisual.innerText = "🍪 ";
-                biscottiList.appendChild(newBiscottoVisual);
             }
         });
 
         biscottiGameArea.appendChild(biscotto);
 
+        // Assicurati che i biscotti che cadono fuori dallo schermo vengano rimossi
         biscotto.addEventListener('animationend', () => {
-            if (!biscotto.classList.contains('caught')) {
+            if (!biscotto.classList.contains('caught')) { // Se non è stato catturato ma è caduto fuori
                 biscotto.remove();
             }
         });
     }
 
     function updateBiscottiCount() {
-        document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
+        document.getElementById('biscotti-count-overlay').innerText = biscotti; // Aggiorna il numero sulla cesta
 
-        // NUOVA CONDIZIONE PER LA LETTERA SPECIALE (20 BISCOTTI)
+        // CONDIZIONE PER LA LETTERA SPECIALE (20 BISCOTTI)
         if (biscotti >= 20 && !specialLetterUnlocked) {
-            specialLetterUnlocked = true; // Imposta il flag a true
-            clearInterval(gameInterval); // Ferma il gioco
-            document.querySelector('.orsetto').style.pointerEvents = 'auto';
-            biscottiGameArea.style.pointerEvents = 'none';
-            document.querySelectorAll('.falling-biscotto').forEach(b => b.remove());
+            specialLetterUnlocked = true; // Imposta il flag, la lettera è stata sbloccata
+            // Non blocchiamo più il gioco dei biscotti o l'orsetto qui.
+            // Semplicemente mostriamo la lettera speciale.
 
-            // Nascondi tutte le altre pagine per mostrare solo la speciale
+            // Nascondi le altre pagine e mostra la lettera speciale
             document.getElementById('mainPage').style.display = "none";
             document.getElementById('quizBox').style.display = "none";
             document.getElementById('resultBox').style.display = "none";
             document.getElementById('questionPage').style.display = "none";
-            document.getElementById('letterPage').style.display = "none"; // Assicurati che l'altra lettera sia nascosta
+            document.getElementById('letterPage').style.display = "none";
 
-            // Mostra la lettera SPECIALE
             document.getElementById('specialLetterPage').style.display = "block";
-            document.getElementById('biscotto-message').innerText = "Hai sbloccato una sorpresa speciale! ✨";
-
-        } else if (biscotti >= 5) { // La condizione per abilitare il bottone del quiz rimane
+        } 
+        
+        // La logica per mostrare il cuore rimane la stessa
+        if (biscotti >= 5) { // Mostra il cuore se ci sono almeno 5 biscotti
             document.getElementById('heartBtn').style.display = "inline-block";
         }
     }
@@ -563,17 +590,16 @@
       let percentage = Math.min((biscotti / 20) * 100, 100); // Scala la mood bar su 20 biscotti
       bar.style.width = percentage + "%";
 
-      if (biscotti <= 5) { // Primo terzo
+      if (biscotti <= 5) {
         bar.style.backgroundColor = "#aaa";
-      } else if (biscotti <= 13) { // Secondo terzo
+      } else if (biscotti <= 13) {
         bar.style.backgroundColor = "#ffcc66";
-      } else { // Ultimo terzo
+      } else {
         bar.style.backgroundColor = "#e49ecf";
       }
     }
 
     function showQuiz() {
-      // Nascondi la mainPage e mostra il quiz
       document.getElementById('mainPage').style.display = "none";
       document.getElementById('quizBox').style.display = "block";
       showQuestion(1);
@@ -614,9 +640,9 @@
       document.getElementById('resultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
 
       setTimeout(() => {
-        document.getElementById('mainPage').style.display = "none"; // Nascondi la mainPage
-        document.getElementById('resultBox').style.display = "none"; // Nascondi il box del risultato
-        document.getElementById('questionPage').style.display = "flex"; // Mostra la pagina della lontra
+        document.getElementById('mainPage').style.display = "none";
+        document.getElementById('resultBox').style.display = "none";
+        document.getElementById('questionPage').style.display = "flex";
 
         yesScale = 1;
         noScale = 1;
@@ -626,28 +652,55 @@
       }, 1500);
     }
 
-    // Funzione goBack modificata per poter tornare alla mainPage da qualsiasi lettera
     function goBack(targetPageId) {
+      // Nascondi tutte le pagine speciali/modali
       document.getElementById('letterPage').style.display = "none";
-      document.getElementById('specialLetterPage').style.display = "none"; // Nascondi anche la lettera speciale
-      document.getElementById(targetPageId).style.display = "block"; // Mostra la pagina target
-      // Resetta lo stato del gioco se necessario al ritorno alla mainPage, ad esempio, se si vuole rigiocare
+      document.getElementById('specialLetterPage').style.display = "none";
+      document.getElementById('questionPage').style.display = "none";
+      document.getElementById('quizBox').style.display = "none";
+      document.getElementById('resultBox').style.display = "none";
+
+      // Mostra la pagina di destinazione
+      document.getElementById(targetPageId).style.display = "block";
+      
       if(targetPageId === 'mainPage') {
-          // Potresti resettare i biscotti o il quiz se vuoi ricominciare da zero
-          // biscotti = 0; updateBiscottiCount(); updateMoodBar();
-          // answers = []; currentQuestion = 1;
+          // Reset dello stato del gioco se si torna alla mainPage dopo aver sbloccato una lettera
+          // Non resettiamo i biscotti se non si vuole ricominciare da 0 ogni volta
+          // Però resettiamo il quiz e lo stato del pulsante cuore se vogliamo.
+          answers = [];
+          currentQuestion = 1;
+          // Per far sì che il cuore riappaia solo dopo aver rifatto i 5 biscotti da 0
+          // bisogna resettare anche i biscotti a 0 qui:
+          // biscotti = 0;
+          // updateBiscottiCount(); // Aggiorna la visualizzazione della cesta a 0
+          // updateMoodBar();
           // document.getElementById('heartBtn').style.display = "none";
-          // specialLetterUnlocked = false;
+          // specialLetterUnlocked = false; // Se vuoi sbloccare la lettera speciale di nuovo, imposta a false
+          
+          // Se invece vuoi che i biscotti restino accumulati, non resettare `biscotti` qui.
+          // In questo caso, il cuore e la lettera speciale rimarranno sbloccati.
+
+          // Assicurati che l'orsetto sia cliccabile e l'area di gioco disattivata
+          document.querySelector('.orsetto').style.pointerEvents = 'auto';
+          biscottiGameArea.style.pointerEvents = 'none';
+          gameActive = false; // Assicurati che il flag del gioco sia resettato
+          clearInterval(gameInterval); // Ferma qualsiasi generazione di biscotti in background
+          document.querySelectorAll('.falling-biscotto').forEach(b => b.remove()); // Rimuovi eventuali biscotti visibili
       }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         setupQuestionPageButtons();
+        // Nascondi tutte le pagine all'inizio tranne la principale
         document.getElementById('questionPage').style.display = 'none';
         document.getElementById('letterPage').style.display = 'none';
-        document.getElementById('specialLetterPage').style.display = 'none'; // Nascondi la nuova lettera all'avvio
-        document.getElementById('mainPage').style.display = 'block';
-        updateBiscottiCount();
+        document.getElementById('specialLetterPage').style.display = 'none';
+        document.getElementById('quizBox').style.display = 'none';
+        document.getElementById('resultBox').style.display = 'none';
+        
+        document.getElementById('mainPage').style.display = 'block'; // Mostra la pagina principale
+        updateBiscottiCount(); // Inizializza il contatore nella cesta a 0
+        updateMoodBar(); // Inizializza la barra d'umore
     });
   </script>
 </body>
