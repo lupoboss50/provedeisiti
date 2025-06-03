@@ -6,7 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Stesso rosa della foto della lontra */
+      background-color: #FCE7EC; /* Stesso rosa della foto della lontra */
       font-family: 'Quicksand', sans-serif;
       color: #5c2a6b;
       text-align: center;
@@ -24,9 +24,8 @@
     }
 
     .orsetto:hover {
-      /* NUOVA FUNZIONALITÀ: Leggero ingrandimento al passaggio del mouse, ma l'animazione di rimbalzo CONTINUA */
+      /* Leggero ingrandimento al passaggio del mouse, ma l'animazione di rimbalzo CONTINUA */
       transform: scale(1.1);
-      /* animation: none; RIMOSSO, così l'animazione continua */
     }
 
     /* Animazione al click (quando l'elemento è attivo) */
@@ -64,10 +63,9 @@
       font-size: 30px;
     }
 
-    /* La classe .secret-a e il suo @keyframes pulse non sono più necessari per la lettera automatica */
-
+    /* Il pulsante del cuore che porta al quiz */
     .heart-button {
-      display: none;
+      display: none; /* Nascosto di default, appare a 5 biscotti */
       margin-top: 20px;
       font-size: 24px;
       padding: 10px 20px;
@@ -85,21 +83,20 @@
     }
 
     .mood-bar-container {
-      width: 80%; /* Larghezza aumentata della barra */
-      max-width: 700px; /* Larghezza massima aumentata */
-      background-color: #ddd; /* Il colore di base della barra vuota */
+      width: 80%;
+      max-width: 700px;
+      background-color: #ddd;
       border-radius: 20px;
       overflow: hidden;
       margin: 20px auto;
-      height: 25px; /* Altezza aumentata */
+      height: 25px;
       border: 2px solid #ccc;
     }
 
-    /* RIMOSSO: background: linear-gradient(...); perché il colore sarà gestito da JavaScript */
     .mood-bar {
       height: 100%;
       width: 0%;
-      transition: width 0.5s ease, background-color 0.5s ease; /* Aggiunto transition per background-color */
+      transition: width 0.5s ease, background-color 0.5s ease;
     }
 
 
@@ -135,10 +132,9 @@
       background-color: #ffc3e6;
     }
 
-    /* CLASSI PER LA PAGINA DELLA DOMANDA CON LA LONTRA */
     .question-page {
       display: none;
-      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Sfondo uguale alla foto */
+      background-color: #FCE7EC;
       position: fixed;
       top: 0; left: 0;
       width: 100%;
@@ -147,7 +143,7 @@
       box-sizing: border-box;
       z-index: 999;
       overflow-y: auto;
-      display: flex; /* Per centrare il contenuto */
+      display: flex;
       justify-content: center;
       align-items: center;
     }
@@ -157,15 +153,14 @@
       padding: 30px;
       border-radius: 20px;
       border: 2px solid #e49ecf;
-      max-width: 500px; /* Adatta la larghezza al contenuto dell'immagine */
+      max-width: 500px;
       text-align: center;
     }
 
-    /* Stile per la frase sopra l'immagine della lontra */
     .otter-question-text {
       font-size: 28px;
       color: #5c2a6b;
-      margin-bottom: 20px; /* Spazio tra testo e immagine */
+      margin-bottom: 20px;
       font-weight: bold;
     }
 
@@ -180,35 +175,35 @@
       margin-top: 30px;
       display: flex;
       justify-content: center;
-      gap: 40px; /* Spazio tra i bottoni */
-      align-items: center; /* Assicura che i bottoni rimangano allineati verticalmente */
-      flex-wrap: wrap; /* Utile per schermi piccoli se i bottoni diventano molto grandi */
+      gap: 40px;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .like-button {
-      font-size: 28px; /* Dimensione base del testo */
+      font-size: 28px;
       padding: 15px 30px;
       border: none;
       border-radius: 15px;
       cursor: pointer;
       transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
-      min-width: 150px; /* Per evitare che il testo si rompa se diventa troppo piccolo */
-      white-space: nowrap; /* Evita che il testo vada a capo */
+      min-width: 150px;
+      white-space: nowrap;
     }
 
     .yes-button {
-      background-color: #e49ecf; /* Colore rosa/viola */
+      background-color: #e49ecf;
       color: white;
-      box-shadow: 0 0 10px rgba(228, 158, 207, 0.7); /* Piccolo bagliore */
+      box-shadow: 0 0 10px rgba(228, 158, 207, 0.7);
     }
 
     .yes-button:hover {
       background-color: #d17fb8;
-      transform: scale(1.05); /* Piccolo ingrandimento al passaggio del mouse */
+      transform: scale(1.05);
     }
 
     .no-button {
-      background-color: #fcd6ec; /* Colore più chiaro */
+      background-color: #fcd6ec;
       color: #5c2a6b;
       border: 2px solid #e49ecf;
     }
@@ -217,10 +212,9 @@
       background-color: #ffc3e6;
     }
 
-    /* Stili per la Lettera dei 20 Biscotti */
     .twenty-biscotti-letter-page {
       display: none;
-      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Sfondo uguale alla foto */
+      background-color: #FCE7EC;
       position: fixed;
       top: 0; left: 0;
       width: 100%;
@@ -242,15 +236,14 @@
     }
 
     .twenty-biscotti-letter-content h2 {
-        color: #e49ecf; /* Colore titolo */
+        color: #e49ecf;
         margin-bottom: 20px;
         font-size: 26px;
     }
 
-    /* Stili per la Lettera dopo la Lontra */
     .letter-page {
       display: none;
-      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Sfondo uguale alla foto */
+      background-color: #FCE7EC;
       position: fixed;
       top: 0; left: 0;
       width: 100%;
@@ -375,7 +368,6 @@
 
     let yesButton, noButton;
 
-    // Colori per la barra di progresso (dal viola al rosso)
     const moodBarColors = [
         "#5c2a6b",  // 0-4 biscotti (viola scuro)
         "#8a2be2",  // 5-9 biscotti (blu violetto)
@@ -398,7 +390,7 @@
             });
 
             yesButton.addEventListener('click', () => {
-                showLetterPage(); // Mostra la lettera DOPO LA LONTRA
+                showLetterPage();
             });
         }
     }
@@ -431,19 +423,22 @@
 
       updateMoodBar();
 
-      // NUOVA FUNZIONALITÀ: Mostra la Lettera dei 20 Biscotti in automatico
-      if (biscotti === 20) { // Usa '===' per un'uguaglianza esatta
+      // Mostra il pulsante del cuore quando si raggiungono 5 biscotti
+      if (biscotti >= 5) {
+        document.getElementById('heartBtn').style.display = "inline-block";
+      }
+
+      // Mostra la Lettera dei 20 Biscotti in automatico
+      if (biscotti === 20) {
           showTwentyBiscottiLetter();
       }
     }
 
-    // NUOVA FUNZIONALITÀ: Logica della barra di progresso con colori graduali in JS
     function updateMoodBar() {
       const bar = document.getElementById('moodBar');
       let percentage = Math.min((biscotti / 20) * 100, 100);
       bar.style.width = percentage + "%";
 
-      // Determina il colore in base alla percentuale o al numero di biscotti
       let colorIndex;
       if (biscotti <= 4) {
           colorIndex = 0;
@@ -459,7 +454,6 @@
       bar.style.backgroundColor = moodBarColors[colorIndex];
     }
 
-    // Funzione per mostrare la Lettera dei 20 Biscotti
     function showTwentyBiscottiLetter() {
         document.getElementById('mainPage').style.display = "none";
         document.getElementById('quizBox').style.display = "none";
@@ -469,7 +463,6 @@
         document.getElementById('twentyBiscottiLetterPage').style.display = "block";
     }
 
-    // Funzione per mostrare la Lettera dopo la Lontra
     function showLetterPage() {
         document.getElementById('questionPage').style.display = "none";
         document.getElementById('mainPage').style.display = "none";
@@ -491,7 +484,6 @@
     function showQuiz() {
       document.getElementById('quizBox').style.display = "block";
       showQuestion(1);
-      // La lettera 'A' è stata rimossa, quindi non c'è più nulla da nascondere qui.
     }
 
     function showQuestion(n) {
@@ -540,28 +532,24 @@
       }, 1500);
     }
 
-    // Funzione per tornare indietro dalla Lettera dei 20 Biscotti
     function goBackFromTwentyBiscottiLetter() {
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
         document.getElementById('mainPage').style.display = "block";
-        resetAppState(); // Resetta lo stato del gioco
+        resetAppState();
     }
 
-    // Funzione per tornare indietro dalla Lettera dopo la Lontra
     function goBack() {
       document.getElementById('letterPage').style.display = "none";
       document.getElementById('mainPage').style.display = "block";
-      resetAppState(); // Resetta lo stato del gioco
+      resetAppState();
     }
 
-    // Funzione per resettare lo stato del gioco
     function resetAppState() {
         biscotti = 0;
         document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
         document.getElementById('biscottiList').innerHTML = "";
         document.getElementById('biscotto-message').innerText = "";
-        document.getElementById('heartBtn').style.display = "none";
-        // secretALetter non esiste più, quindi non c'è nulla da nascondere qui
+        document.getElementById('heartBtn').style.display = "none"; // Nascondi il cuore al reset
         updateMoodBar();
         answers = [];
         currentQuestion = 1;
@@ -569,14 +557,13 @@
         document.getElementById('resultBox').style.display = "none";
     }
 
-    // Nascondi le pagine non iniziali all'avvio
     document.addEventListener('DOMContentLoaded', () => {
         setupQuestionPageButtons();
         document.getElementById('questionPage').style.display = 'none';
         document.getElementById('letterPage').style.display = 'none';
         document.getElementById('twentyBiscottiLetterPage').style.display = 'none';
         document.getElementById('mainPage').style.display = 'block';
-        updateMoodBar(); // Inizializza il colore della barra allo stato 0
+        updateMoodBar();
     });
   </script>
 </body>
