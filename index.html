@@ -63,7 +63,6 @@
       font-size: 30px;
     }
 
-    /* Il pulsante del cuore che porta al quiz */
     .heart-button {
       display: none; /* Nascosto di default, appare a 5 biscotti */
       margin-top: 20px;
@@ -333,9 +332,10 @@
 
   <div class="twenty-biscotti-letter-page" id="twentyBiscottiLetterPage">
     <div class="twenty-biscotti-letter-content">
-      <h2>Piccola mia</h2>
-      <p>Questa è una lettera che volevo scriverti per ringraziarti di cuore per tutta la pazienza, l’impegno e l’affetto che hai messo nel catturare questi biscottini. Per me hanno un valore immenso, perché ogni clic è stato come un piccolo abbraccio che mi hai regalato.</p>
-      <p>Volevo solo ricordarti quanto sei importante per me. Non importa la distanza o cosa succede intorno a noi, il mio affetto per te resta sempre lo stesso. Sei una persona speciale, con un cuore d’oro, e mi sento davvero fortunato/a ad averti nella mia vita.</p>
+      <h2>Tesoro mio,</h2>
+      <p>Questa non è solo una lettera, ma un piccolo pensiero pieno d’amore per ricordarti una cosa semplice ma importantissima: ti voglio un bene infinito.</p>
+      <p>Ogni giorno che passa mi rendo conto di quanto tu sia speciale per me. Il mio affetto per te resta sempre lo stesso. Sei una persona speciale, con un cuore d’oro, e mi sento davvero fortunato/a ad averti nella mia vita.</p>
+      <p>Non servono grandi gesti o parole complicate per dirti quanto ci tengo: basta guardare quanto spesso ti penso e quanto il tuo sorriso riesce a cambiare anche le mie giornate più grigie.</p>
       <p>Spero che questo piccolo pensiero riesca a strapparti un sorriso. Anche quando non te ne accorgi, ti porto sempre con me.</p>
       <p>Con tantissimo affetto,<br>Il tuo piccolo rompiscatole che non smette mai di pensarti 💌</p>
       <button class="back-btn" onclick="goBackFromTwentyBiscottiLetter()">🔙 Torna alla pagina principale</button>
@@ -423,12 +423,10 @@
 
       updateMoodBar();
 
-      // Mostra il pulsante del cuore quando si raggiungono 5 biscotti
       if (biscotti >= 5) {
         document.getElementById('heartBtn').style.display = "inline-block";
       }
 
-      // Mostra la Lettera dei 20 Biscotti in automatico
       if (biscotti === 20) {
           showTwentyBiscottiLetter();
       }
@@ -549,7 +547,7 @@
         document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
         document.getElementById('biscottiList').innerHTML = "";
         document.getElementById('biscotto-message').innerText = "";
-        document.getElementById('heartBtn').style.display = "none"; // Nascondi il cuore al reset
+        document.getElementById('heartBtn').style.display = "none";
         updateMoodBar();
         answers = [];
         currentQuestion = 1;
