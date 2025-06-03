@@ -1,23 +1,579 @@
-<style>
-    /* ... (codice CSS precedente) ... */
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorpresa 💜</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #FAE6EF; /* Stesso rosa della foto */
+      font-family: 'Quicksand', sans-serif;
+      color: #5c2a6b;
+      text-align: center;
+      padding: 30px;
+      overflow-x: hidden; /* Evita scroll orizzontale */
+    }
 
     .orsetto {
       font-size: 60px;
       cursor: pointer;
-      /* Modifica qui: aggiungiamo una transizione più generica */
-      transition: transform 0.1s ease-out; /* Transizione rapida per effetto click */
-      animation: bounce 2s infinite ease-in-out; /* Animazione di "rimbalzo" esistente */
+      /* Animazione di "rimbalzo" costante */
+      animation: bounce 2s infinite ease-in-out;
+      /* Transizione rapida per effetto click */
+      transition: transform 0.1s ease-out;
     }
 
     .orsetto:hover {
-      transform: scale(1.1); /* Leggero ingrandimento al passaggio del mouse */
-      animation: none; /* Ferma l'animazione di rimbalzo al hover */
+      /* Leggero ingrandimento al passaggio del mouse, ferma l'animazione di rimbalzo */
+      transform: scale(1.1);
+      animation: none;
     }
 
-    /* NUOVA FUNZIONALITÀ: Animazione al click (quando l'elemento è attivo) */
+    /* Animazione al click (quando l'elemento è attivo) */
     .orsetto:active {
       transform: scale(0.9); /* L'orsetto si "comprime" leggermente al click */
     }
 
-    /* ... (resto del codice CSS) ... */
-</style>
+    /* Keyframes per l'animazione di rimbalzo dell'orso */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+
+    .biscotti-box {
+      margin-top: 20px;
+      background-color: #ffe6f0;
+      padding: 15px;
+      border-radius: 15px;
+      display: inline-block;
+      border: 2px solid #e49ecf;
+    }
+
+    .biscotti-box h2 {
+      margin-top: 0;
+    }
+
+    .biscotti {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+
+    .biscotti-list {
+      margin-top: 10px;
+      font-size: 30px;
+    }
+
+    /* Stile per la lettera "A" segreta (si sblocca a 20 biscotti) */
+    .secret-a {
+      font-size: 40px; /* Più grande */
+      color: #ff007f; /* Un colore vivace */
+      cursor: pointer;
+      margin-left: 10px; /* Spazio dal biscotto */
+      animation: pulse 1.5s infinite alternate; /* Animazione pulsante */
+      display: none; /* Nascosta di default */
+      vertical-align: middle; /* Allinea al centro con i biscotti */
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 0.8; }
+      to { transform: scale(1.1); opacity: 1; }
+    }
+
+    .heart-button {
+      display: none;
+      margin-top: 20px;
+      font-size: 24px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #e49ecf;
+      color: white;
+      cursor: pointer;
+      animation: sparkle 1s infinite alternate;
+    }
+
+    @keyframes sparkle {
+      from { box-shadow: 0 0 10px #e49ecf; }
+      to { box-shadow: 0 0 20px #ff99cc; }
+    }
+
+    .mood-bar-container {
+      width: 80%; /* Larghezza aumentata della barra */
+      max-width: 700px; /* Larghezza massima aumentata */
+      background-color: #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px auto;
+      height: 25px; /* Altezza aumentata */
+      border: 2px solid #ccc;
+    }
+
+    /* Colori arcobaleno per la barra di progresso */
+    .mood-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #5c2a6b, #8a2be2, #ff007f, #ffa500, #ff0000); /* Gradiente arcobaleno/viola -> rosso */
+      transition: width 0.5s ease; /* Transizione solo per la larghezza */
+    }
+
+
+    .quiz-box, .result-box {
+      display: none;
+      background-color: #ffe6f0;
+      padding: 20px;
+      border-radius: 15px;
+      border: 2px solid #e49ecf;
+      margin-top: 30px;
+    }
+
+    .question {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .answer {
+      display: block;
+      margin: 8px auto;
+      background-color: #fcd6ec;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      width: 80%;
+      max-width: 300px;
+    }
+
+    .answer:hover {
+      background-color: #ffc3e6;
+    }
+
+    /* CLASSI PER LA PAGINA DELLA DOMANDA CON LA LONTRA */
+    .question-page {
+      display: none; /* INIZIALMENTE NASCOSTA */
+      background-color: #fff0f5;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+      display: flex; /* Per centrare il contenuto */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .question-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 500px; /* Adatta la larghezza al contenuto dell'immagine */
+      text-align: center;
+    }
+
+    /* Stile per la frase sopra l'immagine della lontra */
+    .otter-question-text {
+      font-size: 28px;
+      color: #5c2a6b;
+      margin-bottom: 20px; /* Spazio tra testo e immagine */
+      font-weight: bold;
+    }
+
+    .otter-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    .like-buttons-container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 40px; /* Spazio tra i bottoni */
+      align-items: center; /* Assicura che i bottoni rimangano allineati verticalmente */
+      flex-wrap: wrap; /* Utile per schermi piccoli se i bottoni diventano molto grandi */
+    }
+
+    .like-button {
+      font-size: 28px; /* Dimensione base del testo */
+      padding: 15px 30px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+      min-width: 150px; /* Per evitare che il testo si rompa se diventa troppo piccolo */
+      white-space: nowrap; /* Evita che il testo vada a capo */
+    }
+
+    .yes-button {
+      background-color: #e49ecf; /* Colore rosa/viola */
+      color: white;
+      box-shadow: 0 0 10px rgba(228, 158, 207, 0.7); /* Piccolo bagliore */
+    }
+
+    .yes-button:hover {
+      background-color: #d17fb8;
+      transform: scale(1.05); /* Piccolo ingrandimento al passaggio del mouse */
+    }
+
+    .no-button {
+      background-color: #fcd6ec; /* Colore più chiaro */
+      color: #5c2a6b;
+      border: 2px solid #e49ecf;
+    }
+
+    .no-button:hover {
+      background-color: #ffc3e6;
+    }
+
+    /* Stili per la Lettera dei 20 Biscotti */
+    .twenty-biscotti-letter-page {
+      display: none;
+      background-color: #fff0f5;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+    }
+
+    .twenty-biscotti-letter-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 600px;
+      margin: 50px auto;
+      font-size: 18px;
+    }
+
+    .twenty-biscotti-letter-content h2 {
+        color: #e49ecf; /* Colore titolo */
+        margin-bottom: 20px;
+        font-size: 26px;
+    }
+
+    /* Stili per la Lettera dopo la Lontra (già esistenti) */
+    .letter-page { /* Questa è la lettera che viene dopo la lontra */
+      display: none;
+      background-color: #fff0f5;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+    }
+
+    .letter-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 600px;
+      margin: 50px auto;
+      font-size: 18px;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #e49ecf;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mainPage">
+    <h1>🍪 Clicka l’orsetto per una sorpresa!</h1>
+    <div class="orsetto" onclick="giveBiscotto()">🧸</div>
+
+    <div class="mood-bar-container">
+      <div class="mood-bar" id="moodBar"></div>
+    </div>
+
+    <div class="biscotti-box">
+      <h2>Biscotti 🍪</h2>
+      <div id="biscotti">Hai 0 biscotti!</div>
+      <div class="biscotti-list" id="biscottiList"></div>
+      <p id="biscotto-message" style="margin-top:10px;"></p>
+      <span class="secret-a" id="secretALetter" onclick="showTwentyBiscottiLetter()">A</span>
+      <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
+    </div>
+
+    <div class="quiz-box" id="quizBox">
+      <h2>Mini Quiz 💫</h2>
+      <div class="question" id="question1">
+        1. Cosa fai appena torni a casa dopo una giornata pesante?
+        <button class="answer" data-question-id="1" onclick="selectAnswer(0)">🥔 Mi butto sul letto come una patata</button>
+        <button class="answer" data-question-id="1" onclick="selectAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
+        <button class="answer" data-question-id="1" onclick="selectAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
+      </div>
+
+      <div class="question" id="question2" style="display:none;">
+        2. Che tipo di coccole preferisci?
+        <button class="answer" data-question-id="2" onclick="selectAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
+        <button class="answer" data-question-id="2" onclick="selectAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
+        <button class="answer" data-question-id="2" onclick="selectAnswer(2)">💌 Tutte, anche virtuali se servono</button>
+      </div>
+
+      <div class="question" id="question3" style="display:none;">
+        3. Il tuo mood quando hai il ciclo?
+        <button class="answer" data-question-id="3" onclick="selectAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
+        <button class="answer" data-question-id="3" onclick="selectAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
+        <button class="answer" data-question-id="3" onclick="selectAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
+      </div>
+    </div>
+
+    <div class="result-box" id="resultBox"></div>
+  </div>
+
+  <div class="question-page" id="questionPage">
+    <div class="question-content">
+      <div class="otter-question-text">Do you like me?</div>
+      <img src="castoro.JPG" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image">
+      <div class="like-buttons-container">
+        <button id="yesButton" class="like-button yes-button">Sì! 💜</button>
+        <button id="noButton" class="like-button no-button">No... 😔</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="twenty-biscotti-letter-page" id="twentyBiscottiLetterPage">
+    <div class="twenty-biscotti-letter-content">
+      <h2>Piccola mia</h2>
+      <p>Questa è una lettera che volevo scriverti per ringraziarti di cuore per tutta la pazienza, l’impegno e l’affetto che hai messo nel catturare questi biscottini. Per me hanno un valore immenso, perché ogni clic è stato come un piccolo abbraccio che mi hai regalato.</p>
+      <p>Volevo solo ricordarti quanto sei importante per me. Non importa la distanza o cosa succede intorno a noi, il mio affetto per te resta sempre lo stesso. Sei una persona speciale, con un cuore d’oro, e mi sento davvero fortunato/a ad averti nella mia vita.</p>
+      <p>Spero che questo piccolo pensiero riesca a strapparti un sorriso. Anche quando non te ne accorgi, ti porto sempre con me.</p>
+      <p>Con tantissimo affetto,<br>Il tuo piccolo rompiscatole che non smette mai di pensarti 💌</p>
+      <button class="back-btn" onclick="goBackFromTwentyBiscottiLetter()">🔙 Torna alla pagina principale</button>
+    </div>
+  </div>
+
+  <div class="letter-page" id="letterPage">
+    <div class="letter-content">
+      💌 Grazie per aver cliccato fino a qui…
+      <br><br>
+      Volevo solo dirti che ti voglio un bene da morire.
+      Sei speciale, e anche se non posso sempre starti vicino, ci tengo davvero tanto a te.
+      Ti penso spesso, anche nei momenti più piccoli.
+      <br><br>
+      🧸💜
+      — Tuo rompiscatole preferito
+      <br><br>
+      <button class="back-btn" onclick="goBack()">🔙 Torna alla pagina principale</button>
+    </div>
+  </div>
+
+  <script>
+    let biscotti = 0;
+    let answers = [];
+    let currentQuestion = 1;
+
+    let yesScale = 1;
+    let noScale = 1;
+    let noOpacity = 1;
+
+    let yesButton, noButton;
+
+    function setupQuestionPageButtons() {
+        if (!yesButton) {
+            yesButton = document.getElementById('yesButton');
+            noButton = document.getElementById('noButton');
+
+            noButton.addEventListener('click', () => {
+                noScale = Math.max(0.05, noScale - 0.2);
+                yesScale = Math.min(2.5, yesScale + 0.25);
+                noOpacity = Math.max(0, noOpacity - 0.25);
+
+                updateButtonSizes();
+            });
+
+            yesButton.addEventListener('click', () => {
+                showLetterPage(); // Mostra la lettera DOPO LA LONTRA
+            });
+        }
+    }
+
+    function updateButtonSizes() {
+        if (yesButton && noButton) {
+            yesButton.style.transform = `scale(${yesScale})`;
+            noButton.style.transform = `scale(${noScale})`;
+            noButton.style.opacity = noOpacity;
+
+            if (noScale < 0.2 || noOpacity < 0.1) {
+                noButton.style.pointerEvents = 'none';
+                noButton.style.display = 'none';
+            } else {
+                noButton.style.pointerEvents = 'auto';
+                noButton.style.display = 'block';
+            }
+        }
+    }
+
+    function giveBiscotto() {
+      biscotti++;
+      document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
+      document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
+
+      const biscottiList = document.getElementById('biscottiList');
+      const newBiscotto = document.createElement("span");
+      newBiscotto.innerText = "🍪 ";
+      biscottiList.appendChild(newBiscotto);
+
+      updateMoodBar();
+
+      if (biscotti >= 5) {
+        document.getElementById('heartBtn').style.display = "inline-block";
+      }
+
+      // Mostra la lettera 'A' quando si raggiungono 20 biscotti
+      if (biscotti >= 20) {
+          document.getElementById('secretALetter').style.display = "inline-block";
+          document.getElementById('biscotto-message').innerText = "Hai sbloccato una sorpresa! Clicca la 'A'!";
+      }
+    }
+
+    function updateMoodBar() {
+      const bar = document.getElementById('moodBar');
+      let percentage = Math.min((biscotti / 20) * 100, 100);
+      bar.style.width = percentage + "%";
+    }
+
+    // Funzione per mostrare la Lettera dei 20 Biscotti
+    function showTwentyBiscottiLetter() {
+        document.getElementById('mainPage').style.display = "none";
+        document.getElementById('quizBox').style.display = "none";
+        document.getElementById('resultBox').style.display = "none";
+        document.getElementById('questionPage').style.display = "none";
+        document.getElementById('letterPage').style.display = "none"; // Assicurati che l'altra lettera sia nascosta
+        document.getElementById('twentyBiscottiLetterPage').style.display = "block";
+    }
+
+    // Funzione per mostrare la Lettera dopo la Lontra (già esistente)
+    function showLetterPage() {
+        document.getElementById('questionPage').style.display = "none";
+        document.getElementById('mainPage').style.display = "none";
+        document.getElementById('quizBox').style.display = "none";
+        document.getElementById('resultBox').style.display = "none";
+        document.getElementById('twentyBiscottiLetterPage').style.display = "none"; // Assicurati che l'altra lettera sia nascosta
+        document.getElementById('letterPage').style.display = "block";
+
+        if (yesButton) {
+            yesButton.style.animation = 'sparkle 1s infinite alternate';
+            setTimeout(() => {
+                if (yesButton) {
+                    yesButton.style.animation = '';
+                }
+            }, 2000);
+        }
+    }
+
+    function showQuiz() {
+      document.getElementById('quizBox').style.display = "block";
+      showQuestion(1);
+      // Nascondi la lettera 'A' quando si apre il quiz
+      document.getElementById('secretALetter').style.display = "none";
+    }
+
+    function showQuestion(n) {
+        document.querySelectorAll('.quiz-box .question').forEach(q => q.style.display = 'none');
+        const currentQ = document.getElementById(`question${n}`);
+        if (currentQ) {
+            currentQ.style.display = 'block';
+            document.querySelectorAll(`.answer[data-question-id="${n}"]`).forEach(btn => {
+                btn.style.display = "block";
+            });
+        }
+    }
+
+    function selectAnswer(val) {
+      answers.push(val);
+      currentQuestion++;
+      if (currentQuestion <= 3) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      let resultText = "";
+      const total = answers.reduce((a, b) => a + b, 0);
+      if (total <= 2) resultText = "🥔 Patatella da coccolare";
+      else if (total <= 4) resultText = "👑 Regina del Relax";
+      else resultText = "🐯 Tigre tenera con cuore gigante";
+
+      document.getElementById('quizBox').style.display = "none";
+      document.getElementById('resultBox').style.display = "block";
+      document.getElementById('resultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
+
+      setTimeout(() => {
+        document.getElementById('mainPage').style.display = "none";
+        document.getElementById('resultBox').style.display = "none";
+        document.getElementById('twentyBiscottiLetterPage').style.display = "none"; // Nascondi anche l'altra lettera
+        document.getElementById('questionPage').style.display = "flex";
+
+        yesScale = 1;
+        noScale = 1;
+        noOpacity = 1;
+        setupQuestionPageButtons();
+        updateButtonSizes();
+      }, 1500);
+    }
+
+    // Funzione per tornare indietro dalla Lettera dei 20 Biscotti
+    function goBackFromTwentyBiscottiLetter() {
+        document.getElementById('twentyBiscottiLetterPage').style.display = "none";
+        document.getElementById('mainPage').style.display = "block";
+        resetAppState(); // Resetta lo stato del gioco
+    }
+
+    // Funzione per tornare indietro dalla Lettera dopo la Lontra
+    function goBack() {
+      document.getElementById('letterPage').style.display = "none";
+      document.getElementById('mainPage').style.display = "block";
+      resetAppState(); // Resetta lo stato del gioco
+    }
+
+    // Funzione per resettare lo stato del gioco
+    function resetAppState() {
+        biscotti = 0;
+        document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
+        document.getElementById('biscottiList').innerHTML = "";
+        document.getElementById('biscotto-message').innerText = "";
+        document.getElementById('heartBtn').style.display = "none";
+        document.getElementById('secretALetter').style.display = "none";
+        updateMoodBar();
+        answers = [];
+        currentQuestion = 1;
+        document.getElementById('quizBox').style.display = "none";
+        document.getElementById('resultBox').style.display = "none";
+    }
+
+    // Nascondi le pagine non iniziali all'avvio
+    document.addEventListener('DOMContentLoaded', () => {
+        setupQuestionPageButtons();
+        document.getElementById('questionPage').style.display = 'none';
+        document.getElementById('letterPage').style.display = 'none';
+        document.getElementById('twentyBiscottiLetterPage').style.display = 'none'; // Nascondi la nuova lettera all'avvio
+        document.getElementById('mainPage').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
