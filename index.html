@@ -6,7 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #FAE6EF; /* Stesso rosa della foto */
+      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Stesso rosa della foto della lontra */
       font-family: 'Quicksand', sans-serif;
       color: #5c2a6b;
       text-align: center;
@@ -19,14 +19,14 @@
       cursor: pointer;
       /* Animazione di "rimbalzo" costante */
       animation: bounce 2s infinite ease-in-out;
-      /* Transizione rapida per effetto click */
+      /* Transizione rapida per effetto click e hover */
       transition: transform 0.1s ease-out;
     }
 
     .orsetto:hover {
-      /* Leggero ingrandimento al passaggio del mouse, ferma l'animazione di rimbalzo */
+      /* NUOVA FUNZIONALITÀ: Leggero ingrandimento al passaggio del mouse, ma l'animazione di rimbalzo CONTINUA */
       transform: scale(1.1);
-      animation: none;
+      /* animation: none; RIMOSSO, così l'animazione continua */
     }
 
     /* Animazione al click (quando l'elemento è attivo) */
@@ -64,21 +64,7 @@
       font-size: 30px;
     }
 
-    /* Stile per la lettera "A" segreta (si sblocca a 20 biscotti) */
-    .secret-a {
-      font-size: 40px; /* Più grande */
-      color: #ff007f; /* Un colore vivace */
-      cursor: pointer;
-      margin-left: 10px; /* Spazio dal biscotto */
-      animation: pulse 1.5s infinite alternate; /* Animazione pulsante */
-      display: none; /* Nascosta di default */
-      vertical-align: middle; /* Allinea al centro con i biscotti */
-    }
-
-    @keyframes pulse {
-      from { transform: scale(1); opacity: 0.8; }
-      to { transform: scale(1.1); opacity: 1; }
-    }
+    /* La classe .secret-a e il suo @keyframes pulse non sono più necessari per la lettera automatica */
 
     .heart-button {
       display: none;
@@ -101,7 +87,7 @@
     .mood-bar-container {
       width: 80%; /* Larghezza aumentata della barra */
       max-width: 700px; /* Larghezza massima aumentata */
-      background-color: #ddd;
+      background-color: #ddd; /* Il colore di base della barra vuota */
       border-radius: 20px;
       overflow: hidden;
       margin: 20px auto;
@@ -109,12 +95,11 @@
       border: 2px solid #ccc;
     }
 
-    /* Colori arcobaleno per la barra di progresso */
+    /* RIMOSSO: background: linear-gradient(...); perché il colore sarà gestito da JavaScript */
     .mood-bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(to right, #5c2a6b, #8a2be2, #ff007f, #ffa500, #ff0000); /* Gradiente arcobaleno/viola -> rosso */
-      transition: width 0.5s ease; /* Transizione solo per la larghezza */
+      transition: width 0.5s ease, background-color 0.5s ease; /* Aggiunto transition per background-color */
     }
 
 
@@ -152,8 +137,8 @@
 
     /* CLASSI PER LA PAGINA DELLA DOMANDA CON LA LONTRA */
     .question-page {
-      display: none; /* INIZIALMENTE NASCOSTA */
-      background-color: #fff0f5;
+      display: none;
+      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Sfondo uguale alla foto */
       position: fixed;
       top: 0; left: 0;
       width: 100%;
@@ -235,7 +220,7 @@
     /* Stili per la Lettera dei 20 Biscotti */
     .twenty-biscotti-letter-page {
       display: none;
-      background-color: #fff0f5;
+      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Sfondo uguale alla foto */
       position: fixed;
       top: 0; left: 0;
       width: 100%;
@@ -262,10 +247,10 @@
         font-size: 26px;
     }
 
-    /* Stili per la Lettera dopo la Lontra (già esistenti) */
-    .letter-page { /* Questa è la lettera che viene dopo la lontra */
+    /* Stili per la Lettera dopo la Lontra */
+    .letter-page {
       display: none;
-      background-color: #fff0f5;
+      background-color: #FCE7EC; /* NUOVA FUNZIONALITÀ: Sfondo uguale alla foto */
       position: fixed;
       top: 0; left: 0;
       width: 100%;
@@ -312,7 +297,6 @@
       <div id="biscotti">Hai 0 biscotti!</div>
       <div class="biscotti-list" id="biscottiList"></div>
       <p id="biscotto-message" style="margin-top:10px;"></p>
-      <span class="secret-a" id="secretALetter" onclick="showTwentyBiscottiLetter()">A</span>
       <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
     </div>
 
@@ -391,6 +375,15 @@
 
     let yesButton, noButton;
 
+    // Colori per la barra di progresso (dal viola al rosso)
+    const moodBarColors = [
+        "#5c2a6b",  // 0-4 biscotti (viola scuro)
+        "#8a2be2",  // 5-9 biscotti (blu violetto)
+        "#ff007f",  // 10-14 biscotti (fucsia)
+        "#ffa500",  // 15-19 biscotti (arancione)
+        "#ff0000"   // 20 biscotti (rosso)
+    ];
+
     function setupQuestionPageButtons() {
         if (!yesButton) {
             yesButton = document.getElementById('yesButton');
@@ -438,21 +431,32 @@
 
       updateMoodBar();
 
-      if (biscotti >= 5) {
-        document.getElementById('heartBtn').style.display = "inline-block";
-      }
-
-      // Mostra la lettera 'A' quando si raggiungono 20 biscotti
-      if (biscotti >= 20) {
-          document.getElementById('secretALetter').style.display = "inline-block";
-          document.getElementById('biscotto-message').innerText = "Hai sbloccato una sorpresa! Clicca la 'A'!";
+      // NUOVA FUNZIONALITÀ: Mostra la Lettera dei 20 Biscotti in automatico
+      if (biscotti === 20) { // Usa '===' per un'uguaglianza esatta
+          showTwentyBiscottiLetter();
       }
     }
 
+    // NUOVA FUNZIONALITÀ: Logica della barra di progresso con colori graduali in JS
     function updateMoodBar() {
       const bar = document.getElementById('moodBar');
       let percentage = Math.min((biscotti / 20) * 100, 100);
       bar.style.width = percentage + "%";
+
+      // Determina il colore in base alla percentuale o al numero di biscotti
+      let colorIndex;
+      if (biscotti <= 4) {
+          colorIndex = 0;
+      } else if (biscotti <= 9) {
+          colorIndex = 1;
+      } else if (biscotti <= 14) {
+          colorIndex = 2;
+      } else if (biscotti <= 19) {
+          colorIndex = 3;
+      } else { // biscotti >= 20
+          colorIndex = 4;
+      }
+      bar.style.backgroundColor = moodBarColors[colorIndex];
     }
 
     // Funzione per mostrare la Lettera dei 20 Biscotti
@@ -461,17 +465,17 @@
         document.getElementById('quizBox').style.display = "none";
         document.getElementById('resultBox').style.display = "none";
         document.getElementById('questionPage').style.display = "none";
-        document.getElementById('letterPage').style.display = "none"; // Assicurati che l'altra lettera sia nascosta
+        document.getElementById('letterPage').style.display = "none";
         document.getElementById('twentyBiscottiLetterPage').style.display = "block";
     }
 
-    // Funzione per mostrare la Lettera dopo la Lontra (già esistente)
+    // Funzione per mostrare la Lettera dopo la Lontra
     function showLetterPage() {
         document.getElementById('questionPage').style.display = "none";
         document.getElementById('mainPage').style.display = "none";
         document.getElementById('quizBox').style.display = "none";
         document.getElementById('resultBox').style.display = "none";
-        document.getElementById('twentyBiscottiLetterPage').style.display = "none"; // Assicurati che l'altra lettera sia nascosta
+        document.getElementById('twentyBiscottiLetterPage').style.display = "none";
         document.getElementById('letterPage').style.display = "block";
 
         if (yesButton) {
@@ -487,8 +491,7 @@
     function showQuiz() {
       document.getElementById('quizBox').style.display = "block";
       showQuestion(1);
-      // Nascondi la lettera 'A' quando si apre il quiz
-      document.getElementById('secretALetter').style.display = "none";
+      // La lettera 'A' è stata rimossa, quindi non c'è più nulla da nascondere qui.
     }
 
     function showQuestion(n) {
@@ -526,7 +529,7 @@
       setTimeout(() => {
         document.getElementById('mainPage').style.display = "none";
         document.getElementById('resultBox').style.display = "none";
-        document.getElementById('twentyBiscottiLetterPage').style.display = "none"; // Nascondi anche l'altra lettera
+        document.getElementById('twentyBiscottiLetterPage').style.display = "none";
         document.getElementById('questionPage').style.display = "flex";
 
         yesScale = 1;
@@ -558,7 +561,7 @@
         document.getElementById('biscottiList').innerHTML = "";
         document.getElementById('biscotto-message').innerText = "";
         document.getElementById('heartBtn').style.display = "none";
-        document.getElementById('secretALetter').style.display = "none";
+        // secretALetter non esiste più, quindi non c'è nulla da nascondere qui
         updateMoodBar();
         answers = [];
         currentQuestion = 1;
@@ -571,8 +574,9 @@
         setupQuestionPageButtons();
         document.getElementById('questionPage').style.display = 'none';
         document.getElementById('letterPage').style.display = 'none';
-        document.getElementById('twentyBiscottiLetterPage').style.display = 'none'; // Nascondi la nuova lettera all'avvio
+        document.getElementById('twentyBiscottiLetterPage').style.display = 'none';
         document.getElementById('mainPage').style.display = 'block';
+        updateMoodBar(); // Inizializza il colore della barra allo stato 0
     });
   </script>
 </body>
