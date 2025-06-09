@@ -1,676 +1,815 @@
  <!DOCTYPE html>
- <html lang="it">
- <head>
+<html lang="it">
+<head>
   <meta charset="UTF-8">
   <title>Sorpresa 💜</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
   <style>
-  body {
-  background-color: #FCE7EC;
-  font-family: 'Quicksand', sans-serif;
-  color: #5c2a6b;
-  text-align: center;
-  padding: 30px;
-  overflow-x: hidden;
-  }
+    body {
+      background-color: #FCE7EC;
+      font-family: 'Quicksand', sans-serif;
+      color: #5c2a6b;
+      text-align: center;
+      padding: 30px;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-  .gift-box-container {
-  margin: 0 auto 30px auto;
-  font-size: 80px;
-  cursor: pointer;
-  position: relative;
-  width: fit-content;
-  transition: transform 0.2s ease-out;
-  }
+    /* Posizionamento fisso per gli elementi in sovrapposizione */
+    .timed-message-button,
+    .video-link {
+      position: fixed;
+      z-index: 1000;
+    }
 
-  .gift-box-container:hover {
-  transform: scale(1.1);
-  }
+    /* Stili per il bottone del messaggio a tempo */
+    .timed-message-button {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffcce6;
+      padding: 15px 25px;
+      border-radius: 15px;
+      border: 2px solid #e49ecf;
+      font-size: 22px;
+      color: #5c2a6b;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      white-space: nowrap;
+    }
 
-  .gift-box-container:active {
-  transform: scale(0.9);
-  }
+    .timed-message-button:hover {
+      background-color: #ffb3d9;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
 
-  .gift-message-box {
-  display: none;
-  position: absolute;
-  background-color: #fff0f5;
-  padding: 15px;
-  border-radius: 10px;
-  border: 2px solid #e49ecf;
-  z-index: 100;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 280px;
-  font-size: 18px;
-  text-align: left;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
+    .gift-box-container {
+      margin: 30px auto;
+      font-size: 80px;
+      cursor: pointer;
+      position: relative;
+      width: fit-content;
+      transition: transform 0.2s ease-out;
+    }
 
-  .orsetto {
-  font-size: 60px;
-  cursor: pointer;
-  animation: bounce 2s infinite ease-in-out;
-  transition: transform 0.1s ease-out;
-  }
+    .gift-box-container:hover {
+      transform: scale(1.1);
+    }
 
-  .orsetto:hover {
-  transform: scale(1.1);
-  }
+    .gift-box-container:active {
+      transform: scale(0.9);
+    }
 
-  .orsetto:active {
-  transform: scale(0.9);
-  }
+    .gift-message-box {
+      display: none;
+      position: absolute;
+      background-color: #fff0f5;
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px solid #e49ecf;
+      z-index: 100;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      font-size: 18px;
+      text-align: left;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 
-  @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  }
+    .orsetto {
+      font-size: 60px;
+      cursor: pointer;
+      animation: bounce 2s infinite ease-in-out;
+      transition: transform 0.1s ease-out;
+    }
 
-  .biscotti-box {
-  margin-top: 20px;
-  background-color: #ffe6f0;
-  padding: 15px;
-  border-radius: 15px;
-  display: inline-block;
-  border: 2px solid #e49ecf;
-  }
+    .orsetto:hover {
+      transform: scale(1.1);
+    }
 
-  .biscotti-box h2 {
-  margin-top: 0;
-  }
+    .orsetto:active {
+      transform: scale(0.9);
+    }
 
-  .biscotti {
-  font-size: 24px;
-  margin-top: 10px;
-  }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
 
-  .biscotti-list {
-  margin-top: 10px;
-  font-size: 30px;
-  }
+    .biscotti-box {
+      margin-top: 20px;
+      background-color: #ffe6f0;
+      padding: 15px;
+      border-radius: 15px;
+      display: inline-block;
+      border: 2px solid #e49ecf;
+    }
 
-  .heart-button {
-  display: none;
-  margin-top: 20px;
-  font-size: 24px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  background-color: #e49ecf;
-  color: white;
-  cursor: pointer;
-  animation: sparkle 1s infinite alternate;
-  }
+    .biscotti-box h2 {
+      margin-top: 0;
+    }
 
-  @keyframes sparkle {
-  from { box-shadow: 0 0 10px #e49ecf; }
-  to { box-shadow: 0 0 20px #ff99cc; }
-  }
+    .biscotti {
+      font-size: 24px;
+      margin-top: 10px;
+    }
 
-  .mood-bar-container {
-  width: 80%;
-  max-width: 700px;
-  background-color: #ddd;
-  border-radius: 20px;
-  overflow: hidden;
-  margin: 20px auto;
-  height: 25px;
-  border: 2px solid #ccc;
-  }
+    .biscotti-list {
+      margin-top: 10px;
+      font-size: 30px;
+    }
 
-  .mood-bar {
-  height: 100%;
-  width: 0%;
-  transition: width 0.5s ease, background-color 0.5s ease;
-  }
+    .heart-button {
+      display: none;
+      margin-top: 20px;
+      font-size: 24px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #e49ecf;
+      color: white;
+      cursor: pointer;
+      animation: sparkle 1s infinite alternate;
+    }
 
-  .quiz-box, .result-box {
-  display: none;
-  background-color: #ffe6f0;
-  padding: 20px;
-  border-radius: 15px;
-  border: 2px solid #e49ecf;
-  margin-top: 30px;
-  }
+    @keyframes sparkle {
+      from { box-shadow: 0 0 10px #e49ecf; }
+      to { box-shadow: 0 0 20px #ff99cc; }
+    }
 
-  .question {
-  font-size: 20px;
-  margin-bottom: 10px;
-  }
+    .mood-bar-container {
+      width: 80%;
+      max-width: 700px;
+      background-color: #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px auto;
+      height: 25px;
+      border: 2px solid #ccc;
+    }
 
-  .answer {
-  display: block;
-  margin: 8px auto;
-  background-color: #fcd6ec;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  width: 80%;
-  max-width: 300px;
-  }
+    .mood-bar {
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s ease, background-color 0.5s ease;
+    }
 
-  .answer:hover {
-  background-color: #ffc3e6;
-  }
+    .quiz-box, .result-box {
+      display: none;
+      background-color: #ffe6f0;
+      padding: 20px;
+      border-radius: 15px;
+      border: 2px solid #e49ecf;
+      margin-top: 30px;
+    }
 
-  .question-page {
-  display: none;
-  background-color: #FCE7EC;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 30px;
-  box-sizing: border-box;
-  z-index: 999;
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  }
+    .question {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
 
-  .question-content {
-  background-color: #ffe6f0;
-  padding: 30px;
-  border-radius: 20px;
-  border: 2px solid #e49ecf;
-  max-width: 500px;
-  text-align: center;
-  }
+    .answer {
+      display: block;
+      margin: 8px auto;
+      background-color: #fcd6ec;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      width: 80%;
+      max-width: 300px;
+    }
 
-  .otter-question-text {
-  font-size: 28px;
-  color: #5c2a6b;
-  margin-bottom: 20px;
-  font-weight: bold;
-  }
+    .answer:hover {
+      background-color: #ffc3e6;
+    }
 
-  .otter-image {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto 20px auto;
-  }
+    .question-page {
+      display: none;
+      background-color: #FCE7EC;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  .like-buttons-container {
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  align-items: center;
-  flex-wrap: wrap;
-  }
+    .question-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 500px;
+      text-align: center;
+    }
 
-  .like-button {
-  font-size: 28px;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
-  min-width: 150px;
-  white-space: nowrap;
-  }
+    .otter-question-text {
+      font-size: 28px;
+      color: #5c2a6b;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
 
-  .yes-button {
-  background-color: #e49ecf;
-  color: white;
-  box-shadow: 0 0 10px rgba(228, 158, 207, 0.7);
-  }
+    .otter-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
 
-  .yes-button:hover {
-  background-color: #d17fb8;
-  transform: scale(1.05);
-  }
+    .like-buttons-container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-  .no-button {
-  background-color: #fcd6ec;
-  color: #5c2a6b;
-  border: 2px solid #e49ecf;
-  }
+    .like-button {
+      font-size: 28px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+      min-width: 150px;
+      white-space: nowrap;
+    }
 
-  .no-button:hover {
-  background-color: #ffc3e6;
-  }
+    .yes-button {
+      background-color: #e49ecf;
+      color: white;
+      box-shadow: 0 0 10px rgba(228, 158, 207, 0.7);
+    }
 
-  .twenty-biscotti-letter-page {
-  display: none;
-  background-color: #FCE7EC;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 30px;
-  box-sizing: border-box;
-  z-index: 999;
-  overflow-y: auto;
-  }
+    .yes-button:hover {
+      background-color: #d17fb8;
+      transform: scale(1.05);
+    }
 
-  .twenty-biscotti-letter-content {
-  background-color: #ffe6f0;
-  padding: 30px;
-  border-radius: 20px;
-  border: 2px solid #e49ecf;
-  max-width: 600px;
-  margin: 50px auto;
-  font-size: 18px;
-  }
+    .no-button {
+      background-color: #fcd6ec;
+      color: #5c2a6b;
+      border: 2px solid #e49ecf;
+    }
 
-  .twenty-biscotti-letter-content h2 {
-  color: #e49ecf;
-  margin-bottom: 20px;
-  font-size: 26px;
-  }
+    .no-button:hover {
+      background-color: #ffc3e6;
+    }
 
-  .letter-page {
-  display: none;
-  background-color: #FCE7EC;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 30px;
-  box-sizing: border-box;
-  z-index: 999;
-  overflow-y: auto;
-  }
+    .twenty-biscotti-letter-page {
+      display: none;
+      background-color: #FCE7EC;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+    }
 
-  .letter-content {
-  background-color: #ffe6f0;
-  padding: 30px;
-  border-radius: 20px;
-  border: 2px solid #e49ecf;
-  max-width: 600px;
-  margin: 50px auto;
-  font-size: 18px;
-  }
+    .twenty-biscotti-letter-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 600px;
+      margin: 50px auto;
+      font-size: 18px;
+    }
 
-  .back-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  background-color: #e49ecf;
-  color: white;
-  cursor: pointer;
-  }
+    .twenty-biscotti-letter-content h2 {
+        color: #e49ecf;
+        margin-bottom: 20px;
+        font-size: 26px;
+    }
 
-  /* Stili per il messaggio a tempo */
-  .timed-message {
-  position: fixed;
-  top: 20px; /* Posizionato in alto */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #ffcce6;
-  padding: 15px 20px;
-  border-radius: 10px;
-  border: 2px solid #e49ecf;
-  font-size: 18px;
-  z-index: 1000;
-  display: none; /* Nascosto inizialmente */
-  }
+    /* Lettera "vogliosa" */
+    .vogliosa-letter-page {
+      display: none;
+      background-color: #FCE7EC;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 1000;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-  /* Stili per il link al video */
-  .video-link {
-  position: fixed;
-  bottom: 20px; /* Posizionato in basso */
-  right: 20px;
-  background-color: #fcd6ec;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: 2px solid #e49ecf;
-  font-size: 14px;
-  color: #5c2a6b;
-  text-decoration: none;
-  }
+    .vogliosa-letter-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 600px;
+      text-align: left;
+      font-size: 18px;
+      position: relative;
+    }
 
-  .video-link:hover {
-  background-color: #ffc3e6;
-  }
+    .close-vogliosa-letter {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #5c2a6b;
+    }
+
+    .letter-page {
+      display: none;
+      background-color: #FCE7EC;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      box-sizing: border-box;
+      z-index: 999;
+      overflow-y: auto;
+    }
+
+    .letter-content {
+      background-color: #ffe6f0;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px solid #e49ecf;
+      max-width: 600px;
+      margin: 50px auto;
+      font-size: 18px;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #e49ecf;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Stili per il link al video */
+    .video-link {
+      bottom: 20px;
+      right: 20px;
+      background-color: #fcd6ec;
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 2px solid #e49ecf;
+      font-size: 14px;
+      color: #5c2a6b;
+      text-decoration: none;
+    }
+
+    .video-link:hover {
+      background-color: #ffc3e6;
+    }
+
+    /* Posizione del lecca-lecca */
+    .lollipop-position {
+      position: absolute;
+      top: 10px; /* Regola a piacere */
+      right: 10px; /* Regola a piacere */
+      font-size: 30px;
+      z-index: 500; /* Assicurati che sia sopra altri elementi ma sotto i pop-up */
+      pointer-events: none; /* Rendi non cliccabile */
+      display: none; /* Nascosto di default */
+    }
   </style>
- </head>
- <body>
+</head>
+<body>
 
   <div id="mainPage">
-  <h1>🍪 Clicka l’orsetto per una sorpresa!</h1>
+    <h1>🍪 Clicka l’orsetto per una sorpresa!</h1>
 
-  <div class="gift-box-container" id="giftBox" onclick="showGiftMessage()">
-  🎁
-  <div class="gift-message-box" id="giftMessageBox"></div>
-  </div>
+    <div class="orsetto" onclick="giveBiscotto()">🧸</div>
 
-  <div class="orsetto" onclick="giveBiscotto()">🧸</div>
+    <div class="mood-bar-container">
+      <div class="mood-bar" id="moodBar"></div>
+    </div>
 
-  <div class="mood-bar-container">
-  <div class="mood-bar" id="moodBar"></div>
-  </div>
+    <div class="biscotti-box">
+      <h2>Biscotti 🍪</h2>
+      <div id="biscotti">Hai 0 biscotti!</div>
+      <div class="biscotti-list" id="biscottiList"></div>
+      <p id="biscotto-message" style="margin-top:10px;"></p>
+      <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
+    </div>
 
-  <div class="biscotti-box">
-  <h2>Biscotti 🍪</h2>
-  <div id="biscotti">Hai 0 biscotti!</div>
-  <div class="biscotti-list" id="biscottiList"></div>
-  <p id="biscotto-message" style="margin-top:10px;"></p>
-  <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
-  <span id="candyEmoji" style="display:none; font-size: 30px; margin-top: 10px;">🍭</span>
-  </div>
+    <div class="gift-box-container" id="giftBox" onclick="showGiftMessage()">
+      🎁
+      <div class="gift-message-box" id="giftMessageBox"></div>
+    </div>
+    <div class="quiz-box" id="quizBox">
+      <h2>Mini Quiz 💫</h2>
+      <div class="question" id="question1">
+        1. Cosa fai appena torni a casa dopo una giornata pesante?
+        <button class="answer" data-question-id="1" onclick="selectAnswer(0)">🥔 Mi butto sul letto come una patata</button>
+        <button class="answer" data-question-id="1" onclick="selectAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
+        <button class="answer" data-question-id="1" onclick="selectAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
+      </div>
 
-  <div class="quiz-box" id="quizBox">
-  <h2>Mini Quiz 💫</h2>
-  <div class="question" id="question1">
-  1. Cosa fai appena torni a casa dopo una giornata pesante?
-  <button class="answer" data-question-id="1" onclick="selectAnswer(0)">🥔 Mi butto sul letto come una patata</button>
-  <button class="answer" data-question-id="1" onclick="selectAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
-  <button class="answer" data-question-id="1" onclick="selectAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
-  </div>
+      <div class="question" id="question2" style="display:none;">
+        2. Che tipo di coccole preferisci?
+        <button class="answer" data-question-id="2" onclick="selectAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
+        <button class="answer" data-question-id="2" onclick="selectAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
+        <button class="answer" data-question-id="2" onclick="selectAnswer(2)">💌 Tutte, anche virtuali se servono</button>
+      </div>
 
-  <div class="question" id="question2" style="display:none;">
-  2. Che tipo di coccole preferisci?
-  <button class="answer" data-question-id="2" onclick="selectAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
-  <button class="answer" data-question-id="2" onclick="selectAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
-  <button class="answer" data-question-id="2" onclick="selectAnswer(2)">💌 Tutte, anche virtuali se servono</button>
-  </div>
+      <div class="question" id="question3" style="display:none;">
+        3. Il tuo mood quando hai il ciclo?
+        <button class="answer" data-question-id="3" onclick="selectAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
+        <button class="answer" data-question-id="3" onclick="selectAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
+        <button class="answer" data-question-id="3" onclick="selectAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
+      </div>
+    </div>
 
-  <div class="question" id="question3" style="display:none;">
-  3. Il tuo mood quando hai il ciclo?
-  <button class="answer" data-question-id="3" onclick="selectAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
-  <button class="answer" data-question-id="3" onclick="selectAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
-  <button class="answer" data-question-id="3" onclick="selectAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
-  </div>
-  </div>
-
-  <div class="result-box" id="resultBox"></div>
+    <div class="result-box" id="resultBox"></div>
   </div>
 
   <div class="question-page" id="questionPage">
-  <div class="question-content">
-  <div class="otter-question-text">Do you like me?</div>
-  <img src="castoro.JPG" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image">
-  <div class="like-buttons-container">
-  <button id="yesButton" class="like-button yes-button">Sì! 💜</button>
-  <button id="noButton" class="like-button no-button">No... 😔</button>
-  </div>
-  </div>
+    <div class="question-content">
+      <div class="otter-question-text">Do you like me?</div>
+      <img src="castoro.JPG" alt="Un orsetto con fiori che chiede 'Do you like me?'" class="otter-image">
+      <div class="like-buttons-container">
+        <button id="yesButton" class="like-button yes-button">Sì! 💜</button>
+        <button id="noButton" class="like-button no-button">No... 😔</button>
+      </div>
+    </div>
   </div>
 
   <div class="twenty-biscotti-letter-page" id="twentyBiscottiLetterPage">
-  <div class="twenty-biscotti-letter-content">
-  <h2>Tesoro mio,</h2>
-  <p>Questa non è solo una lettera, ma un piccolo pensiero pieno d’amore per ricordarti una cosa semplice ma importantissima: ti voglio un bene infinito.</p>
-  <p>Ogni giorno che passa mi rendo conto di quanto tu sia speciale per me. Il mio affetto per te resta sempre lo stesso. Sei una persona speciale, con un cuore d’oro, e mi sento davvero fortunato/a ad averti nella mia vita.</p>
-  <p>Non servono grandi gesti o parole complicate per dirti quanto ci tengo: basta guardare quanto spesso ti penso e quanto il tuo sorriso riesce a cambiare anche le mie giornate più grigie.</p>
-  <p>Spero che questo piccolo pensiero riesca a strapparti un sorriso. Anche quando non te ne accorgi, ti porto sempre con me.</p>
-  <p>Con tantissimo affetto,<br>Il tuo piccolo rompiscatole che non smette mai di pensarti 💌</p>
-  <button class="back-btn" onclick="goBackFromTwentyBiscottiLetter()">🔙 Torna alla pagina principale</button>
+    <div class="twenty-biscotti-letter-content">
+      <h2>Tesoro mio,</h2>
+      <p>Questa non è solo una lettera, ma un piccolo pensiero pieno d’amore per ricordarti una cosa semplice ma importantissima: ti voglio un bene infinito.</p>
+      <p>Ogni giorno che passa mi rendo conto di quanto tu sia speciale per me. Il mio affetto per te resta sempre lo stesso. Sei una persona speciale, con un cuore d’oro, e mi sento davvero fortunato/a ad averti nella mia vita.</p>
+      <p>Non servono grandi gesti o parole complicate per dirti quanto ci tengo: basta guardare quanto spesso ti penso e quanto il tuo sorriso riesce a cambiare anche le mie giornate più grigie.</p>
+      <p>Spero che questo piccolo pensiero riesca a strapparti un sorriso. Anche quando non te ne accorgi, ti porto sempre con me.</p>
+      <p>Con tantissimo affetto,<br>Il tuo piccolo rompiscatole che non smette mai di pensarti 💌</p>
+      <button class="back-btn" onclick="goBackFromTwentyBiscottiLetter()">🔙 Torna alla pagina principale</button>
+    </div>
   </div>
+
+  <div class="vogliosa-letter-page" id="vogliosaLetterPage">
+    <div class="vogliosa-letter-content">
+      <button class="close-vogliosa-letter" onclick="closeVogliosaLetter()">✖️</button>
+      <p>Ora che hai cliccato, non puoi più tornare indietro.</p>
+      <p>Hai accettato il gioco. Il mio gioco.</p>
+      <p>Immagina le mie mani scivolare lente lungo la tua schiena, la mia bocca che si ferma sul tuo collo solo per farti tremare.</p>
+      <p>Ti voglio distesa, sotto di me, mentre ti prendo piano e poi più forte, fino a farti perdere il respiro.</p>
+      <p>Ogni tuo gemito sarà mio. Ogni brivido, ogni carezza, ogni ordine sussurrato al tuo orecchio.</p>
+      <p>Tu, completamente mia.</p>
+      <p>E io?<br>Io non mi fermerò finché non ti avrò sentita cedere, tremare, godere.</p>
+    </div>
   </div>
 
   <div class="letter-page" id="letterPage">
-  <div class="letter-content">
-  💌 Grazie per aver cliccato fino a qui…
-  <br><br>
-  Volevo solo dirti che ti voglio un bene da morire.
-  Sei speciale, e anche se non posso sempre starti vicino, ci tengo davvero tanto a te.
-  Ti penso spesso, anche nei momenti più piccoli.
-  <br><br>
-  🧸💜
-  — Tuo rompiscatole preferito
-  <br><br>
-  <button class="back-btn" onclick="goBack()">🔙 Torna alla pagina principale</button>
-  </div>
+    <div class="letter-content">
+      💌 Grazie per aver cliccato fino a qui…
+      <br><br>
+      Volevo solo dirti che ti voglio un bene da morire.
+      Sei speciale, e anche se non posso sempre starti vicino, ci tengo davvero tanto a te.
+      Ti penso spesso, anche nei momenti più piccoli.
+      <br><br>
+      🧸💜
+      — Tuo rompiscatole preferito
+      <br><br>
+      <button class="back-btn" onclick="goBack()">🔙 Torna alla pagina principale</button>
+    </div>
   </div>
 
-  <div class="timed-message" id="timedMessage">⚠️CLICCA SE SEI VOGLIOSA⚠️</div>
+  <button class="timed-message-button" id="timedMessageButton" onclick="showVogliosaLetter()">
+    ⚠️CLICCA SE SEI VOGLIOSA⚠️
+  </button>
 
   <a href="http://www.youtube.com/watch?v=RlQLdGGDa_4" class="video-link" target="_blank">Clicca se sei triste</a>
 
+  <span id="candyEmoji" class="lollipop-position">🍭</span>
+
   <script>
-  let biscotti = 0;
-  let answers = [];
-  let currentQuestion = 1;
+    let biscotti = 0;
+    let answers = [];
+    let currentQuestion = 1;
 
-  let yesScale = 1;
-  let noScale = 1;
-  let noOpacity = 1;
+    let yesScale = 1;
+    let noScale = 1;
+    let noOpacity = 1;
 
-  let yesButton, noButton;
+    let yesButton, noButton;
 
-  const moodBarColors = [
-  "#5c2a6b",
-  "#8a2be2",
-  "#ff007f",
-  "#ffa500",
-  "#ff0000"
-  ];
+    const moodBarColors = [
+        "#5c2a6b",
+        "#8a2be2",
+        "#ff007f",
+        "#ffa500",
+        "#ff0000"
+    ];
 
-  const giftMessages = [
-  "Lo sapevi che le lontre si tengono per mano mentre dormono per non perdersi? 🦦💤🤝",
-  "I cavallucci marini si innamorano e danzano insieme ogni mattina. 🐚💃🐴",
-  "I pinguini regalano sassi alla loro dolce metà per dimostrare amore. 🐧💎💕",
-  "Le volpi dormono abbracciandosi per scaldarsi e sentirsi al sicuro. 🦊🛏️❤️",
-  "Le mucche hanno migliori amiche e si stressano se vengono separate. 🐮👯‍♀️😢",
-  "Gli elefanti ricordano per tutta la vita chi ha mostrato loro gentilezza. 🐘🧠💖",
-  "Alcuni pappagalli si danno bacini e si chiamano a voce se si perdono di vista. 🦜💋🔊",
-  "I cani possono piangere di gioia quando rivedono una persona amata. 🐶🥹💧",
-  "Le api danzano per raccontarsi dove trovare i fiori migliori. 🐝🌸🩰",
-  "Le tartarughe si accarezzano con il muso per salutarsi. 🐢👃💞"
-  ];
+    const giftMessages = [
+        "Lo sapevi che le lontre si tengono per mano mentre dormono per non perdersi? 🦦💤🤝",
+        "I cavallucci marini si innamorano e danzano insieme ogni mattina. 🐚💃🐴",
+        "I pinguini regalano sassi alla loro dolce metà per dimostrare amore. 🐧💎💕",
+        "Le volpi dormono abbracciandosi per scaldarsi e sentirsi al sicuro. 🦊🛏️❤️",
+        "Le mucche hanno migliori amiche e si stressano se vengono separate. 🐮👯‍♀️😢",
+        "Gli elefanti ricordano per tutta la vita chi ha mostrato loro gentilezza. 🐘🧠💖",
+        "Alcuni pappagalli si danno bacini e si chiamano a voce se si perdono di vista. 🦜💋🔊",
+        "I cani possono piangere di gioia quando rivedono una persona amata. 🐶🥹💧",
+        "Le api danzano per raccontarsi dove trovare i fiori migliori. 🐝🌸🩰",
+        "Le tartarughe si accarezzano con il muso per salutarsi. 🐢👃💞"
+    ];
 
-  let currentGiftMessageIndex = 0;
+    let currentGiftMessageIndex = 0;
 
-  function showGiftMessage() {
-  const giftMessageBox = document.getElementById('giftMessageBox');
-  giftMessageBox.innerText = giftMessages[currentGiftMessageIndex];
-  giftMessageBox.style.display = "block";
+    // Frase per il lecca-lecca
+    const candyMessage = "Federica, il tuo sorriso ha qualcosa di magico: riesce a rendere bello anche il giorno più normale. Non smettere mai di sorridere, perché il mondo ha bisogno di quella luce che solo tu sai dare";
 
-  currentGiftMessageIndex = (currentGiftMessageIndex + 1) % giftMessages.length;
-  }
+    function showGiftMessage() {
+      const giftMessageBox = document.getElementById('giftMessageBox');
+      giftMessageBox.innerText = giftMessages[currentGiftMessageIndex];
+      giftMessageBox.style.display = "block";
 
-  function setupQuestionPageButtons() {
-  if (!yesButton) {
-  yesButton = document.getElementById('yesButton');
-  noButton = document.getElementById('noButton');
+      currentGiftMessageIndex = (currentGiftMessageIndex + 1) % giftMessages.length;
+    }
 
-  noButton.addEventListener('click', () => {
-  noScale = Math.max(0.05, noScale - 0.2);
-  yesScale = Math.min(2.5, yesScale + 0.25);
-  noOpacity = Math.max(0, noOpacity - 0.25);
+    function setupQuestionPageButtons() {
+      if (!yesButton) {
+        yesButton = document.getElementById('yesButton');
+        noButton = document.getElementById('noButton');
 
-  updateButtonSizes();
-  });
+        noButton.addEventListener('click', () => {
+          noScale = Math.max(0.05, noScale - 0.2);
+          yesScale = Math.min(2.5, yesScale + 0.25);
+          noOpacity = Math.max(0, noOpacity - 0.25);
 
-  yesButton.addEventListener('click', () => {
-  showLetterPage();
-  });
-  }
-  }
+          updateButtonSizes();
+        });
 
-  function updateButtonSizes() {
-  if (yesButton && noButton) {
-  yesButton.style.transform = `scale(${yesScale})`;
-  noButton.style.transform = `scale(${noScale})`;
-  noButton.style.opacity = noOpacity;
+        yesButton.addEventListener('click', () => {
+          showLetterPage();
+        });
+      }
+    }
 
-  if (noScale < 0.2 || noOpacity < 0.1) {
-  noButton.style.pointerEvents = 'none';
-  noButton.style.display = 'none';
-  } else {
-  noButton.style.pointerEvents = 'auto';
-  noButton.style.display = 'block';
-  }
-  }
-  }
+    function updateButtonSizes() {
+      if (yesButton && noButton) {
+        yesButton.style.transform = `scale(${yesScale})`;
+        noButton.style.transform = `scale(${noScale})`;
+        noButton.style.opacity = noOpacity;
 
-  function giveBiscotto() {
-  biscotti++;
-  document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
-  document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
+        if (noScale < 0.2 || noOpacity < 0.1) {
+          noButton.style.pointerEvents = 'none';
+          noButton.style.display = 'none';
+        } else {
+          noButton.style.pointerEvents = 'auto';
+          noButton.style.display = 'block';
+        }
+      }
+    }
 
-  const biscottiList = document.getElementById('biscottiList');
-  const newBiscotto = document.createElement("span");
-  newBiscotto.innerText = "🍪 ";
-  biscottiList.appendChild(newBiscotto);
+    function giveBiscotto() {
+      biscotti++;
+      document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
 
-  updateMoodBar();
+      const biscottiList = document.getElementById('biscottiList');
+      const newBiscotto = document.createElement("span");
+      newBiscotto.innerText = "🍪 ";
+      biscottiList.appendChild(newBiscotto);
 
-  if (biscotti >= 5) {
-  document.getElementById('heartBtn').style.display = "inline-block";
-  }
+      updateMoodBar();
 
-  // Mostra il lecca-lecca a 10 biscotti
-  if (biscotti >= 10) {
-  document.getElementById('candyEmoji').style.display = "inline-block";
-  } else {
-  document.getElementById('candyEmoji').style.display = "none";
-  }
+      if (biscotti >= 5) {
+        document.getElementById('heartBtn').style.display = "inline-block";
+      }
 
-  if (biscotti === 20) {
-  showTwentyBiscottiLetter();
-  }
-  }
+      // Mostra il lecca-lecca a 10 biscotti e la sua frase
+      if (biscotti >= 10) {
+        document.getElementById('candyEmoji').style.display = "block"; // Usa 'block' per farlo apparire
+        document.getElementById('biscotto-message').innerText = candyMessage;
+      } else {
+        document.getElementById('candyEmoji').style.display = "none";
+        document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
+      }
 
-  function updateMoodBar() {
-  const bar = document.getElementById('moodBar');
-  let percentage = Math.min((biscotti / 20) * 100, 100);
-  bar.style.width = percentage + "%";
+      if (biscotti === 20) {
+        showTwentyBiscottiLetter();
+      }
+    }
 
-  let colorIndex;
-  if (biscotti <= 4) {
-  colorIndex = 0;
-  } else if (biscotti <= 9) {
-  colorIndex = 1;
-  } else if (biscotti <= 14) {
-  colorIndex = 2;
-  } else if (biscotti <= 19) {
-  colorIndex = 3;
-  } else {
-  colorIndex = 4;
-  }
-  bar.style.backgroundColor = moodBarColors[colorIndex];
-  }
+    function updateMoodBar() {
+      const bar = document.getElementById('moodBar');
+      let percentage = Math.min((biscotti / 20) * 100, 100);
+      bar.style.width = percentage + "%";
 
-  function showTwentyBiscottiLetter() {
-  document.getElementById('mainPage').style.display = "none";
-  document.getElementById('quizBox').style.display = "none";
-  document.getElementById('resultBox').style.display = "none";
-  document.getElementById('questionPage').style.display = "none";
-  document.getElementById('letterPage').style.display = "none";
-  document.getElementById('twentyBiscottiLetterPage').style.display = "block";
-  }
+      let colorIndex;
+      if (biscotti <= 4) {
+        colorIndex = 0;
+      } else if (biscotti <= 9) {
+        colorIndex = 1;
+      } else if (biscotti <= 14) {
+        colorIndex = 2;
+      } else if (biscotti <= 19) {
+        colorIndex = 3;
+      } else {
+        colorIndex = 4;
+      }
+      bar.style.backgroundColor = moodBarColors[colorIndex];
+    }
 
-  function showLetterPage() {
-  document.getElementById('questionPage').style.display = "none";
-  document.getElementById('mainPage').style.display = "none";
-  document.getElementById('quizBox').style.display = "none";
-  document.getElementById('resultBox').style.display = "none";
-  document.getElementById('twentyBiscottiLetterPage').style.display = "none";
-  document.getElementById('letterPage').style.display = "block";
+    function showTwentyBiscottiLetter() {
+        hideAllPages();
+        document.getElementById('twentyBiscottiLetterPage').style.display = "block";
+    }
 
-  if (yesButton) {
-  yesButton.style.animation = 'sparkle 1s infinite alternate';
-  setTimeout(() => {
-  if (yesButton) {
-  yesButton.style.animation = '';
-  }
-  }, 2000);
-  }
-  }
+    function showLetterPage() {
+        hideAllPages();
+        document.getElementById('letterPage').style.display = "block";
 
-  function showQuiz() {
-  document.getElementById('quizBox').style.display = "block";
-  showQuestion(1);
-  }
+        if (yesButton) {
+            yesButton.style.animation = 'sparkle 1s infinite alternate';
+            setTimeout(() => {
+                if (yesButton) {
+                    yesButton.style.animation = '';
+                }
+            }, 2000);
+        }
+    }
 
-  function showQuestion(n) {
-  document.querySelectorAll('.quiz-box .question').forEach(q => q.style.display = 'none');
-  const currentQ = document.getElementById(`question${n}`);
-  if (currentQ) {
-  currentQ.style.display = 'block';
-  document.querySelectorAll(`.answer[data-question-id="${n}"]`).forEach(btn => {
-  btn.style.display = "block";
-  });
-  }
-  }
+    function showVogliosaLetter() {
+        hideAllPages();
+        document.getElementById('vogliosaLetterPage').style.display = "flex";
+    }
 
-  function selectAnswer(val) {
-  answers.push(val);
-  currentQuestion++;
-  if (currentQuestion <= 3) {
-  showQuestion(currentQuestion);
-  } else {
-  showResult();
-  }
-  }
+    function closeVogliosaLetter() {
+        document.getElementById('vogliosaLetterPage').style.display = "none";
+        document.getElementById('mainPage').style.display = "block";
+        resetAppState();
+    }
 
-  function showResult() {
-  let resultText = "";
-  const total = answers.reduce((a, b) => a + b, 0);
-  if (total <= 2) resultText = "🥔 Patatella da coccolare";
-  else if (total <= 4) resultText = "👑 Regina del Relax";
-  else resultText = "🐯 Tigre tenera con cuore gigante";
 
-  document.getElementById('quizBox').style.display = "none";
-  document.getElementById('resultBox').style.display = "block";
-  document.getElementById('resultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
+    function showQuiz() {
+        hideAllPages();
+        document.getElementById('quizBox').style.display = "block";
+        showQuestion(1);
+    }
 
-  setTimeout(() => {
-  document.getElementById('mainPage').style.display = "none";
-  document.getElementById('resultBox').style.display = "none";
-  document.getElementById('twentyBiscottiLetterPage').style.display = "none";
-  document.getElementById('questionPage').style.display = "flex";
+    function showQuestion(n) {
+      document.querySelectorAll('.quiz-box .question').forEach(q => q.style.display = 'none');
+      const currentQ = document.getElementById(`question${n}`);
+      if (currentQ) {
+        currentQ.style.display = 'block';
+        document.querySelectorAll(`.answer[data-question-id="${n}"]`).forEach(btn => {
+          btn.style.display = "block";
+        });
+      }
+    }
 
-  yesScale = 1;
-  noScale = 1;
-  noOpacity = 1;
-  setupQuestionPageButtons();
-  updateButtonSizes();
-  }, 1500);
-  }
+    function selectAnswer(val) {
+      answers.push(val);
+      currentQuestion++;
+      if (currentQuestion <= 3) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
 
-  function goBackFromTwentyBiscottiLetter() {
-  document.getElementById('twentyBiscottiLetterPage').style.display = "none";
-  document.getElementById('mainPage').style.display = "block";
-  resetAppState();
-  }
+    function showResult() {
+      let resultText = "";
+      const total = answers.reduce((a, b) => a + b, 0);
+      if (total <= 2) resultText = "🥔 Patatella da coccolare";
+      else if (total <= 4) resultText = "👑 Regina del Relax";
+      else resultText = "🐯 Tigre tenera con cuore gigante";
 
-  function goBack() {
-  document.getElementById('letterPage').style.display = "none";
-  document.getElementById('mainPage').style.display = "block";
-  resetAppState();
-  }
+      document.getElementById('quizBox').style.display = "none";
+      document.getElementById('resultBox').style.display = "block";
+      document.getElementById('resultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
 
-  function resetAppState() {
-  biscotti = 0;
-  document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
-  document.getElementById('biscottiList').innerHTML = "";
-  document.getElementById('biscotto-message').innerText = "";
-  document.getElementById('heartBtn').style.display = "none";
-  document.getElementById('candyEmoji').style.display = "none"; // Nasconde il lecca-lecca
-  updateMoodBar();
-  answers = [];
-  currentQuestion = 1;
-  document.getElementById('quizBox').style.display = "none";
-  document.getElementById('resultBox').style.display = "none";
-  document.getElementById('giftMessageBox').style.display = "none";
-  }
+      setTimeout(() => {
+        hideAllPages();
+        document.getElementById('questionPage').style.display = "flex";
 
-  // Messaggio a tempo
-  setTimeout(() => {
-  document.getElementById('timedMessage').style.display = 'block';
-  }, 5000); // 5000 millisecondi = 5 secondi
+        yesScale = 1;
+        noScale = 1;
+        noOpacity = 1;
+        setupQuestionPageButtons();
+        updateButtonSizes();
+      }, 1500);
+    }
 
-  document.addEventListener('DOMContentLoaded', () => {
-  setupQuestionPageButtons();
-  document.getElementById('questionPage').style.display = 'none';
-  document.getElementById('letterPage').style.display = 'none';
-  document.getElementById('twentyBiscottiLetterPage').style.display = 'none';
-  document.getElementById('mainPage').style.display = 'block';
-  updateMoodBar();
-  });
+    function goBackFromTwentyBiscottiLetter() {
+        document.getElementById('twentyBiscottiLetterPage').style.display = "none";
+        document.getElementById('mainPage').style.display = "block";
+        resetAppState();
+        startTimedMessage();
+    }
+
+    function goBack() {
+        document.getElementById('letterPage').style.display = "none";
+        document.getElementById('mainPage').style.display = "block";
+        resetAppState();
+        startTimedMessage();
+    }
+
+    function hideAllPages() {
+        document.getElementById('mainPage').style.display = "none";
+        document.getElementById('quizBox').style.display = "none";
+        document.getElementById('resultBox').style.display = "none";
+        document.getElementById('questionPage').style.display = "none";
+        document.getElementById('twentyBiscottiLetterPage').style.display = "none";
+        document.getElementById('letterPage').style.display = "none";
+        document.getElementById('vogliosaLetterPage').style.display = "none";
+        document.getElementById('timedMessageButton').style.display = "none";
+    }
+
+    function resetAppState() {
+      biscotti = 0;
+      document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
+      document.getElementById('biscottiList').innerHTML = "";
+      document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
+      document.getElementById('heartBtn').style.display = "none";
+      document.getElementById('candyEmoji').style.display = "none";
+      updateMoodBar();
+      answers = [];
+      currentQuestion = 1;
+      document.getElementById('quizBox').style.display = "none";
+      document.getElementById('resultBox').style.display = "none";
+      document.getElementById('giftMessageBox').style.display = "none";
+      document.getElementById('timedMessageButton').style.display = "none";
+      startTimedMessage(); // Riattiva il timer dopo il reset
+    }
+
+    let timedMessageTimeout;
+    function startTimedMessage() {
+        clearTimeout(timedMessageTimeout);
+        timedMessageTimeout = setTimeout(() => {
+            if (document.getElementById('mainPage').style.display === 'block' &&
+                document.getElementById('timedMessageButton').style.display === 'none') { // Assicurati che non sia già visibile
+                document.getElementById('timedMessageButton').style.display = 'block';
+            }
+        }, 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setupQuestionPageButtons();
+      hideAllPages();
+      document.getElementById('mainPage').style.display = 'block';
+      updateMoodBar();
+      startTimedMessage();
+    });
+
+    const originalShowQuiz = showQuiz;
+    showQuiz = function() {
+        originalShowQuiz();
+        document.getElementById('timedMessageButton').style.display = 'none';
+        clearTimeout(timedMessageTimeout);
+    }
+
+    const originalShowTwentyBiscottiLetter = showTwentyBiscottiLetter;
+    showTwentyBiscottiLetter = function() {
+        originalShowTwentyBiscottiLetter();
+        document.getElementById('timedMessageButton').style.display = 'none';
+        clearTimeout(timedMessageTimeout);
+    }
+
+    const originalShowLetterPage = showLetterPage;
+    showLetterPage = function() {
+        originalShowLetterPage();
+        document.getElementById('timedMessageButton').style.display = 'none';
+        clearTimeout(timedMessageTimeout);
+    }
+
+    const originalShowResult = showResult;
+    showResult = function() {
+        originalShowResult();
+        document.getElementById('timedMessageButton').style.display = 'none';
+        clearTimeout(timedMessageTimeout);
+    }
+
   </script>
- </body>
- </html>
+</body>
+</html>
