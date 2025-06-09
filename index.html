@@ -12,7 +12,7 @@
       text-align: center;
       padding: 30px;
       overflow-x: hidden;
-      display: flex;
+      display: flex; /* Usiamo flexbox per centrare il contenuto sulla pagina */
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
@@ -400,6 +400,16 @@
       pointer-events: none; /* Rendi non cliccabile */
       display: none; /* Nascosto di default */
     }
+
+    /* Stile per stitch2.PNG */
+    .stitch2-image {
+        max-width: 300px; /* Dimensione media/bassa */
+        height: auto;
+        margin-top: 20px;
+        display: block; /* Per centrare l'immagine */
+        margin-left: auto;
+        margin-right: auto;
+    }
   </style>
 </head>
 <body>
@@ -450,6 +460,9 @@
     </div>
 
     <div class="result-box" id="resultBox"></div>
+
+    <img src="stitch2.PNG" alt="Stitch Felice" class="stitch2-image">
+
   </div>
 
   <div class="question-page" id="questionPage">
@@ -488,6 +501,9 @@
     </div>
   </div>
 
+  <img src="stitch1.PNG" alt="Stitch curioso" style="max-width: 100%; height: auto; margin-top: 20px;">
+
+
   <div class="letter-page" id="letterPage">
     <div class="letter-content">
       💌 Grazie per aver cliccato fino a qui…
@@ -523,11 +539,11 @@
     let yesButton, noButton;
 
     const moodBarColors = [
-        "#5c2a6b",
+        "#5c2a6b", // Colore iniziale
         "#8a2be2",
         "#ff007f",
         "#ffa500",
-        "#ff0000"
+        "#ff0000" // Colore finale
     ];
 
     const giftMessages = [
@@ -602,13 +618,14 @@
 
       updateMoodBar();
 
+      // Correzione: Assicurati che il bottone del cuore sia visibile quando i biscotti sono >= 5
       if (biscotti >= 5) {
         document.getElementById('heartBtn').style.display = "inline-block";
       }
 
       // Mostra il lecca-lecca a 10 biscotti e la sua frase
       if (biscotti >= 10) {
-        document.getElementById('candyEmoji').style.display = "block"; // Usa 'block' per farlo apparire
+        document.getElementById('candyEmoji').style.display = "block"; /* Usa 'block' per farlo apparire */
         document.getElementById('biscotto-message').innerText = candyMessage;
       } else {
         document.getElementById('candyEmoji').style.display = "none";
@@ -650,6 +667,7 @@
         document.getElementById('letterPage').style.display = "block";
 
         if (yesButton) {
+            // Animazione solo se il bottone esiste
             yesButton.style.animation = 'sparkle 1s infinite alternate';
             setTimeout(() => {
                 if (yesButton) {
@@ -666,7 +684,7 @@
 
     function closeVogliosaLetter() {
         document.getElementById('vogliosaLetterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "block";
+        document.getElementById('mainPage').style.display = "flex"; /* Assicurati che mainPage torni visibile correttamente */
         resetAppState();
     }
 
@@ -723,14 +741,14 @@
 
     function goBackFromTwentyBiscottiLetter() {
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "block";
+        document.getElementById('mainPage').style.display = "flex"; /* Assicurati che mainPage torni visibile correttamente */
         resetAppState();
         startTimedMessage();
     }
 
     function goBack() {
         document.getElementById('letterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "block";
+        document.getElementById('mainPage').style.display = "flex"; /* Assicurati che mainPage torni visibile correttamente */
         resetAppState();
         startTimedMessage();
     }
@@ -751,24 +769,35 @@
       document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
       document.getElementById('biscottiList').innerHTML = "";
       document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
-      document.getElementById('heartBtn').style.display = "none";
+      document.getElementById('heartBtn').style.display = "none"; /* Nascondi il bottone del cuore al reset */
       document.getElementById('candyEmoji').style.display = "none";
       updateMoodBar();
       answers = [];
       currentQuestion = 1;
+      /* Nascondi anche le scatole dei quiz/risultati in caso di reset */
       document.getElementById('quizBox').style.display = "none";
       document.getElementById('resultBox').style.display = "none";
       document.getElementById('giftMessageBox').style.display = "none";
       document.getElementById('timedMessageButton').style.display = "none";
-      startTimedMessage(); // Riattiva il timer dopo il reset
+      startTimedMessage(); /* Riattiva il timer dopo il reset */
     }
 
     let timedMessageTimeout;
     function startTimedMessage() {
         clearTimeout(timedMessageTimeout);
         timedMessageTimeout = setTimeout(() => {
-            if (document.getElementById('mainPage').style.display === 'block' &&
-                document.getElementById('timedMessageButton').style.display === 'none') { // Assicurati che non sia già visibile
+            /* Controlla che mainPage sia attiva e che nessun'altra pagina a schermo intero lo sia */
+            const mainPageIsActive = document.getElementById('mainPage').style.display !== 'none';
+            const quizBoxIsActive = document.getElementById('quizBox').style.display !== 'none';
+            const resultBoxIsActive = document.getElementById('resultBox').style.display !== 'none';
+            const questionPageIsActive = document.getElementById('questionPage').style.display !== 'none';
+            const twentyBiscottiLetterPageIsActive = document.getElementById('twentyBiscottiLetterPage').style.display !== 'none';
+            const letterPageIsActive = document.getElementById('letterPage').style.display !== 'none';
+            const vogliosaLetterPageIsActive = document.getElementById('vogliosaLetterPage').style.display !== 'none';
+
+            if (mainPageIsActive && !quizBoxIsActive && !resultBoxIsActive && !questionPageIsActive &&
+                !twentyBiscottiLetterPageIsActive && !letterPageIsActive && !vogliosaLetterPageIsActive &&
+                document.getElementById('timedMessageButton').style.display === 'none') {
                 document.getElementById('timedMessageButton').style.display = 'block';
             }
         }, 5000);
@@ -777,11 +806,13 @@
     document.addEventListener('DOMContentLoaded', () => {
       setupQuestionPageButtons();
       hideAllPages();
-      document.getElementById('mainPage').style.display = 'block';
+      /* Assicurati che mainPage sia inizialmente visibile come flex per centrare il contenuto */
+      document.getElementById('mainPage').style.display = 'flex';
       updateMoodBar();
       startTimedMessage();
     });
 
+    /* Modifiche per assicurarsi che il timedMessageButton venga nascosto quando si accede ad altre pagine */
     const originalShowQuiz = showQuiz;
     showQuiz = function() {
         originalShowQuiz();
@@ -810,6 +841,13 @@
         clearTimeout(timedMessageTimeout);
     }
 
+    /* Aggiungi questo per il click sul timedMessageButton */
+    const originalShowVogliosaLetter = showVogliosaLetter;
+    showVogliosaLetter = function() {
+        originalShowVogliosaLetter();
+        document.getElementById('timedMessageButton').style.display = 'none';
+        clearTimeout(timedMessageTimeout);
+    }
   </script>
 </body>
 </html>
