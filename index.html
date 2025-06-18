@@ -18,7 +18,7 @@
       min-height: 100vh;
     }
 
-    /* NUOVO: Contenitore per gli elementi superiori (titolo, orsetto, barra, biscotti) */
+    /* Contenitore per gli elementi superiori (titolo, orsetto, barra, biscotti) */
     .top-section {
       display: flex;
       flex-direction: column;
@@ -56,6 +56,7 @@
       transform: translate(-50%, -50%) scale(1.05);
     }
 
+    /* Stili per la scatola regalo */
     .gift-box-container {
       margin: 30px auto;
       font-size: 80px;
@@ -76,10 +77,10 @@
     .gift-message-box {
       display: none;
       position: absolute;
-      background-color: #fff0f5;
-      padding: 15px;
+      background-color: transparent; /* Reso trasparente */
+      padding: 5px; /* Ridotto il padding per minimizzare l'ingombro */
       border-radius: 10px;
-      border: 2px solid #e49ecf;
+      border: none; /* Rimosso il bordo */
       z-index: 100;
       top: 100%;
       left: 50%;
@@ -87,7 +88,10 @@
       width: 280px;
       font-size: 18px;
       text-align: left;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */ /* Rimosso l'ombra per un effetto meno "scatola" */
+      white-space: normal;
+      color: #5c2a6b; /* Assicurati che il testo sia leggibile */
+      text-shadow: 0 0 5px rgba(255,255,255,0.7); /* Aggiunto un leggero text-shadow per leggibilità */
     }
 
     .orsetto {
@@ -95,7 +99,6 @@
       cursor: pointer;
       animation: bounce 2s infinite ease-in-out;
       transition: transform 0.1s ease-out;
-      /* RIMOSSO: margin-top non più necessario grazie a .top-section */
     }
 
     .orsetto:hover {
@@ -112,7 +115,7 @@
     }
 
     .biscotti-box {
-      margin-top: 20px; /* Mantenuto per spazio tra barra e scatola biscotti */
+      margin-top: 20px;
       background-color: #ffe6f0;
       padding: 15px;
       border-radius: 15px;
@@ -134,8 +137,8 @@
       font-size: 30px;
     }
 
-    .heart-button {
-      display: none;
+    .heart-button { /* Stili per il bottone del cuore */
+      display: none; /* Sarà mostrato dal JS */
       margin-top: 20px;
       font-size: 24px;
       padding: 10px 20px;
@@ -158,7 +161,7 @@
       background-color: #ddd;
       border-radius: 20px;
       overflow: hidden;
-      margin: 20px auto; /* Mantenuto auto per centrare la barra, ma ora all'interno di .top-section */
+      margin: 20px auto;
       height: 25px;
       border: 2px solid #ccc;
     }
@@ -169,6 +172,7 @@
       transition: width 0.5s ease, background-color 0.5s ease;
     }
 
+    /* Stili generali per i box dei quiz e risultati */
     .quiz-box, .result-box {
       display: none;
       background-color: #ffe6f0;
@@ -176,6 +180,8 @@
       border-radius: 15px;
       border: 2px solid #e49ecf;
       margin-top: 30px;
+      max-width: 600px;
+      width: 90%;
     }
 
     .question {
@@ -201,7 +207,7 @@
       background-color: #ffc3e6;
     }
 
-    .question-page {
+    .question-page { /* Questa è la pagina del "Do you like me?" del castoro */
       display: none;
       background-color: #FCE7EC;
       position: fixed;
@@ -349,7 +355,7 @@
       color: #5c2a6b;
     }
 
-    .letter-page {
+    .letter-page { /* Questa è la lettera finale del "Si! del castoro" */
       display: none;
       background-color: #FCE7EC;
       position: fixed;
@@ -402,22 +408,28 @@
     /* Posizione del lecca-lecca */
     .lollipop-position {
       position: absolute;
-      top: 10px; /* Regola a piacere */
-      right: 10px; /* Regola a piacere */
+      top: 10px;
+      right: 10px;
       font-size: 30px;
-      z-index: 500; /* Assicurati che sia sopra altri elementi ma sotto i pop-up */
-      pointer-events: none; /* Rendi non cliccabile */
-      display: none; /* Nascosto di default */
+      z-index: 500;
+      pointer-events: none;
+      display: none;
     }
 
-    /* Stile per stitch2.PNG */
+    /* Stile per stitch2.PNG, ora cliccabile */
     .stitch2-image {
-        max-width: 300px; /* Dimensione media/bassa */
+        max-width: 300px;
         height: auto;
         margin-top: 20px;
-        display: block; /* Per centrare l'immagine */
+        display: block;
         margin-left: auto;
         margin-right: auto;
+        cursor: pointer; /* Aggiunto per renderlo cliccabile */
+        transition: transform 0.2s ease-out; /* Animazione al click */
+    }
+
+    .stitch2-image:hover {
+        transform: scale(1.05);
     }
   </style>
 </head>
@@ -438,40 +450,76 @@
         <div id="biscotti">Hai 0 biscotti!</div>
         <div class="biscotti-list" id="biscottiList"></div>
         <p id="biscotto-message" style="margin-top:10px;"></p>
-        <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
+        <button class="heart-button" id="heartBtn" onclick="showOldQuiz()">💜</button>
       </div>
     </div>
+
     <div class="gift-box-container" id="giftBox" onclick="showGiftMessage()">
       🎁
       <div class="gift-message-box" id="giftMessageBox"></div>
     </div>
-    <div class="quiz-box" id="quizBox">
+
+    <div class="quiz-box" id="oldQuizBox">
       <h2>Mini Quiz 💫</h2>
-      <div class="question" id="question1">
+      <div class="question" id="oldQuestion1">
         1. Cosa fai appena torni a casa dopo una giornata pesante?
-        <button class="answer" data-question-id="1" onclick="selectAnswer(0)">🥔 Mi butto sul letto come una patata</button>
-        <button class="answer" data-question-id="1" onclick="selectAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
-        <button class="answer" data-question-id="1" onclick="selectAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
+        <button class="answer" data-question-id="1" onclick="selectOldAnswer(0)">🥔 Mi butto sul letto come una patata</button>
+        <button class="answer" data-question-id="1" onclick="selectOldAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
+        <button class="answer" data-question-id="1" onclick="selectOldAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
       </div>
 
-      <div class="question" id="question2" style="display:none;">
+      <div class="question" id="oldQuestion2" style="display:none;">
         2. Che tipo di coccole preferisci?
-        <button class="answer" data-question-id="2" onclick="selectAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
-        <button class="answer" data-question-id="2" onclick="selectAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
-        <button class="answer" data-question-id="2" onclick="selectAnswer(2)">💌 Tutte, anche virtuali se servono</button>
+        <button class="answer" data-question-id="2" onclick="selectOldAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
+        <button class="answer" data-question-id="2" onclick="selectOldAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
+        <button class="answer" data-question-id="2" onclick="selectOldAnswer(2)">💌 Tutte, anche virtuali se servono</button>
       </div>
 
-      <div class="question" id="question3" style="display:none;">
+      <div class="question" id="oldQuestion3" style="display:none;">
         3. Il tuo mood quando hai il ciclo?
-        <button class="answer" data-question-id="3" onclick="selectAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
-        <button class="answer" data-question-id="3" onclick="selectAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
-        <button class="answer" data-question-id="3" onclick="selectAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
+        <button class="answer" data-question-id="3" onclick="selectOldAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
+        <button class="answer" data-question-id="3" onclick="selectOldAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
+        <button class="answer" data-question-id="3" onclick="selectOldAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
+      </div>
+    </div>
+    <div class="result-box" id="oldResultBox"></div>
+
+
+    <div class="quiz-box" id="piccanteQuizBox">
+      <h2>Quiz Piccante 💋</h2>
+
+      <div class="question" id="piccanteQuestion1">
+        1. Se siamo sul divano e le mie mani iniziano a esplorare sotto la coperta, tu…
+        <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(1)">😇 Fai finta di niente, ma ti mordi il labbro</button>
+        <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(2)">🔥 Ti giri verso di me e sussurri "continua"</button>
+        <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(3)">😏 Prendi il controllo e mi blocchi le mani</button>
+      </div>
+
+      <div class="question" id="piccanteQuestion2" style="display:none;">
+        2. Come preferisci essere toccatə?
+        <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(1)">✨ Con lentezza, come se ogni centimetro fosse sacro</button>
+        <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(2)">💥 Forte, deciso, senza esitazioni</button>
+        <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(3)">💋 Prima dolce… poi fammi perdere la testa</button>
+      </div>
+
+      <div class="question" id="piccanteQuestion3" style="display:none;">
+        3. In una notte lunga e senza freni, cosa non può mancare?
+        <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(1)">🕯️ Atmosfera: luci soffuse, pelle contro pelle</button>
+        <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(2)">🗣️ Parole sussurrate e ordini da seguire</button>
+        <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(3)">🥵 Uno specchio… o due</button>
+      </div>
+
+      <div class="question" id="piccanteQuestion4" style="display:none;">
+        4. Se ti sussurro "voglio sentirti tremare", tu…
+        <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(1)">💞 Mi dici “allora fallo” e chiudi gli occhi</button>
+        <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(2)">🧷 Mi guardi negli occhi e dici “mostrami quanto”</button>
+        <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(3)">🐾 Ti mordi il collo da sola e dici “sei in ritardo”</button>
       </div>
     </div>
 
-    <div class="result-box" id="resultBox"></div>
+    <div class="result-box" id="piccanteResultBox"></div>
 
-    <img src="stitch2.PNG" alt="Stitch Felice" class="stitch2-image">
+    <img src="stitch2.PNG" alt="Stitch Felice" class="stitch2-image" onclick="showPiccanteQuiz()">
 
   </div>
 
@@ -539,8 +587,11 @@
 
   <script>
     let biscotti = 0;
-    let answers = [];
-    let currentQuestion = 1;
+    let oldAnswers = []; // Array per le risposte del Vecchio Quiz
+    let currentOldQuestion = 1; // Variabile per tracciare la domanda corrente del Vecchio Quiz
+
+    let piccanteAnswers = []; // Array per le risposte del Quiz Piccante
+    let currentPiccanteQuestion = 1; // Variabile per tracciare la domanda corrente del Quiz Piccante
 
     let yesScale = 1;
     let noScale = 1;
@@ -578,6 +629,10 @@
       const giftMessageBox = document.getElementById('giftMessageBox');
       giftMessageBox.innerText = giftMessages[currentGiftMessageIndex];
       giftMessageBox.style.display = "block";
+      // Nascondi il messaggio dopo qualche secondo
+      setTimeout(() => {
+          giftMessageBox.style.display = "none";
+      }, 5000); // Il messaggio scompare dopo 5 secondi
 
       currentGiftMessageIndex = (currentGiftMessageIndex + 1) % giftMessages.length;
     }
@@ -628,14 +683,14 @@
 
       updateMoodBar();
 
-      // Correzione: Assicurati che il bottone del cuore sia visibile quando i biscotti sono >= 5
+      // Assicurati che il bottone del cuore sia visibile quando i biscotti sono >= 5
       if (biscotti >= 5) {
         document.getElementById('heartBtn').style.display = "inline-block";
       }
 
       // Mostra il lecca-lecca a 10 biscotti e la sua frase
       if (biscotti >= 10) {
-        document.getElementById('candyEmoji').style.display = "block"; /* Usa 'block' per farlo apparire */
+        document.getElementById('candyEmoji').style.display = "block";
         document.getElementById('biscotto-message').innerText = candyMessage;
       } else {
         document.getElementById('candyEmoji').style.display = "none";
@@ -677,7 +732,6 @@
         document.getElementById('letterPage').style.display = "block";
 
         if (yesButton) {
-            // Animazione solo se il bottone esiste
             yesButton.style.animation = 'sparkle 1s infinite alternate';
             setTimeout(() => {
                 if (yesButton) {
@@ -694,54 +748,55 @@
 
     function closeVogliosaLetter() {
         document.getElementById('vogliosaLetterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "flex"; /* Assicurati che mainPage torni visibile correttamente */
+        document.getElementById('mainPage').style.display = "flex";
         resetAppState();
         startTimedMessage();
     }
 
-
-    function showQuiz() {
+    // --- LOGICA VECCHIO QUIZ (ORIGINALE) ---
+    function showOldQuiz() {
         hideAllPages();
-        document.getElementById('quizBox').style.display = "block";
-        showQuestion(1);
+        document.getElementById('oldQuizBox').style.display = "block";
+        oldAnswers = []; // Resetta le risposte
+        currentOldQuestion = 1; // Resetta la domanda corrente
+        showOldQuestion(1);
     }
 
-    function showQuestion(n) {
-      document.querySelectorAll('.quiz-box .question').forEach(q => q.style.display = 'none');
-      const currentQ = document.getElementById(`question${n}`);
+    function showOldQuestion(n) {
+      document.querySelectorAll('#oldQuizBox .question').forEach(q => q.style.display = 'none');
+      const currentQ = document.getElementById(`oldQuestion${n}`);
       if (currentQ) {
         currentQ.style.display = 'block';
-        document.querySelectorAll(`.answer[data-question-id="${n}"]`).forEach(btn => {
+        document.querySelectorAll(`#oldQuestion${n} .answer`).forEach(btn => {
           btn.style.display = "block";
         });
       }
     }
 
-    function selectAnswer(val) {
-      answers.push(val);
-      currentQuestion++;
-      if (currentQuestion <= 3) {
-        showQuestion(currentQuestion);
+    function selectOldAnswer(val) {
+      oldAnswers.push(val);
+      currentOldQuestion++;
+      if (currentOldQuestion <= 3) {
+        showOldQuestion(currentOldQuestion);
       } else {
-        showResult();
+        showOldResult();
       }
     }
 
-    function showResult() {
+    function showOldResult() {
       let resultText = "";
-      const total = answers.reduce((a, b) => a + b, 0);
+      const total = oldAnswers.reduce((a, b) => a + b, 0);
       if (total <= 2) resultText = "🥔 Patatella da coccolare";
       else if (total <= 4) resultText = "👑 Regina del Relax";
       else resultText = "🐯 Tigre tenera con cuore gigante";
 
-      document.getElementById('quizBox').style.display = "none";
-      document.getElementById('resultBox').style.display = "block";
-      document.getElementById('resultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
+      document.getElementById('oldQuizBox').style.display = "none";
+      document.getElementById('oldResultBox').style.display = "block";
+      document.getElementById('oldResultBox').innerHTML = `<h2>Risultato:</h2><p>${resultText}</p>`;
 
       setTimeout(() => {
         hideAllPages();
-        document.getElementById('questionPage').style.display = "flex";
-
+        document.getElementById('questionPage').style.display = "flex"; // Vai alla pagina del castoro
         yesScale = 1;
         noScale = 1;
         noOpacity = 1;
@@ -749,26 +804,101 @@
         updateButtonSizes();
       }, 1500);
     }
+    // --- FINE LOGICA VECCHIO QUIZ ---
+
+
+    // --- LOGICA NUOVO QUIZ PICCANTE ---
+    function showPiccanteQuiz() {
+        hideAllPages();
+        document.getElementById('piccanteQuizBox').style.display = "block";
+        piccanteAnswers = []; // Resetta le risposte
+        currentPiccanteQuestion = 1; // Resetta la domanda corrente
+        showPiccanteQuestion(1);
+    }
+
+    function showPiccanteQuestion(n) {
+      document.querySelectorAll('#piccanteQuizBox .question').forEach(q => q.style.display = 'none');
+      const currentQ = document.getElementById(`piccanteQuestion${n}`);
+      if (currentQ) {
+        currentQ.style.display = 'block';
+        document.querySelectorAll(`#piccanteQuestion${n} .answer`).forEach(btn => {
+          btn.style.display = "block";
+        });
+      }
+    }
+
+    function selectPiccanteAnswer(val) {
+      piccanteAnswers.push(val);
+      currentPiccanteQuestion++;
+      if (currentPiccanteQuestion <= 4) {
+        showPiccanteQuestion(currentPiccanteQuestion);
+      } else {
+        showPiccanteResult();
+      }
+    }
+
+    function showPiccanteResult() {
+      let resultText = "";
+      const ans = piccanteAnswers.join('-'); // Crea la stringa delle risposte es: "1-1-1-1"
+
+      switch(ans) {
+        case "1-1-1-1":
+          resultText = "💖 Tenera e Ardente — Ti lasci andare lentamente, ma sotto sotto bruci. Vuoi essere toccata come un segreto svelato, e io sono pronto a scoprirti.";
+          break;
+        case "2-2-2-2":
+          resultText = "🔥 Affamata di Piacere — Ti basta un tocco per accenderti. Sei un fuoco sotto la pelle, e non vedi l’ora di bruciare tra le mie mani.";
+          break;
+        case "3-3-3-3":
+          resultText = "😈 Domina Totale — Sei tu che comandi, e lo fai senza pietà. Sai cosa vuoi, e quando lo prendi… non lasci scampo. Voglio essere il tuo giocattolo stanotte.";
+          break;
+        case "1-3-2-2":
+          resultText = "🌶️ Docile a modo tuo — Ti fai guidare, ma solo quando decidi tu. Ami lasciarti andare, ma sei tu a dettare il ritmo, i brividi… e i gemiti.";
+          break;
+        case "2-1-3-3":
+          resultText = "🍫 Finta Innocente — Sembri timida, delicata… poi ti sciogli come cioccolato caldo e mi fai impazzire. Sei dolce solo per provocarmi.";
+          break;
+        case "3-2-1-1":
+          resultText = "🎯 Tattica e Seduttiva — Ogni tuo tocco è calcolato. Ogni movimento una promessa. Tu seduci senza chiedere il permesso… e io ci casco ogni volta.";
+          break;
+        default:
+          resultText = "💋 Irresistibile Misteriosa — Le tue risposte sono un mix unico. Sei fatta di sorprese, sguardi che parlano, desideri che esplodono piano. E io voglio scoprire ogni tuo lato. 😘";
+      }
+
+      document.getElementById('piccanteQuizBox').style.display = "none";
+      document.getElementById('piccanteResultBox').style.display = "block";
+      document.getElementById('piccanteResultBox').innerHTML = `<h2>Il tuo lato segreto è:</h2><p>${resultText}</p><button class="back-btn" onclick="goBackFromPiccanteQuiz()">🔙 Torna alla pagina principale</button>`;
+    }
+
+    function goBackFromPiccanteQuiz() {
+        document.getElementById('piccanteResultBox').style.display = "none";
+        document.getElementById('mainPage').style.display = "flex";
+        resetAppState();
+        startTimedMessage();
+    }
+    // --- FINE LOGICA NUOVO QUIZ PICCANTE ---
+
 
     function goBackFromTwentyBiscottiLetter() {
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "flex"; /* Assicurati che mainPage torni visibile correttamente */
+        document.getElementById('mainPage').style.display = "flex";
         resetAppState();
         startTimedMessage();
     }
 
-    function goBack() {
+    function goBack() { // Usato dalla lettera finale del castoro
         document.getElementById('letterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "flex"; /* Assicurati che mainPage torni visibile correttamente */
+        document.getElementById('mainPage').style.display = "flex";
         resetAppState();
         startTimedMessage();
     }
 
     function hideAllPages() {
         document.getElementById('mainPage').style.display = "none";
-        document.getElementById('quizBox').style.display = "none";
-        document.getElementById('resultBox').style.display = "none";
-        document.getElementById('questionPage').style.display = "none";
+        document.getElementById('oldQuizBox').style.display = "none"; // Vecchio quiz
+        document.getElementById('oldResultBox').style.display = "none"; // Risultato vecchio quiz
+        document.getElementById('piccanteQuizBox').style.display = "none"; // Nuovo quiz
+        document.getElementById('piccanteResultBox').style.display = "none"; // Risultato nuovo quiz
+        document.getElementById('questionPage').style.display = "none"; // Pagina castoro "Do you like me?"
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
         document.getElementById('letterPage').style.display = "none";
         document.getElementById('vogliosaLetterPage').style.display = "none";
@@ -783,30 +913,38 @@
       document.getElementById('heartBtn').style.display = "none"; /* Nascondi il bottone del cuore al reset */
       document.getElementById('candyEmoji').style.display = "none";
       updateMoodBar();
-      answers = [];
-      currentQuestion = 1;
-      /* Nascondi anche le scatole dei quiz/risultati in caso di reset */
-      document.getElementById('quizBox').style.display = "none";
-      document.getElementById('resultBox').style.display = "none";
+      // Reset per il vecchio quiz
+      oldAnswers = [];
+      currentOldQuestion = 1;
+      document.getElementById('oldQuizBox').style.display = "none";
+      document.getElementById('oldResultBox').style.display = "none";
+      // Reset per il quiz piccante
+      piccanteAnswers = [];
+      currentPiccanteQuestion = 1;
+      document.getElementById('piccanteQuizBox').style.display = "none";
+      document.getElementById('piccanteResultBox').style.display = "none";
+
       document.getElementById('giftMessageBox').style.display = "none";
       document.getElementById('timedMessageButton').style.display = "none";
-      startTimedMessage(); /* Riattiva il timer dopo il reset */
+      startTimedMessage();
     }
 
     let timedMessageTimeout;
     function startTimedMessage() {
         clearTimeout(timedMessageTimeout);
         timedMessageTimeout = setTimeout(() => {
-            /* Controlla che mainPage sia attiva e che nessun'altra pagina a schermo intero lo sia */
             const mainPageIsActive = document.getElementById('mainPage').style.display !== 'none';
-            const quizBoxIsActive = document.getElementById('quizBox').style.display !== 'none';
-            const resultBoxIsActive = document.getElementById('resultBox').style.display !== 'none';
+            const oldQuizBoxIsActive = document.getElementById('oldQuizBox').style.display !== 'none';
+            const oldResultBoxIsActive = document.getElementById('oldResultBox').style.display !== 'none';
+            const piccanteQuizBoxIsActive = document.getElementById('piccanteQuizBox').style.display !== 'none';
+            const piccanteResultBoxIsActive = document.getElementById('piccanteResultBox').style.display !== 'none';
             const questionPageIsActive = document.getElementById('questionPage').style.display !== 'none';
             const twentyBiscottiLetterPageIsActive = document.getElementById('twentyBiscottiLetterPage').style.display !== 'none';
             const letterPageIsActive = document.getElementById('letterPage').style.display !== 'none';
             const vogliosaLetterPageIsActive = document.getElementById('vogliosaLetterPage').style.display !== 'none';
 
-            if (mainPageIsActive && !quizBoxIsActive && !resultBoxIsActive && !questionPageIsActive &&
+            if (mainPageIsActive && !oldQuizBoxIsActive && !oldResultBoxIsActive &&
+                !piccanteQuizBoxIsActive && !piccanteResultBoxIsActive && !questionPageIsActive &&
                 !twentyBiscottiLetterPageIsActive && !letterPageIsActive && !vogliosaLetterPageIsActive &&
                 document.getElementById('timedMessageButton').style.display === 'none') {
                 document.getElementById('timedMessageButton').style.display = 'block';
@@ -817,20 +955,12 @@
     document.addEventListener('DOMContentLoaded', () => {
       setupQuestionPageButtons();
       hideAllPages();
-      /* Assicurati che mainPage sia inizialmente visibile come flex per centrare il contenuto */
       document.getElementById('mainPage').style.display = 'flex';
       updateMoodBar();
       startTimedMessage();
     });
 
-    /* Modifiche per assicurarsi che il timedMessageButton venga nascosto quando si accede ad altre pagine */
-    const originalShowQuiz = showQuiz;
-    showQuiz = function() {
-        originalShowQuiz();
-        document.getElementById('timedMessageButton').style.display = 'none';
-        clearTimeout(timedMessageTimeout);
-    }
-
+    // Modifiche per assicurarsi che il timedMessageButton venga nascosto quando si accede ad altre pagine
     const originalShowTwentyBiscottiLetter = showTwentyBiscottiLetter;
     showTwentyBiscottiLetter = function() {
         originalShowTwentyBiscottiLetter();
@@ -845,17 +975,23 @@
         clearTimeout(timedMessageTimeout);
     }
 
-    const originalShowResult = showResult;
-    showResult = function() {
-        originalShowResult();
-        document.getElementById('timedMessageButton').style.display = 'none';
-        clearTimeout(timedMessageTimeout);
-    }
-
-    /* Aggiungi questo per il click sul timedMessageButton */
     const originalShowVogliosaLetter = showVogliosaLetter;
     showVogliosaLetter = function() {
         originalShowVogliosaLetter();
+        document.getElementById('timedMessageButton').style.display = 'none';
+        clearTimeout(timedMessageTimeout);
+    }
+    // Aggiungi per il nuovo quiz
+    const originalShowPiccanteQuiz = showPiccanteQuiz;
+    showPiccanteQuiz = function() {
+        originalShowPiccanteQuiz();
+        document.getElementById('timedMessageButton').style.display = 'none';
+        clearTimeout(timedMessageTimeout);
+    }
+    // Aggiungi per il vecchio quiz
+    const originalShowOldQuiz = showOldQuiz;
+    showOldQuiz = function() {
+        originalShowOldQuiz();
         document.getElementById('timedMessageButton').style.display = 'none';
         clearTimeout(timedMessageTimeout);
     }
