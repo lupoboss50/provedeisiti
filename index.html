@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
@@ -16,6 +16,14 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+    }
+
+    /* NUOVO: Contenitore per gli elementi superiori (titolo, orsetto, barra, biscotti) */
+    .top-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 30px; /* Aggiunto spazio sotto la sezione superiore per distanziare il resto */
     }
 
     /* Posizionamento fisso per gli elementi in sovrapposizione */
@@ -87,6 +95,7 @@
       cursor: pointer;
       animation: bounce 2s infinite ease-in-out;
       transition: transform 0.1s ease-out;
+      /* RIMOSSO: margin-top non più necessario grazie a .top-section */
     }
 
     .orsetto:hover {
@@ -103,7 +112,7 @@
     }
 
     .biscotti-box {
-      margin-top: 20px;
+      margin-top: 20px; /* Mantenuto per spazio tra barra e scatola biscotti */
       background-color: #ffe6f0;
       padding: 15px;
       border-radius: 15px;
@@ -149,7 +158,7 @@
       background-color: #ddd;
       border-radius: 20px;
       overflow: hidden;
-      margin: 20px auto;
+      margin: 20px auto; /* Mantenuto auto per centrare la barra, ma ora all'interno di .top-section */
       height: 25px;
       border: 2px solid #ccc;
     }
@@ -415,22 +424,23 @@
 <body>
 
   <div id="mainPage">
-    <h1>🍪 Clicka l’orsetto per una sorpresa!</h1>
+    <div class="top-section">
+      <h1>🍪 Clicka l’orsetto per una sorpresa!</h1>
 
-    <div class="orsetto" onclick="giveBiscotto()">🧸</div>
+      <div class="orsetto" onclick="giveBiscotto()">🧸</div>
 
-    <div class="mood-bar-container">
-      <div class="mood-bar" id="moodBar"></div>
+      <div class="mood-bar-container">
+        <div class="mood-bar" id="moodBar"></div>
+      </div>
+
+      <div class="biscotti-box">
+        <h2>Biscotti 🍪</h2>
+        <div id="biscotti">Hai 0 biscotti!</div>
+        <div class="biscotti-list" id="biscottiList"></div>
+        <p id="biscotto-message" style="margin-top:10px;"></p>
+        <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
+      </div>
     </div>
-
-    <div class="biscotti-box">
-      <h2>Biscotti 🍪</h2>
-      <div id="biscotti">Hai 0 biscotti!</div>
-      <div class="biscotti-list" id="biscottiList"></div>
-      <p id="biscotto-message" style="margin-top:10px;"></p>
-      <button class="heart-button" id="heartBtn" onclick="showQuiz()">💜</button>
-    </div>
-
     <div class="gift-box-container" id="giftBox" onclick="showGiftMessage()">
       🎁
       <div class="gift-message-box" id="giftMessageBox"></div>
@@ -686,6 +696,7 @@
         document.getElementById('vogliosaLetterPage').style.display = "none";
         document.getElementById('mainPage').style.display = "flex"; /* Assicurati che mainPage torni visibile correttamente */
         resetAppState();
+        startTimedMessage();
     }
 
 
