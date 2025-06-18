@@ -58,12 +58,14 @@
 
     /* Stili per la scatola regalo */
     .gift-box-container {
-      margin: 30px auto;
+      /* Modifiche qui per il posizionamento e per i messaggi */
+      margin: 30px auto 100px auto; /* Più spazio sotto per allontanarsi dal bottone e dal fondo */
       font-size: 80px;
       cursor: pointer;
       position: relative;
       width: fit-content;
       transition: transform 0.2s ease-out;
+      z-index: 500; /* Assicura che sia sopra Stitch se c'è sovrapposizione */
     }
 
     .gift-box-container:hover {
@@ -77,10 +79,10 @@
     .gift-message-box {
       display: none;
       position: absolute;
-      background-color: transparent; /* Reso trasparente */
-      padding: 5px; /* Ridotto il padding per minimizzare l'ingombro */
+      background-color: rgba(255, 240, 245, 0.9); /* Sfondo semi-trasparente */
+      padding: 10px; /* Padding leggermente aumentato */
       border-radius: 10px;
-      border: none; /* Rimosso il bordo */
+      border: 1px solid #e49ecf; /* Bordo leggero */
       z-index: 100;
       top: 100%;
       left: 50%;
@@ -88,10 +90,10 @@
       width: 280px;
       font-size: 18px;
       text-align: left;
-      /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */ /* Rimosso l'ombra per un effetto meno "scatola" */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Ombra più leggera */
       white-space: normal;
-      color: #5c2a6b; /* Assicurati che il testo sia leggibile */
-      text-shadow: 0 0 5px rgba(255,255,255,0.7); /* Aggiunto un leggero text-shadow per leggibilità */
+      color: #5c2a6b;
+      /* Rimosso text-shadow, il background e il bordo bastano per la leggibilità */
     }
 
     .orsetto {
@@ -426,6 +428,7 @@
         margin-right: auto;
         cursor: pointer; /* Aggiunto per renderlo cliccabile */
         transition: transform 0.2s ease-out; /* Animazione al click */
+        z-index: 1; /* Assicurati che sia cliccabile e non sotto altri elementi */
     }
 
     .stitch2-image:hover {
@@ -452,11 +455,6 @@
         <p id="biscotto-message" style="margin-top:10px;"></p>
         <button class="heart-button" id="heartBtn" onclick="showOldQuiz()">💜</button>
       </div>
-    </div>
-
-    <div class="gift-box-container" id="giftBox" onclick="showGiftMessage()">
-      🎁
-      <div class="gift-message-box" id="giftMessageBox"></div>
     </div>
 
     <div class="quiz-box" id="oldQuizBox">
@@ -523,6 +521,16 @@
 
   </div>
 
+  <button class="timed-message-button" id="timedMessageButton" onclick="showVogliosaLetter()">
+    ⚠️CLICCA SE SEI VOGLIOSA⚠️
+  </button>
+
+  <div class="gift-box-container" id="giftBox2" onclick="showGiftMessage()">
+    🎁
+    <div class="gift-message-box" id="giftMessageBox2"></div>
+  </div>
+
+
   <div class="question-page" id="questionPage">
     <div class="question-content">
       <div class="otter-question-text">Do you like me?</div>
@@ -577,9 +585,6 @@
     </div>
   </div>
 
-  <button class="timed-message-button" id="timedMessageButton" onclick="showVogliosaLetter()">
-    ⚠️CLICCA SE SEI VOGLIOSA⚠️
-  </button>
 
   <a href="http://www.youtube.com/watch?v=RlQLdGGDa_4" class="video-link" target="_blank">Clicca se sei triste</a>
 
@@ -625,8 +630,9 @@
     // Frase per il lecca-lecca
     const candyMessage = "Federica, il tuo sorriso ha qualcosa di magico: riesce a rendere bello anche il giorno più normale. Non smettere mai di sorridere, perché il mondo ha bisogno di quella luce che solo tu sai dare";
 
+    // Funzione per mostrare il messaggio regalo (usata sia per giftBox che giftBox2)
     function showGiftMessage() {
-      const giftMessageBox = document.getElementById('giftMessageBox');
+      const giftMessageBox = document.getElementById('giftMessageBox2'); // Usa l'ID del gift box spostato
       giftMessageBox.innerText = giftMessages[currentGiftMessageIndex];
       giftMessageBox.style.display = "block";
       // Nascondi il messaggio dopo qualche secondo
@@ -924,7 +930,7 @@
       document.getElementById('piccanteQuizBox').style.display = "none";
       document.getElementById('piccanteResultBox').style.display = "none";
 
-      document.getElementById('giftMessageBox').style.display = "none";
+      document.getElementById('giftMessageBox2').style.display = "none"; // Usa l'ID del gift box spostato
       document.getElementById('timedMessageButton').style.display = "none";
       startTimedMessage();
     }
