@@ -26,7 +26,7 @@
     }
 
     /* Contenitore per gli elementi superiori (titolo, orsetto, barra, biscotti) */
-    .top-section { /* VERDE */
+    .top-section {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -46,7 +46,7 @@
     }
 
     /* Posizionamento fisso per gli elementi in sovrapposizione (pulsante vogliosa) */
-    .timed-message-button { /* BLU */
+    .timed-message-button {
       position: fixed;
       bottom: 20px;
       left: 20px;
@@ -70,8 +70,7 @@
     }
 
     /* Stili per la scatola regalo */
-    .gift-box-container { /* NERO */
-      /* Rimosso margin-top/bottom qui, gestito dal contenitore side-by-side */
+    .gift-box-container {
       font-size: 80px;
       cursor: pointer;
       position: relative;
@@ -96,17 +95,20 @@
       border-radius: 15px;
       border: 2px solid #e49ecf;
       z-index: 100;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 280px;
-      width: 90%;
-      font-size: 18px;
-      text-align: center;
+      /* Modifiche per il posizionamento */
+      top: 100%; /* Inizia sotto la gift box */
+      left: 0; /* Allineato a sinistra della gift box */
+      transform: none; /* Rimosso translateX per l'allineamento a sinistra */
+      margin-top: 10px; /* Spazio tra la gift box e il messaggio */
+      /* Modifiche per la leggibilità */
+      max-width: 300px; /* Larghezza massima aumentata per il testo lungo */
+      width: 100%; /* Occupa il 100% della larghezza disponibile nel suo contenitore */
+      font-size: 16px; /* Dimensione del font leggermente ridotta per più testo */
+      text-align: left; /* Allineamento testo a sinistra come da immagine */
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      white-space: normal;
+      white-space: normal; /* Assicura che il testo vada a capo */
       color: #5c2a6b;
-      box-sizing: border-box;
+      box-sizing: border-box; /* Assicura che padding e border siano inclusi nella larghezza */
     }
 
     .orsetto {
@@ -409,7 +411,7 @@
     }
 
     /* Stili per il link al video (ora in basso a destra) */
-    .video-link { /* GIALLO */
+    .video-link {
       position: fixed;
       bottom: 20px;
       right: 20px;
@@ -439,10 +441,9 @@
     }
 
     /* Stile per stitch1.PNG, ora cliccabile */
-    .stitch-image { /* ROSSO */
+    .stitch-image {
         max-width: 300px;
         height: auto;
-        /* Rimosso margin-top/bottom qui, gestito dal contenitore side-by-side */
         display: block;
         cursor: pointer;
         transition: transform 0.2s ease-out;
@@ -609,11 +610,11 @@
 
   <script>
     let biscotti = 0;
-    let oldAnswers = []; // Array per le risposte del Vecchio Quiz
-    let currentOldQuestion = 1; // Variabile per tracciare la domanda corrente del Vecchio Quiz
+    let oldAnswers = [];
+    let currentOldQuestion = 1;
 
-    let piccanteAnswers = []; // Array per le risposte del Quiz Piccante
-    let currentPiccanteQuestion = 1; // Variabile per tracciare la domanda corrente del Quiz Piccante
+    let piccanteAnswers = [];
+    let currentPiccanteQuestion = 1;
 
     let yesScale = 1;
     let noScale = 1;
@@ -622,11 +623,11 @@
     let yesButton, noButton;
 
     const moodBarColors = [
-        "#5c2a6b", // Colore iniziale
+        "#5c2a6b",
         "#8a2be2",
         "#ff007f",
         "#ffa500",
-        "#ff0000" // Colore finale
+        "#ff0000"
     ];
 
     const giftMessages = [
@@ -643,12 +644,10 @@
     ];
 
     let currentGiftMessageIndex = 0;
-    let isGiftMessageVisible = false; // Nuovo stato per il messaggio regalo
+    let isGiftMessageVisible = false;
 
-    // Frase per il lecca-lecca
     const candyMessage = "Federica, il tuo sorriso ha qualcosa di magico: riesce a rendere bello anche il giorno più normale. Non smettere mai di sorridere, perché il mondo ha bisogno di quella luce che solo tu sai dare";
 
-    // Funzione per mostrare/nascondere il messaggio regalo
     function toggleGiftMessage() {
       const giftMessageBox = document.getElementById('giftMessageBox');
       if (isGiftMessageVisible) {
@@ -662,17 +661,14 @@
       }
     }
 
-    // Aggiungi un event listener per chiudere il messaggio regalo cliccando fuori
     document.addEventListener('click', (event) => {
         const giftBox = document.getElementById('giftBox');
         const giftMessageBox = document.getElementById('giftMessageBox');
-        // Se il click non è all'interno della scatola regalo o del suo messaggio, e il messaggio è visibile, nascondilo
         if (isGiftMessageVisible && !giftBox.contains(event.target) && event.target !== giftMessageBox) {
             giftMessageBox.style.display = "none";
             isGiftMessageVisible = false;
         }
     });
-
 
     function setupQuestionPageButtons() {
       if (!yesButton) {
@@ -720,12 +716,10 @@
 
       updateMoodBar();
 
-      // Assicurati che il bottone del cuore sia visibile quando i biscotti sono >= 5
       if (biscotti >= 5) {
         document.getElementById('heartBtn').style.display = "inline-block";
       }
 
-      // Mostra il lecca-lecca a 10 biscotti e la sua frase
       if (biscotti >= 10) {
         document.getElementById('candyEmoji').style.display = "block";
         document.getElementById('biscotto-message').innerText = candyMessage;
@@ -785,21 +779,18 @@
 
     function closeVogliosaLetter() {
         document.getElementById('vogliosaLetterPage').style.display = "none";
-        showMainPage(); // Torna alla pagina principale
-        resetAppState(); // Resetta lo stato del gioco
-        startTimedMessage(); // Riprende il timer del bottone vogliosa
+        showMainPage();
+        resetAppState();
+        startTimedMessage();
     }
 
-    // --- LOGICA VECCHIO QUIZ (ORIGINALE) ---
     function showOldQuiz() {
         hideAllPages();
         document.getElementById('oldQuizBox').style.display = "block";
-        // Nascondi il contenitore degli elementi affiancati quando il quiz del cuore è attivo
         document.querySelector('.side-by-side-container').style.display = "none";
 
-
-        oldAnswers = []; // Resetta le risposte
-        currentOldQuestion = 1; // Resetta la domanda corrente
+        oldAnswers = [];
+        currentOldQuestion = 1;
         showOldQuestion(1);
     }
 
@@ -837,7 +828,7 @@
 
       setTimeout(() => {
         hideAllPages();
-        document.getElementById('questionPage').style.display = "flex"; // Vai alla pagina del castoro
+        document.getElementById('questionPage').style.display = "flex";
         yesScale = 1;
         noScale = 1;
         noOpacity = 1;
@@ -845,18 +836,14 @@
         updateButtonSizes();
       }, 1500);
     }
-    // --- FINE LOGICA VECCHIO QUIZ ---
 
-
-    // --- LOGICA NUOVO QUIZ PICCANTE ---
     function showPiccanteQuiz() {
         hideAllPages();
         document.getElementById('piccanteQuizBox').style.display = "block";
-        // Nascondi il contenitore degli elementi affiancati (Stitch e giftbox)
         document.querySelector('.side-by-side-container').style.display = "none";
 
-        piccanteAnswers = []; // Resetta le risposte
-        currentPiccanteQuestion = 1; // Resetta la domanda corrente
+        piccanteAnswers = [];
+        currentPiccanteQuestion = 1;
         showPiccanteQuestion(1);
     }
 
@@ -883,7 +870,7 @@
 
     function showPiccanteResult() {
       let resultText = "";
-      const ans = piccanteAnswers.join('-'); // Crea la stringa delle risposte es: "1-1-1-1"
+      const ans = piccanteAnswers.join('-');
 
       switch(ans) {
         case "1-1-1-1":
@@ -915,12 +902,10 @@
 
     function goBackFromPiccanteQuiz() {
         document.getElementById('piccanteResultBox').style.display = "none";
-        showMainPage(); // Torna alla pagina principale
-        resetAppState(); // Resetta lo stato del gioco
-        startTimedMessage(); // Riprende il timer del bottone vogliosa
+        showMainPage();
+        resetAppState();
+        startTimedMessage();
     }
-    // --- FINE LOGICA NUOVO QUIZ PICCANTE ---
-
 
     function goBackFromTwentyBiscottiLetter() {
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
@@ -929,20 +914,17 @@
         startTimedMessage();
     }
 
-    function goBack() { // Usato dalla lettera finale del castoro
+    function goBack() {
         document.getElementById('letterPage').style.display = "none";
         showMainPage();
         resetAppState();
         startTimedMessage();
     }
 
-    // Funzione per mostrare la mainPage e gli elementi che vi appartengono
     function showMainPage() {
         document.getElementById('mainPage').style.display = "flex";
-        // Mostra di nuovo il contenitore degli elementi affiancati
         document.querySelector('.side-by-side-container').style.display = "flex";
     }
-
 
     function hideAllPages() {
         document.getElementById('mainPage').style.display = "none";
@@ -957,7 +939,6 @@
         document.getElementById('timedMessageButton').style.display = "none";
         document.getElementById('giftMessageBox').style.display = "none";
         isGiftMessageVisible = false;
-        // Nascondi anche il contenitore degli elementi affiancati quando non sei sulla main page
         document.querySelector('.side-by-side-container').style.display = "none";
     }
 
@@ -969,10 +950,8 @@
       document.getElementById('heartBtn').style.display = "none";
       document.getElementById('candyEmoji').style.display = "none";
       updateMoodBar();
-      // Reset per il vecchio quiz
       oldAnswers = [];
       currentOldQuestion = 1;
-      // Reset per il quiz piccante
       piccanteAnswers = [];
       currentPiccanteQuestion = 1;
 
@@ -980,7 +959,6 @@
       document.getElementById('giftMessageBox').style.display = "none";
       isGiftMessageVisible = false;
 
-      // Al reset, assicurati che il contenitore degli elementi affiancati sia visibile sulla main page
       document.querySelector('.side-by-side-container').style.display = "flex";
 
       startTimedMessage();
