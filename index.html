@@ -95,15 +95,15 @@
       border-radius: 15px;
       border: 2px solid #e49ecf;
       z-index: 100;
-      /* Modifiche per il posizionamento come da immagine */
+      /* Modifiche per il posizionamento come da ultima foto */
       top: 100%; /* Posiziona il top del messaggio al 100% dell'altezza della gift-box */
-      left: 0;   /* Allinea il lato sinistro del messaggio con il lato sinistro della gift-box */
-      transform: none; /* Rimuovi qualsiasi traslazione X che lo centrava prima */
+      left: -50px; /* Sposta il lato sinistro del messaggio più a sinistra rispetto alla gift-box */
+      transform: none; /* Rimuovi qualsiasi traslazione X che lo centrava o spingeva a destra */
       margin-top: 10px; /* Aggiungi un po' di spazio tra la scatola e il messaggio */
 
       /* Modifiche per la leggibilità e l'aspetto */
-      max-width: 300px; /* Larghezza massima aumentata per contenere più testo */
-      width: 90vw; /* Utilizza una percentuale della viewport width per responsività */
+      max-width: 250px; /* Larghezza massima per evitare sovrapposizioni e mantenere la forma */
+      width: 100%; /* Occupa il 100% della larghezza disponibile nel suo contenitore parent (gift-box-container) */
       font-size: 16px; /* Dimensione del font per una buona leggibilità */
       text-align: left; /* Allinea il testo a sinistra */
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
