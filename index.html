@@ -16,6 +16,7 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      position: relative; /* Necessario per il posizionamento assoluto/fisso dei figli */
     }
 
     /* Contenitore per gli elementi superiori (titolo, orsetto, barra, biscotti) */
@@ -26,18 +27,11 @@
       margin-bottom: 30px; /* Aggiunto spazio sotto la sezione superiore per distanziare il resto */
     }
 
-    /* Posizionamento fisso per gli elementi in sovrapposizione */
-    .timed-message-button,
-    .video-link {
-      position: fixed;
-      z-index: 1000;
-    }
-
-    /* Stili per il bottone del messaggio a tempo */
+    /* Posizionamento fisso per gli elementi in sovrapposizione (pulsante vogliosa) */
     .timed-message-button {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      position: fixed; /* Rende il bottone fisso nello viewport */
+      bottom: 20px; /* Sposta in basso */
+      left: 20px; /* Sposta a sinistra */
       background-color: #ffcce6;
       padding: 15px 25px;
       border-radius: 15px;
@@ -54,16 +48,15 @@
 
     .timed-message-button:hover {
       background-color: #ffb3d9;
-      transform: translate(-50%, -50%) scale(1.05);
+      transform: scale(1.05);
     }
 
     /* Stili per la scatola regalo */
     .gift-box-container {
-      /* Modifiche qui per il posizionamento e per i messaggi */
       margin: 30px auto 100px auto; /* Più spazio sotto per allontanarsi dal bottone e dal fondo */
       font-size: 80px;
       cursor: pointer;
-      position: relative;
+      position: relative; /* Per posizionare il messaggio al suo interno */
       width: fit-content;
       transition: transform 0.2s ease-out;
       z-index: 10; /* Z-index inferiore per essere coperto dai quiz */
@@ -81,7 +74,7 @@
       display: none;
       position: absolute;
       background-color: rgba(255, 240, 245, 0.95); /* Sfondo semi-trasparente più opaco */
-      padding: 10px; /* Padding leggermente aumentato */
+      padding: 10px;
       border-radius: 15px; /* Bordi più arrotondati */
       border: 2px solid #e49ecf; /* Bordo coerente con altri elementi */
       z-index: 100;
@@ -94,7 +87,8 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Ombra più pronunciata */
       white-space: normal;
       color: #5c2a6b;
-      /* Rimosso text-shadow, il background e il bordo bastano per la leggibilità */
+      /* Assicurati che non ci siano artefatti grafici */
+      box-sizing: border-box; /* Include padding e border nella larghezza/altezza */
     }
 
     .orsetto {
@@ -397,10 +391,11 @@
       cursor: pointer;
     }
 
-    /* Stili per il link al video */
+    /* Stili per il link al video (ora in basso a destra) */
     .video-link {
+      position: fixed; /* Rende il link fisso nello viewport */
       bottom: 20px;
-      right: 20px;
+      right: 20px; /* Sposta a destra */
       background-color: #fcd6ec;
       padding: 10px 15px;
       border-radius: 10px;
@@ -408,6 +403,7 @@
       font-size: 14px;
       color: #5c2a6b;
       text-decoration: none;
+      z-index: 900; /* Sopra altri elementi */
     }
 
     .video-link:hover {
@@ -425,8 +421,8 @@
       display: none;
     }
 
-    /* Stile per stitch2.PNG, ora cliccabile */
-    .stitch2-image {
+    /* Stile per stitch1.PNG, ora cliccabile */
+    .stitch-image {
         max-width: 300px;
         height: auto;
         margin-top: 20px;
@@ -438,7 +434,7 @@
         z-index: 10; /* Assicurati che sia cliccabile e non sotto altri elementi */
     }
 
-    .stitch2-image:hover {
+    .stitch-image:hover {
         transform: scale(1.05);
     }
   </style>
@@ -464,78 +460,74 @@
       </div>
     </div>
 
-    <div class="quiz-box" id="oldQuizBox">
-      <h2>Mini Quiz 💫</h2>
-      <div class="question" id="oldQuestion1">
-        1. Cosa fai appena torni a casa dopo una giornata pesante?
-        <button class="answer" data-question-id="1" onclick="selectOldAnswer(0)">🥔 Mi butto sul letto come una patata</button>
-        <button class="answer" data-question-id="1" onclick="selectOldAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
-        <button class="answer" data-question-id="1" onclick="selectOldAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
-      </div>
-
-      <div class="question" id="oldQuestion2" style="display:none;">
-        2. Che tipo di coccole preferisci?
-        <button class="answer" data-question-id="2" onclick="selectOldAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
-        <button class="answer" data-question-id="2" onclick="selectOldAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
-        <button class="answer" data-question-id="2" onclick="selectOldAnswer(2)">💌 Tutte, anche virtuali se servono</button>
-      </div>
-
-      <div class="question" id="oldQuestion3" style="display:none;">
-        3. Il tuo mood quando hai il ciclo?
-        <button class="answer" data-question-id="3" onclick="selectOldAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
-        <button class="answer" data-question-id="3" onclick="selectOldAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
-        <button class="answer" data-question-id="3" onclick="selectOldAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
-      </div>
-    </div>
-    <div class="result-box" id="oldResultBox"></div>
-
-
-    <div class="quiz-box" id="piccanteQuizBox">
-      <h2>Quiz Piccante 💋</h2>
-
-      <div class="question" id="piccanteQuestion1">
-        1. Se siamo sul divano e le mie mani iniziano a esplorare sotto la coperta, tu…
-        <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(1)">😇 Fai finta di niente, ma ti mordi il labbro</button>
-        <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(2)">🔥 Ti giri verso di me e sussurri "continua"</button>
-        <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(3)">😏 Prendi il controllo e mi blocchi le mani</button>
-      </div>
-
-      <div class="question" id="piccanteQuestion2" style="display:none;">
-        2. Come preferisci essere toccatə?
-        <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(1)">✨ Con lentezza, come se ogni centimetro fosse sacro</button>
-        <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(2)">💥 Forte, deciso, senza esitazioni</button>
-        <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(3)">💋 Prima dolce… poi fammi perdere la testa</button>
-      </div>
-
-      <div class="question" id="piccanteQuestion3" style="display:none;">
-        3. In una notte lunga e senza freni, cosa non può mancare?
-        <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(1)">🕯️ Atmosfera: luci soffuse, pelle contro pelle</button>
-        <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(2)">🗣️ Parole sussurrate e ordini da seguire</button>
-        <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(3)">🥵 Uno specchio… o due</button>
-      </div>
-
-      <div class="question" id="piccanteQuestion4" style="display:none;">
-        4. Se ti sussurro "voglio sentirti tremare", tu…
-        <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(1)">💞 Mi dici “allora fallo” e chiudi gli occhi</button>
-        <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(2)">🧷 Mi guardi negli occhi e dici “mostrami quanto”</button>
-        <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(3)">🐾 Ti mordi il collo da sola e dici “sei in ritardo”</button>
-      </div>
+    <div class="gift-box-container" id="giftBox" onclick="toggleGiftMessage()">
+      🎁
+      <div class="gift-message-box" id="giftMessageBox"></div>
     </div>
 
-    <div class="result-box" id="piccanteResultBox"></div>
-
-    <img src="stitch2.PNG" alt="Stitch Felice" class="stitch2-image" onclick="showPiccanteQuiz()">
+    <img src="stitch1.PNG" alt="Stitch Felice" class="stitch-image" id="stitchImage" onclick="showPiccanteQuiz()">
 
   </div>
 
-  <button class="timed-message-button" id="timedMessageButton" onclick="showVogliosaLetter()">
-    ⚠️CLICCA SE SEI VOGLIOSA⚠️
-  </button>
+  <div class="quiz-box" id="oldQuizBox">
+    <h2>Mini Quiz 💫</h2>
+    <div class="question" id="oldQuestion1">
+      1. Cosa fai appena torni a casa dopo una giornata pesante?
+      <button class="answer" data-question-id="1" onclick="selectOldAnswer(0)">🥔 Mi butto sul letto come una patata</button>
+      <button class="answer" data-question-id="1" onclick="selectOldAnswer(1)">🎬🛏️ Apro Netflix e mi infilo sotto le coperte</button>
+      <button class="answer" data-question-id="1" onclick="selectOldAnswer(2)">💞 Vado a cercare abbracci ovunque</button>
+    </div>
 
-  <div class="gift-box-container" id="giftBox" onclick="toggleGiftMessage()">
-    🎁
-    <div class="gift-message-box" id="giftMessageBox"></div>
+    <div class="question" id="oldQuestion2" style="display:none;">
+      2. Che tipo di coccole preferisci?
+      <button class="answer" data-question-id="2" onclick="selectOldAnswer(0)">🫂 Quelle silenziose, solo abbracci forti</button>
+      <button class="answer" data-question-id="2" onclick="selectOldAnswer(1)">🍪📺 Quelle con biscotti, film e zero pensieri</button>
+      <button class="answer" data-question-id="2" onclick="selectOldAnswer(2)">💌 Tutte, anche virtuali se servono</button>
+    </div>
+
+    <div class="question" id="oldQuestion3" style="display:none;">
+      3. Il tuo mood quando hai il ciclo?
+      <button class="answer" data-question-id="3" onclick="selectOldAnswer(0)">🍫 “Parlatemi solo se portate cioccolato”</button>
+      <button class="answer" data-question-id="3" onclick="selectOldAnswer(1)">💤 “Voglio solo dormire 18 ore”</button>
+      <button class="answer" data-question-id="3" onclick="selectOldAnswer(2)">🐼🔥 “Sono un mix tra un panda e un drago”</button>
+    </div>
   </div>
+  <div class="result-box" id="oldResultBox"></div>
+
+
+  <div class="quiz-box" id="piccanteQuizBox">
+    <h2>Quiz Piccante 💋</h2>
+
+    <div class="question" id="piccanteQuestion1">
+      1. Se siamo sul divano e le mie mani iniziano a esplorare sotto la coperta, tu…
+      <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(1)">😇 Fai finta di niente, ma ti mordi il labbro</button>
+      <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(2)">🔥 Ti giri verso di me e sussurri "continua"</button>
+      <button class="answer" data-question-id="1" onclick="selectPiccanteAnswer(3)">😏 Prendi il controllo e mi blocchi le mani</button>
+    </div>
+
+    <div class="question" id="piccanteQuestion2" style="display:none;">
+      2. Come preferisci essere toccatə?
+      <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(1)">✨ Con lentezza, come se ogni centimetro fosse sacro</button>
+      <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(2)">💥 Forte, deciso, senza esitazioni</button>
+      <button class="answer" data-question-id="2" onclick="selectPiccanteAnswer(3)">💋 Prima dolce… poi fammi perdere la testa</button>
+    </div>
+
+    <div class="question" id="piccanteQuestion3" style="display:none;">
+      3. In una notte lunga e senza freni, cosa non può mancare?
+      <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(1)">🕯️ Atmosfera: luci soffuse, pelle contro pelle</button>
+      <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(2)">🗣️ Parole sussurrate e ordini da seguire</button>
+      <button class="answer" data-question-id="3" onclick="selectPiccanteAnswer(3)">🥵 Uno specchio… o due</button>
+    </div>
+
+    <div class="question" id="piccanteQuestion4" style="display:none;">
+      4. Se ti sussurro "voglio sentirti tremare", tu…
+      <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(1)">💞 Mi dici “allora fallo” e chiudi gli occhi</button>
+      <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(2)">🧷 Mi guardi negli occhi e dici “mostrami quanto”</button>
+      <button class="answer" data-question-id="4" onclick="selectPiccanteAnswer(3)">🐾 Ti mordi il collo da sola e dici “sei in ritardo”</button>
+    </div>
+  </div>
+
+  <div class="result-box" id="piccanteResultBox"></div>
 
 
   <div class="question-page" id="questionPage">
@@ -574,8 +566,6 @@
     </div>
   </div>
 
-  <img src="stitch1.PNG" alt="Stitch curioso" style="max-width: 100%; height: auto; margin-top: 20px;">
-
 
   <div class="letter-page" id="letterPage">
     <div class="letter-content">
@@ -593,7 +583,10 @@
   </div>
 
 
+  <button class="timed-message-button" id="timedMessageButton" onclick="showVogliosaLetter()">⚠️CLICCA SE SEI VOGLIOSA⚠️</button>
+
   <a href="http://www.youtube.com/watch?v=RlQLdGGDa_4" class="video-link" target="_blank">Clicca se sei triste</a>
+
 
   <span id="candyEmoji" class="lollipop-position">🍭</span>
 
@@ -657,11 +650,12 @@
         const giftBox = document.getElementById('giftBox');
         const giftMessageBox = document.getElementById('giftMessageBox');
         // Se il click non è all'interno della scatola regalo o del suo messaggio, e il messaggio è visibile, nascondilo
-        if (isGiftMessageVisible && !giftBox.contains(event.target)) {
+        if (isGiftMessageVisible && !giftBox.contains(event.target) && event.target !== giftMessageBox) {
             giftMessageBox.style.display = "none";
             isGiftMessageVisible = false;
         }
     });
+
 
     function setupQuestionPageButtons() {
       if (!yesButton) {
@@ -785,7 +779,7 @@
         document.getElementById('oldQuizBox').style.display = "block";
         // Nascondi scatola regalo e stitch quando il quiz del cuore è attivo
         document.getElementById('giftBox').style.display = "none";
-        document.querySelector('.stitch2-image').style.display = "none";
+        document.getElementById('stitchImage').style.display = "none"; // Nascondi stitch1.PNG
 
         oldAnswers = []; // Resetta le risposte
         currentOldQuestion = 1; // Resetta la domanda corrente
@@ -843,7 +837,7 @@
         document.getElementById('piccanteQuizBox').style.display = "block";
         // Nascondi scatola regalo e stitch (perché sei già nel suo quiz)
         document.getElementById('giftBox').style.display = "none";
-        document.querySelector('.stitch2-image').style.display = "none"; // Non serve, ma per coerenza
+        document.getElementById('stitchImage').style.display = "none"; // Nascondi stitch1.PNG
 
         piccanteAnswers = []; // Resetta le risposte
         currentPiccanteQuestion = 1; // Resetta la domanda corrente
@@ -930,7 +924,7 @@
     function showMainPage() {
         document.getElementById('mainPage').style.display = "flex";
         document.getElementById('giftBox').style.display = "block"; // Mostra di nuovo la scatola regalo
-        document.querySelector('.stitch2-image').style.display = "block"; // Mostra di nuovo Stitch
+        document.getElementById('stitchImage').style.display = "block"; // Mostra di nuovo stitch1.PNG
     }
 
 
@@ -944,7 +938,7 @@
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
         document.getElementById('letterPage').style.display = "none";
         document.getElementById('vogliosaLetterPage').style.display = "none";
-        document.getElementById('timedMessageButton').style.display = "none";
+        document.getElementById('timedMessageButton').style.display = "none"; // Nasconde il pulsante vogliosa
         document.getElementById('giftMessageBox').style.display = "none"; // Nascondi il messaggio regalo quando si cambia pagina
         isGiftMessageVisible = false; // Resetta lo stato del messaggio regalo
     }
@@ -964,13 +958,13 @@
       piccanteAnswers = [];
       currentPiccanteQuestion = 1;
 
-      document.getElementById('timedMessageButton').style.display = "none";
+      document.getElementById('timedMessageButton').style.display = "none"; // Nasconde il pulsante vogliosa
       document.getElementById('giftMessageBox').style.display = "none";
       isGiftMessageVisible = false;
 
       // Al reset, assicurati che la scatola regalo e Stitch siano di nuovo visibili sulla main page
       document.getElementById('giftBox').style.display = "block";
-      document.querySelector('.stitch2-image').style.display = "block";
+      document.getElementById('stitchImage').style.display = "block"; // Mostra di nuovo stitch1.PNG
 
       startTimedMessage();
     }
@@ -992,7 +986,7 @@
             if (mainPageIsActive && !quizActive && document.getElementById('timedMessageButton').style.display === 'none') {
                 document.getElementById('timedMessageButton').style.display = 'block';
             }
-        }, 5000);
+        }, 5000); // Mostra dopo 5 secondi
     }
 
     document.addEventListener('DOMContentLoaded', () => {
