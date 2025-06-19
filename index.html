@@ -49,6 +49,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       transition: transform 0.3s ease, background-color 0.3s ease;
       white-space: nowrap;
+      z-index: 900; /* Assicurati che sia sopra altri elementi principali, ma sotto pop-up */
     }
 
     .timed-message-button:hover {
@@ -65,7 +66,7 @@
       position: relative;
       width: fit-content;
       transition: transform 0.2s ease-out;
-      z-index: 500; /* Assicura che sia sopra Stitch se c'è sovrapposizione */
+      z-index: 10; /* Z-index inferiore per essere coperto dai quiz */
     }
 
     .gift-box-container:hover {
@@ -79,10 +80,10 @@
     .gift-message-box {
       display: none;
       position: absolute;
-      background-color: rgba(255, 240, 245, 0.9); /* Sfondo semi-trasparente */
+      background-color: rgba(255, 240, 245, 0.95); /* Sfondo semi-trasparente più opaco */
       padding: 10px; /* Padding leggermente aumentato */
-      border-radius: 10px;
-      border: 1px solid #e49ecf; /* Bordo leggero */
+      border-radius: 15px; /* Bordi più arrotondati */
+      border: 2px solid #e49ecf; /* Bordo coerente con altri elementi */
       z-index: 100;
       top: 100%;
       left: 50%;
@@ -90,7 +91,7 @@
       width: 280px;
       font-size: 18px;
       text-align: left;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Ombra più leggera */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Ombra più pronunciata */
       white-space: normal;
       color: #5c2a6b;
       /* Rimosso text-shadow, il background e il bordo bastano per la leggibilità */
@@ -150,6 +151,7 @@
       color: white;
       cursor: pointer;
       animation: sparkle 1s infinite alternate;
+      z-index: 50; /* Per essere sopra altri elementi nella mainPage */
     }
 
     @keyframes sparkle {
@@ -184,6 +186,11 @@
       margin-top: 30px;
       max-width: 600px;
       width: 90%;
+      z-index: 100; /* Assicurati che i quiz siano sopra tutto il resto */
+      position: absolute; /* Per sovrapporsi bene */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .question {
@@ -428,7 +435,7 @@
         margin-right: auto;
         cursor: pointer; /* Aggiunto per renderlo cliccabile */
         transition: transform 0.2s ease-out; /* Animazione al click */
-        z-index: 1; /* Assicurati che sia cliccabile e non sotto altri elementi */
+        z-index: 10; /* Assicurati che sia cliccabile e non sotto altri elementi */
     }
 
     .stitch2-image:hover {
@@ -525,9 +532,9 @@
     ⚠️CLICCA SE SEI VOGLIOSA⚠️
   </button>
 
-  <div class="gift-box-container" id="giftBox2" onclick="showGiftMessage()">
+  <div class="gift-box-container" id="giftBox" onclick="toggleGiftMessage()">
     🎁
-    <div class="gift-message-box" id="giftMessageBox2"></div>
+    <div class="gift-message-box" id="giftMessageBox"></div>
   </div>
 
 
@@ -626,22 +633,35 @@
     ];
 
     let currentGiftMessageIndex = 0;
+    let isGiftMessageVisible = false; // Nuovo stato per il messaggio regalo
 
     // Frase per il lecca-lecca
     const candyMessage = "Federica, il tuo sorriso ha qualcosa di magico: riesce a rendere bello anche il giorno più normale. Non smettere mai di sorridere, perché il mondo ha bisogno di quella luce che solo tu sai dare";
 
-    // Funzione per mostrare il messaggio regalo (usata sia per giftBox che giftBox2)
-    function showGiftMessage() {
-      const giftMessageBox = document.getElementById('giftMessageBox2'); // Usa l'ID del gift box spostato
-      giftMessageBox.innerText = giftMessages[currentGiftMessageIndex];
-      giftMessageBox.style.display = "block";
-      // Nascondi il messaggio dopo qualche secondo
-      setTimeout(() => {
-          giftMessageBox.style.display = "none";
-      }, 5000); // Il messaggio scompare dopo 5 secondi
-
-      currentGiftMessageIndex = (currentGiftMessageIndex + 1) % giftMessages.length;
+    // Funzione per mostrare/nascondere il messaggio regalo
+    function toggleGiftMessage() {
+      const giftMessageBox = document.getElementById('giftMessageBox');
+      if (isGiftMessageVisible) {
+        giftMessageBox.style.display = "none";
+        isGiftMessageVisible = false;
+      } else {
+        giftMessageBox.innerText = giftMessages[currentGiftMessageIndex];
+        giftMessageBox.style.display = "block";
+        isGiftMessageVisible = true;
+        currentGiftMessageIndex = (currentGiftMessageIndex + 1) % giftMessages.length;
+      }
     }
+
+    // Aggiungi un event listener per chiudere il messaggio regalo cliccando fuori
+    document.addEventListener('click', (event) => {
+        const giftBox = document.getElementById('giftBox');
+        const giftMessageBox = document.getElementById('giftMessageBox');
+        // Se il click non è all'interno della scatola regalo o del suo messaggio, e il messaggio è visibile, nascondilo
+        if (isGiftMessageVisible && !giftBox.contains(event.target)) {
+            giftMessageBox.style.display = "none";
+            isGiftMessageVisible = false;
+        }
+    });
 
     function setupQuestionPageButtons() {
       if (!yesButton) {
@@ -754,15 +774,19 @@
 
     function closeVogliosaLetter() {
         document.getElementById('vogliosaLetterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "flex";
-        resetAppState();
-        startTimedMessage();
+        showMainPage(); // Torna alla pagina principale
+        resetAppState(); // Resetta lo stato del gioco
+        startTimedMessage(); // Riprende il timer del bottone vogliosa
     }
 
     // --- LOGICA VECCHIO QUIZ (ORIGINALE) ---
     function showOldQuiz() {
         hideAllPages();
         document.getElementById('oldQuizBox').style.display = "block";
+        // Nascondi scatola regalo e stitch quando il quiz del cuore è attivo
+        document.getElementById('giftBox').style.display = "none";
+        document.querySelector('.stitch2-image').style.display = "none";
+
         oldAnswers = []; // Resetta le risposte
         currentOldQuestion = 1; // Resetta la domanda corrente
         showOldQuestion(1);
@@ -817,6 +841,10 @@
     function showPiccanteQuiz() {
         hideAllPages();
         document.getElementById('piccanteQuizBox').style.display = "block";
+        // Nascondi scatola regalo e stitch (perché sei già nel suo quiz)
+        document.getElementById('giftBox').style.display = "none";
+        document.querySelector('.stitch2-image').style.display = "none"; // Non serve, ma per coerenza
+
         piccanteAnswers = []; // Resetta le risposte
         currentPiccanteQuestion = 1; // Resetta la domanda corrente
         showPiccanteQuestion(1);
@@ -877,26 +905,34 @@
 
     function goBackFromPiccanteQuiz() {
         document.getElementById('piccanteResultBox').style.display = "none";
-        document.getElementById('mainPage').style.display = "flex";
-        resetAppState();
-        startTimedMessage();
+        showMainPage(); // Torna alla pagina principale
+        resetAppState(); // Resetta lo stato del gioco
+        startTimedMessage(); // Riprende il timer del bottone vogliosa
     }
     // --- FINE LOGICA NUOVO QUIZ PICCANTE ---
 
 
     function goBackFromTwentyBiscottiLetter() {
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "flex";
+        showMainPage();
         resetAppState();
         startTimedMessage();
     }
 
     function goBack() { // Usato dalla lettera finale del castoro
         document.getElementById('letterPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "flex";
+        showMainPage();
         resetAppState();
         startTimedMessage();
     }
+
+    // Funzione per mostrare la mainPage e gli elementi che vi appartengono
+    function showMainPage() {
+        document.getElementById('mainPage').style.display = "flex";
+        document.getElementById('giftBox').style.display = "block"; // Mostra di nuovo la scatola regalo
+        document.querySelector('.stitch2-image').style.display = "block"; // Mostra di nuovo Stitch
+    }
+
 
     function hideAllPages() {
         document.getElementById('mainPage').style.display = "none";
@@ -909,6 +945,8 @@
         document.getElementById('letterPage').style.display = "none";
         document.getElementById('vogliosaLetterPage').style.display = "none";
         document.getElementById('timedMessageButton').style.display = "none";
+        document.getElementById('giftMessageBox').style.display = "none"; // Nascondi il messaggio regalo quando si cambia pagina
+        isGiftMessageVisible = false; // Resetta lo stato del messaggio regalo
     }
 
     function resetAppState() {
@@ -922,16 +960,18 @@
       // Reset per il vecchio quiz
       oldAnswers = [];
       currentOldQuestion = 1;
-      document.getElementById('oldQuizBox').style.display = "none";
-      document.getElementById('oldResultBox').style.display = "none";
       // Reset per il quiz piccante
       piccanteAnswers = [];
       currentPiccanteQuestion = 1;
-      document.getElementById('piccanteQuizBox').style.display = "none";
-      document.getElementById('piccanteResultBox').style.display = "none";
 
-      document.getElementById('giftMessageBox2').style.display = "none"; // Usa l'ID del gift box spostato
       document.getElementById('timedMessageButton').style.display = "none";
+      document.getElementById('giftMessageBox').style.display = "none";
+      isGiftMessageVisible = false;
+
+      // Al reset, assicurati che la scatola regalo e Stitch siano di nuovo visibili sulla main page
+      document.getElementById('giftBox').style.display = "block";
+      document.querySelector('.stitch2-image').style.display = "block";
+
       startTimedMessage();
     }
 
@@ -940,19 +980,16 @@
         clearTimeout(timedMessageTimeout);
         timedMessageTimeout = setTimeout(() => {
             const mainPageIsActive = document.getElementById('mainPage').style.display !== 'none';
-            const oldQuizBoxIsActive = document.getElementById('oldQuizBox').style.display !== 'none';
-            const oldResultBoxIsActive = document.getElementById('oldResultBox').style.display !== 'none';
-            const piccanteQuizBoxIsActive = document.getElementById('piccanteQuizBox').style.display !== 'none';
-            const piccanteResultBoxIsActive = document.getElementById('piccanteResultBox').style.display !== 'none';
-            const questionPageIsActive = document.getElementById('questionPage').style.display !== 'none';
-            const twentyBiscottiLetterPageIsActive = document.getElementById('twentyBiscottiLetterPage').style.display !== 'none';
-            const letterPageIsActive = document.getElementById('letterPage').style.display !== 'none';
-            const vogliosaLetterPageIsActive = document.getElementById('vogliosaLetterPage').style.display !== 'none';
+            const quizActive = document.getElementById('oldQuizBox').style.display !== 'none' ||
+                               document.getElementById('oldResultBox').style.display !== 'none' ||
+                               document.getElementById('piccanteQuizBox').style.display !== 'none' ||
+                               document.getElementById('piccanteResultBox').style.display !== 'none' ||
+                               document.getElementById('questionPage').style.display !== 'none' ||
+                               document.getElementById('twentyBiscottiLetterPage').style.display !== 'none' ||
+                               document.getElementById('letterPage').style.display !== 'none' ||
+                               document.getElementById('vogliosaLetterPage').style.display !== 'none';
 
-            if (mainPageIsActive && !oldQuizBoxIsActive && !oldResultBoxIsActive &&
-                !piccanteQuizBoxIsActive && !piccanteResultBoxIsActive && !questionPageIsActive &&
-                !twentyBiscottiLetterPageIsActive && !letterPageIsActive && !vogliosaLetterPageIsActive &&
-                document.getElementById('timedMessageButton').style.display === 'none') {
+            if (mainPageIsActive && !quizActive && document.getElementById('timedMessageButton').style.display === 'none') {
                 document.getElementById('timedMessageButton').style.display = 'block';
             }
         }, 5000);
@@ -960,13 +997,15 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       setupQuestionPageButtons();
-      hideAllPages();
-      document.getElementById('mainPage').style.display = 'flex';
+      // Inizializza mostrando solo la mainPage
+      hideAllPages(); // Nasconde tutto per sicurezza
+      showMainPage(); // Mostra solo la mainPage e i suoi elementi iniziali
       updateMoodBar();
       startTimedMessage();
     });
 
     // Modifiche per assicurarsi che il timedMessageButton venga nascosto quando si accede ad altre pagine
+    // e per assicurare la visibilità di Stitch e Giftbox quando si torna alla mainPage
     const originalShowTwentyBiscottiLetter = showTwentyBiscottiLetter;
     showTwentyBiscottiLetter = function() {
         originalShowTwentyBiscottiLetter();
@@ -987,14 +1026,12 @@
         document.getElementById('timedMessageButton').style.display = 'none';
         clearTimeout(timedMessageTimeout);
     }
-    // Aggiungi per il nuovo quiz
     const originalShowPiccanteQuiz = showPiccanteQuiz;
     showPiccanteQuiz = function() {
         originalShowPiccanteQuiz();
         document.getElementById('timedMessageButton').style.display = 'none';
         clearTimeout(timedMessageTimeout);
     }
-    // Aggiungi per il vecchio quiz
     const originalShowOldQuiz = showOldQuiz;
     showOldQuiz = function() {
         originalShowOldQuiz();
