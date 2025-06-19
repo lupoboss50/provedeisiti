@@ -74,7 +74,7 @@
       font-size: 80px;
       cursor: pointer;
       position: relative;
-      width: fit-content;
+      width: fit-content; /* Adatta la larghezza al contenuto (l'emoji) */
       transition: transform 0.2s ease-out;
       z-index: 10;
     }
@@ -95,16 +95,17 @@
       border-radius: 15px;
       border: 2px solid #e49ecf;
       z-index: 100;
-      /* Modifiche per il posizionamento */
-      top: 100%; /* Inizia sotto la gift box */
-      left: 0; /* Allineato a sinistra della gift box */
-      transform: none; /* Rimosso translateX per l'allineamento a sinistra */
-      margin-top: 10px; /* Spazio tra la gift box e il messaggio */
-      /* Modifiche per la leggibilità */
-      max-width: 300px; /* Larghezza massima aumentata per il testo lungo */
-      width: 100%; /* Occupa il 100% della larghezza disponibile nel suo contenitore */
-      font-size: 16px; /* Dimensione del font leggermente ridotta per più testo */
-      text-align: left; /* Allineamento testo a sinistra come da immagine */
+      /* Modifiche per il posizionamento come da immagine */
+      top: 100%; /* Posiziona il top del messaggio al 100% dell'altezza della gift-box */
+      left: 0;   /* Allinea il lato sinistro del messaggio con il lato sinistro della gift-box */
+      transform: none; /* Rimuovi qualsiasi traslazione X che lo centrava prima */
+      margin-top: 10px; /* Aggiungi un po' di spazio tra la scatola e il messaggio */
+
+      /* Modifiche per la leggibilità e l'aspetto */
+      max-width: 300px; /* Larghezza massima aumentata per contenere più testo */
+      width: 90vw; /* Utilizza una percentuale della viewport width per responsività */
+      font-size: 16px; /* Dimensione del font per una buona leggibilità */
+      text-align: left; /* Allinea il testo a sinistra */
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       white-space: normal; /* Assicura che il testo vada a capo */
       color: #5c2a6b;
