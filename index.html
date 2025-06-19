@@ -53,7 +53,7 @@
 
     /* Stili per la scatola regalo */
     .gift-box-container {
-      margin: 30px auto 100px auto; /* Più spazio sotto per allontanarsi dal bottone e dal fondo */
+      margin: 30px auto 30px auto; /* Aggiustato il margine inferiore, ma ancora vicino al centro */
       font-size: 80px;
       cursor: pointer;
       position: relative; /* Per posizionare il messaggio al suo interno */
@@ -81,13 +81,13 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      width: 280px;
+      max-width: 280px; /* Aggiunto max-width per controllare la larghezza */
+      width: 90%; /* Assicura che sia responsivo */
       font-size: 18px;
-      text-align: left;
+      text-align: center; /* Centrato il testo */
       box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Ombra più pronunciata */
       white-space: normal;
       color: #5c2a6b;
-      /* Assicurati che non ci siano artefatti grafici */
       box-sizing: border-box; /* Include padding e border nella larghezza/altezza */
     }
 
@@ -425,13 +425,14 @@
     .stitch-image {
         max-width: 300px;
         height: auto;
-        margin-top: 20px;
+        margin-top: 60px; /* Mantenuto per distanziare bene dalla scatola regalo */
+        margin-bottom: 20px; /* Aggiunto margine sotto per distanziare dal bottone vogliosa */
         display: block;
         margin-left: auto;
         margin-right: auto;
-        cursor: pointer; /* Aggiunto per renderlo cliccabile */
-        transition: transform 0.2s ease-out; /* Animazione al click */
-        z-index: 10; /* Assicurati che sia cliccabile e non sotto altri elementi */
+        cursor: pointer;
+        transition: transform 0.2s ease-out;
+        z-index: 10;
     }
 
     .stitch-image:hover {
@@ -465,7 +466,7 @@
       <div class="gift-message-box" id="giftMessageBox"></div>
     </div>
 
-    <img src="stitch1.PNG" alt="Stitch Felice" class="stitch-image" id="stitchImage" onclick="showPiccanteQuiz()">
+    <img src="stitch1.PNG" class="stitch-image" id="stitchImage" onclick="showPiccanteQuiz()">
 
   </div>
 
