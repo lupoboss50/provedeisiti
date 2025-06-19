@@ -11,27 +11,45 @@
       color: #5c2a6b;
       text-align: center;
       padding: 30px;
-      overflow-x: hidden;
-      display: flex; /* Usiamo flexbox per centrare il contenuto sulla pagina */
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      position: relative; /* Necessario per il posizionamento assoluto/fisso dei figli */
-    }
-
-    /* Contenitore per gli elementi superiori (titolo, orsetto, barra, biscotti) */
-    .top-section {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 30px; /* Aggiunto spazio sotto la sezione superiore per distanziare il resto */
+      min-height: 100vh;
+      position: relative;
+    }
+
+    #mainPage {
+        display: flex;
+        flex-direction: column; /* Gli elementi principali si impilano verticalmente */
+        align-items: center; /* Centra orizzontalmente gli elementi all'interno di mainPage */
+        width: 100%;
+    }
+
+    /* Contenitore per gli elementi superiori (titolo, orsetto, barra, biscotti) */
+    .top-section { /* VERDE */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    /* Nuovo contenitore per scatola regalo e Stitch affiancati */
+    .side-by-side-container {
+        display: flex;
+        flex-direction: row; /* Elementi affiancati */
+        justify-content: center; /* Centra orizzontalmente gli elementi */
+        align-items: flex-start; /* Allinea in alto gli elementi se hanno altezze diverse */
+        gap: 40px; /* Spazio tra la scatola regalo e Stitch */
+        margin-bottom: 30px; /* Spazio sotto questo blocco */
+        flex-wrap: wrap; /* Permette agli elementi di andare a capo su schermi piccoli */
     }
 
     /* Posizionamento fisso per gli elementi in sovrapposizione (pulsante vogliosa) */
-    .timed-message-button {
-      position: fixed; /* Rende il bottone fisso nello viewport */
-      bottom: 20px; /* Sposta in basso */
-      left: 20px; /* Sposta a sinistra */
+    .timed-message-button { /* BLU */
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
       background-color: #ffcce6;
       padding: 15px 25px;
       border-radius: 15px;
@@ -43,7 +61,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       transition: transform 0.3s ease, background-color 0.3s ease;
       white-space: nowrap;
-      z-index: 900; /* Assicurati che sia sopra altri elementi principali, ma sotto pop-up */
+      z-index: 900;
     }
 
     .timed-message-button:hover {
@@ -52,14 +70,14 @@
     }
 
     /* Stili per la scatola regalo */
-    .gift-box-container {
-      margin: 30px auto 30px auto; /* Aggiustato il margine inferiore, ma ancora vicino al centro */
+    .gift-box-container { /* NERO */
+      /* Rimosso margin-top/bottom qui, gestito dal contenitore side-by-side */
       font-size: 80px;
       cursor: pointer;
-      position: relative; /* Per posizionare il messaggio al suo interno */
+      position: relative;
       width: fit-content;
       transition: transform 0.2s ease-out;
-      z-index: 10; /* Z-index inferiore per essere coperto dai quiz */
+      z-index: 10;
     }
 
     .gift-box-container:hover {
@@ -73,22 +91,22 @@
     .gift-message-box {
       display: none;
       position: absolute;
-      background-color: rgba(255, 240, 245, 0.95); /* Sfondo semi-trasparente più opaco */
+      background-color: rgba(255, 240, 245, 0.95);
       padding: 10px;
-      border-radius: 15px; /* Bordi più arrotondati */
-      border: 2px solid #e49ecf; /* Bordo coerente con altri elementi */
+      border-radius: 15px;
+      border: 2px solid #e49ecf;
       z-index: 100;
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      max-width: 280px; /* Aggiunto max-width per controllare la larghezza */
-      width: 90%; /* Assicura che sia responsivo */
+      max-width: 280px;
+      width: 90%;
       font-size: 18px;
-      text-align: center; /* Centrato il testo */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Ombra più pronunciata */
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       white-space: normal;
       color: #5c2a6b;
-      box-sizing: border-box; /* Include padding e border nella larghezza/altezza */
+      box-sizing: border-box;
     }
 
     .orsetto {
@@ -134,8 +152,8 @@
       font-size: 30px;
     }
 
-    .heart-button { /* Stili per il bottone del cuore */
-      display: none; /* Sarà mostrato dal JS */
+    .heart-button {
+      display: none;
       margin-top: 20px;
       font-size: 24px;
       padding: 10px 20px;
@@ -145,7 +163,7 @@
       color: white;
       cursor: pointer;
       animation: sparkle 1s infinite alternate;
-      z-index: 50; /* Per essere sopra altri elementi nella mainPage */
+      z-index: 50;
     }
 
     @keyframes sparkle {
@@ -177,11 +195,10 @@
       padding: 20px;
       border-radius: 15px;
       border: 2px solid #e49ecf;
-      margin-top: 30px;
       max-width: 600px;
       width: 90%;
-      z-index: 100; /* Assicurati che i quiz siano sopra tutto il resto */
-      position: absolute; /* Per sovrapporsi bene */
+      z-index: 100;
+      position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -210,7 +227,7 @@
       background-color: #ffc3e6;
     }
 
-    .question-page { /* Questa è la pagina del "Do you like me?" del castoro */
+    .question-page {
       display: none;
       background-color: #FCE7EC;
       position: fixed;
@@ -358,7 +375,7 @@
       color: #5c2a6b;
     }
 
-    .letter-page { /* Questa è la lettera finale del "Si! del castoro" */
+    .letter-page {
       display: none;
       background-color: #FCE7EC;
       position: fixed;
@@ -392,10 +409,10 @@
     }
 
     /* Stili per il link al video (ora in basso a destra) */
-    .video-link {
-      position: fixed; /* Rende il link fisso nello viewport */
+    .video-link { /* GIALLO */
+      position: fixed;
       bottom: 20px;
-      right: 20px; /* Sposta a destra */
+      right: 20px;
       background-color: #fcd6ec;
       padding: 10px 15px;
       border-radius: 10px;
@@ -403,7 +420,7 @@
       font-size: 14px;
       color: #5c2a6b;
       text-decoration: none;
-      z-index: 900; /* Sopra altri elementi */
+      z-index: 900;
     }
 
     .video-link:hover {
@@ -422,14 +439,11 @@
     }
 
     /* Stile per stitch1.PNG, ora cliccabile */
-    .stitch-image {
+    .stitch-image { /* ROSSO */
         max-width: 300px;
         height: auto;
-        margin-top: 60px; /* Mantenuto per distanziare bene dalla scatola regalo */
-        margin-bottom: 20px; /* Aggiunto margine sotto per distanziare dal bottone vogliosa */
+        /* Rimosso margin-top/bottom qui, gestito dal contenitore side-by-side */
         display: block;
-        margin-left: auto;
-        margin-right: auto;
         cursor: pointer;
         transition: transform 0.2s ease-out;
         z-index: 10;
@@ -461,12 +475,14 @@
       </div>
     </div>
 
-    <div class="gift-box-container" id="giftBox" onclick="toggleGiftMessage()">
-      🎁
-      <div class="gift-message-box" id="giftMessageBox"></div>
-    </div>
+    <div class="side-by-side-container">
+        <div class="gift-box-container" id="giftBox" onclick="toggleGiftMessage()">
+          🎁
+          <div class="gift-message-box" id="giftMessageBox"></div>
+        </div>
 
-    <img src="stitch1.PNG" class="stitch-image" id="stitchImage" onclick="showPiccanteQuiz()">
+        <img src="stitch1.PNG" class="stitch-image" id="stitchImage" onclick="showPiccanteQuiz()">
+    </div>
 
   </div>
 
@@ -778,9 +794,9 @@
     function showOldQuiz() {
         hideAllPages();
         document.getElementById('oldQuizBox').style.display = "block";
-        // Nascondi scatola regalo e stitch quando il quiz del cuore è attivo
-        document.getElementById('giftBox').style.display = "none";
-        document.getElementById('stitchImage').style.display = "none"; // Nascondi stitch1.PNG
+        // Nascondi il contenitore degli elementi affiancati quando il quiz del cuore è attivo
+        document.querySelector('.side-by-side-container').style.display = "none";
+
 
         oldAnswers = []; // Resetta le risposte
         currentOldQuestion = 1; // Resetta la domanda corrente
@@ -836,9 +852,8 @@
     function showPiccanteQuiz() {
         hideAllPages();
         document.getElementById('piccanteQuizBox').style.display = "block";
-        // Nascondi scatola regalo e stitch (perché sei già nel suo quiz)
-        document.getElementById('giftBox').style.display = "none";
-        document.getElementById('stitchImage').style.display = "none"; // Nascondi stitch1.PNG
+        // Nascondi il contenitore degli elementi affiancati (Stitch e giftbox)
+        document.querySelector('.side-by-side-container').style.display = "none";
 
         piccanteAnswers = []; // Resetta le risposte
         currentPiccanteQuestion = 1; // Resetta la domanda corrente
@@ -924,24 +939,26 @@
     // Funzione per mostrare la mainPage e gli elementi che vi appartengono
     function showMainPage() {
         document.getElementById('mainPage').style.display = "flex";
-        document.getElementById('giftBox').style.display = "block"; // Mostra di nuovo la scatola regalo
-        document.getElementById('stitchImage').style.display = "block"; // Mostra di nuovo stitch1.PNG
+        // Mostra di nuovo il contenitore degli elementi affiancati
+        document.querySelector('.side-by-side-container').style.display = "flex";
     }
 
 
     function hideAllPages() {
         document.getElementById('mainPage').style.display = "none";
-        document.getElementById('oldQuizBox').style.display = "none"; // Vecchio quiz
-        document.getElementById('oldResultBox').style.display = "none"; // Risultato vecchio quiz
-        document.getElementById('piccanteQuizBox').style.display = "none"; // Nuovo quiz
-        document.getElementById('piccanteResultBox').style.display = "none"; // Risultato nuovo quiz
-        document.getElementById('questionPage').style.display = "none"; // Pagina castoro "Do you like me?"
+        document.getElementById('oldQuizBox').style.display = "none";
+        document.getElementById('oldResultBox').style.display = "none";
+        document.getElementById('piccanteQuizBox').style.display = "none";
+        document.getElementById('piccanteResultBox').style.display = "none";
+        document.getElementById('questionPage').style.display = "none";
         document.getElementById('twentyBiscottiLetterPage').style.display = "none";
         document.getElementById('letterPage').style.display = "none";
         document.getElementById('vogliosaLetterPage').style.display = "none";
-        document.getElementById('timedMessageButton').style.display = "none"; // Nasconde il pulsante vogliosa
-        document.getElementById('giftMessageBox').style.display = "none"; // Nascondi il messaggio regalo quando si cambia pagina
-        isGiftMessageVisible = false; // Resetta lo stato del messaggio regalo
+        document.getElementById('timedMessageButton').style.display = "none";
+        document.getElementById('giftMessageBox').style.display = "none";
+        isGiftMessageVisible = false;
+        // Nascondi anche il contenitore degli elementi affiancati quando non sei sulla main page
+        document.querySelector('.side-by-side-container').style.display = "none";
     }
 
     function resetAppState() {
@@ -949,7 +966,7 @@
       document.getElementById('biscotti').innerText = `Hai ${biscotti} biscotti!`;
       document.getElementById('biscottiList').innerHTML = "";
       document.getElementById('biscotto-message').innerText = "Anche se non sono lì con te, tieni questo 🍪";
-      document.getElementById('heartBtn').style.display = "none"; /* Nascondi il bottone del cuore al reset */
+      document.getElementById('heartBtn').style.display = "none";
       document.getElementById('candyEmoji').style.display = "none";
       updateMoodBar();
       // Reset per il vecchio quiz
@@ -959,13 +976,12 @@
       piccanteAnswers = [];
       currentPiccanteQuestion = 1;
 
-      document.getElementById('timedMessageButton').style.display = "none"; // Nasconde il pulsante vogliosa
+      document.getElementById('timedMessageButton').style.display = "none";
       document.getElementById('giftMessageBox').style.display = "none";
       isGiftMessageVisible = false;
 
-      // Al reset, assicurati che la scatola regalo e Stitch siano di nuovo visibili sulla main page
-      document.getElementById('giftBox').style.display = "block";
-      document.getElementById('stitchImage').style.display = "block"; // Mostra di nuovo stitch1.PNG
+      // Al reset, assicurati che il contenitore degli elementi affiancati sia visibile sulla main page
+      document.querySelector('.side-by-side-container').style.display = "flex";
 
       startTimedMessage();
     }
@@ -987,20 +1003,17 @@
             if (mainPageIsActive && !quizActive && document.getElementById('timedMessageButton').style.display === 'none') {
                 document.getElementById('timedMessageButton').style.display = 'block';
             }
-        }, 5000); // Mostra dopo 5 secondi
+        }, 5000);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       setupQuestionPageButtons();
-      // Inizializza mostrando solo la mainPage
-      hideAllPages(); // Nasconde tutto per sicurezza
-      showMainPage(); // Mostra solo la mainPage e i suoi elementi iniziali
+      hideAllPages();
+      showMainPage();
       updateMoodBar();
       startTimedMessage();
     });
 
-    // Modifiche per assicurarsi che il timedMessageButton venga nascosto quando si accede ad altre pagine
-    // e per assicurare la visibilità di Stitch e Giftbox quando si torna alla mainPage
     const originalShowTwentyBiscottiLetter = showTwentyBiscottiLetter;
     showTwentyBiscottiLetter = function() {
         originalShowTwentyBiscottiLetter();
