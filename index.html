@@ -43,6 +43,9 @@
         gap: 40px; /* Spazio tra la scatola regalo e Stitch */
         margin-bottom: 30px; /* Spazio sotto questo blocco */
         flex-wrap: wrap; /* Permette agli elementi di andare a capo su schermi piccoli */
+        /* Aggiustamenti per spostare leggermente a destra Stitch e compensare */
+        padding-left: 20px; /* Sposta leggermente tutto il contenitore a destra se necessario */
+        padding-right: 20px;
     }
 
     /* Posizionamento fisso per gli elementi in sovrapposizione (pulsante vogliosa) */
@@ -95,15 +98,11 @@
       border-radius: 15px;
       border: 2px solid #e49ecf;
       z-index: 100;
-      /* Modifiche per il posizionamento come da ultima foto */
+      /* Modifiche per il posizionamento e la forma */
       top: 100%; /* Posiziona il top del messaggio al 100% dell'altezza della gift-box */
-      left: -50px; /* Sposta il lato sinistro del messaggio più a sinistra rispetto alla gift-box */
-      transform: none; /* Rimuovi qualsiasi traslazione X che lo centrava o spingeva a destra */
+      left: -80px; /* Sposta il lato sinistro del messaggio più a sinistra rispetto alla gift-box */
       margin-top: 10px; /* Aggiungi un po' di spazio tra la scatola e il messaggio */
-
-      /* Modifiche per la leggibilità e l'aspetto */
-      max-width: 250px; /* Larghezza massima per evitare sovrapposizioni e mantenere la forma */
-      width: 100%; /* Occupa il 100% della larghezza disponibile nel suo contenitore parent (gift-box-container) */
+      width: 250px; /* Larghezza fissa per il rettangolo */
       font-size: 16px; /* Dimensione del font per una buona leggibilità */
       text-align: left; /* Allinea il testo a sinistra */
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -111,6 +110,7 @@
       color: #5c2a6b;
       box-sizing: border-box; /* Assicura che padding e border siano inclusi nella larghezza */
     }
+
 
     .orsetto {
       font-size: 60px;
@@ -449,10 +449,31 @@
         cursor: pointer;
         transition: transform 0.2s ease-out;
         z-index: 10;
+        /* Spostamento di Stitch più a destra */
+        margin-left: 40px; /* Aggiungi margine sinistro per spostarlo a destra rispetto al suo punto di partenza */
     }
 
     .stitch-image:hover {
         transform: scale(1.05);
+    }
+
+    /* Media query per schermi più piccoli */
+    @media (max-width: 768px) {
+        .side-by-side-container {
+            flex-direction: column; /* Impila gli elementi verticalmente su schermi piccoli */
+            align-items: center; /* Centra gli elementi impilati */
+            gap: 20px; /* Riduci lo spazio tra gli elementi impilati */
+            padding: 0; /* Rimuovi padding extra su schermi piccoli */
+        }
+
+        .stitch-image {
+            margin-left: 0; /* Rimuovi il margine extra su schermi piccoli */
+        }
+
+        .gift-message-box {
+            left: 50%; /* Centra il messaggio sotto la gift-box su schermi piccoli */
+            transform: translateX(-50%); /* Aggiusta per il centraggio */
+        }
     }
   </style>
 </head>
