@@ -24,13 +24,15 @@
       --quiz-container-bg: #f5f3ff; /* Un lilla molto chiaro per il container */
       --quiz-shadow-color: rgba(0, 0, 0, 0.15); /* Ombra leggera */
 
+      --quiz-question-color: #4A037F; /* Viola scuro per le domande, come discusso */
+
       --transition-speed: 0.8s; /* Velocità di transizione tra le fasi */
     }
 
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif; /* Ho usato questo font, ma puoi cambiarlo */
+      font-family: 'Segoe UI', sans-serif;
       background-color: var(--intro-bg-color); /* Rosa chiaro */
       color: var(--intro-text-color);
       display: flex;
@@ -43,7 +45,23 @@
     }
 
     #container {
-      max-width: 90%; /* Come nel tuo esempio */
+      max-width: 90%; /* Default per intro */
+      width: 100%; /* Per occupare la larghezza disponibile */
+      padding: 20px; /* Padding default */
+      box-sizing: border-box;
+    }
+
+    /* Stili Fase 2 (Pre-Quiz, Quiz e Finale - tutto basato sull'immagine del corvo) */
+    body.phase-2 {
+        background-color: var(--quiz-bg-color); /* Lavanda chiaro */
+        color: var(--quiz-text-color);
+        font-family: var(--quiz-font);
+    }
+    .container.phase-2 {
+        background-color: var(--quiz-container-bg); /* Lilla chiaro per il container */
+        box-shadow: 0 8px 20px var(--quiz-shadow-color);
+        max-width: 95%; /* Più largo del 90% per i quiz */
+        padding: 30px 20px; /* Più spazio in alto/basso, meno ai lati per il design */
     }
 
     .hidden {
@@ -65,16 +83,21 @@
       background-color: var(--intro-clickable-hover); /* Rosa più chiaro all'hover */
     }
 
-    /* Stili Fase 2 (Pre-Quiz, Quiz e Finale - tutto basato sull'immagine del corvo) */
-    body.phase-2 {
-        background-color: var(--quiz-bg-color); /* Lavanda chiaro */
-        color: var(--quiz-text-color);
-        font-family: var(--quiz-font);
+    #intro-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-top: 20px; /* Spazio sotto il testo */
     }
-    .container.phase-2 {
-        background-color: var(--quiz-container-bg); /* Lilla chiaro per il container */
-        box-shadow: 0 8px 20px var(--quiz-shadow-color);
+    #intro-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
+
 
     .phase-2 h1, .phase-2 h2 {
         color: var(--quiz-primary-color);
@@ -88,9 +111,10 @@
     }
 
     .question-section p {
-        font-size: 1.15em;
-        margin-bottom: 15px;
-        color: var(--quiz-text-color);
+      font-size: 1.15em;
+      margin-bottom: 15px;
+      color: var(--quiz-question-color); /* Colore delle domande */
+      font-weight: bold; /* Grassetto per le domande */
     }
 
     /* Stile per le opzioni del quiz (label dei radio button) */
@@ -123,7 +147,7 @@
         color: white; /* Testo bianco */
     }
 
-    /* Stile per tutti i bottoni nella Fase 2 (Inizia Quiz, Scopri la tua verità) */
+    /* Stile per tutti i bottoni nella Fase 2 (Inizia Quiz, Scopri la tua verità, Navigazione) */
     .phase-2 button {
         background-color: var(--quiz-primary-color);
         color: white;
@@ -147,6 +171,19 @@
         transform: translateY(0); /* Rimuovi l'effetto sollevamento per i disabilitati */
     }
 
+    #quiz-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    #quiz-navigation button {
+        flex-grow: 1; /* Occupano lo spazio disponibile */
+        margin: 0 5px; /* Spazio tra i bottoni */
+    }
+    #quiz-navigation button:first-child { margin-left: 0; }
+    #quiz-navigation button:last-child { margin-right: 0; }
+
+
     #final-phrase {
         font-size: 1.4em;
         font-style: italic;
@@ -161,8 +198,7 @@
         margin-top: 20px;
         cursor: pointer;
         transition: transform 0.3s ease-out;
-        /* Aggiungo un piccolo bordo o ombra per indicare che è cliccabile */
-        border-radius: 50%; /* Se l'immagine è tonda */
+        border-radius: 50%;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
@@ -173,16 +209,21 @@
 
     /* Gestione delle sezioni con opacità per transizioni fluide */
     .page-section {
-        position: absolute; /* Permette transizioni di opacità senza influenzare il layout */
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        padding: inherit; /* Mantiene il padding del container */
+        padding: inherit;
         box-sizing: border-box;
         opacity: 0;
-        pointer-events: none; /* Non intercettare eventi quando è invisibile */
+        pointer-events: none;
         transition: opacity var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-in-out;
-        transform: translateY(20px); /* Piccola traslazione per l'effetto di ingresso */
+        transform: translateY(20px);
+        display: flex; /* Uso flexbox per centrare il contenuto di ogni sezione */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh; /* Occupano l'intera altezza del viewport */
     }
 
     .page-section.active {
@@ -199,7 +240,7 @@
 
     /* Specifiche per il container durante la transizione tra intro e quiz */
     .container.transitioning {
-        overflow: hidden; /* Nasconde il contenuto che esce/entra durante la transizione */
+        overflow: hidden;
     }
 
 
@@ -235,6 +276,13 @@
         #final-phrase {
             font-size: 1.2em;
         }
+        #quiz-navigation {
+            flex-direction: column; /* Bottoni di navigazione impilati su mobile */
+        }
+        #quiz-navigation button {
+            width: 100%;
+            margin-top: 10px; /* Spazio tra i bottoni impilati */
+        }
     }
   </style>
 </head>
@@ -255,54 +303,19 @@
 
     <div id="quiz-section" class="page-section">
         <div id="quizContent">
-            <div class="question-section" data-question-id="q1">
-                <p>1. Cosa speri che non vedano nei tuoi occhi?</p>
-                <div class="options">
-                    <input type="radio" id="q1o1" name="q1" value="La stanchezza"><label for="q1o1">La stanchezza</label>
-                    <input type="radio" id="q1o2" name="q1" value="La rabbia"><label for="q1o2">La rabbia</label>
-                    <input type="radio" id="q1o3" name="q1" value="Il senso di colpa"><label for="q1o3">Il senso di colpa</label>
-                    <input type="radio" id="q1o4" name="q1" value="Il vuoto"><label for="q1o4">Il vuoto</label>
-                </div>
             </div>
-
-            <div class="question-section" data-question-id="q2">
-                <p>2. Cosa dici quando stai male?</p>
-                <div class="options">
-                    <input type="radio" id="q2o1" name="q2" value="'Sto solo pensando'"><label for="q2o1">'Sto solo pensando'</label>
-                    <input type="radio" id="q2o2" name="q2" value="'Sono stanco'"><label for="q2o2">'Sono stanco'</label>
-                    <input type="radio" id="q2o3" name="q2" value="'Lasciami un po’ di spazio'"><label for="q2o3">'Lasciami un po’ di spazio'</label>
-                    <input type="radio" id="q2o4" name="q2" value="Niente"><label for="q2o4">Niente</label>
-                </div>
-            </div>
-
-            <div class="question-section" data-question-id="q3">
-                <p>3. A chi racconti la tua versione peggiore?</p>
-                <div class="options">
-                    <input type="radio" id="q3o1" name="q3" value="Nessuno"><label for="q3o1">Nessuno</label>
-                    <input type="radio" id="q3o2" name="q3" value="A chi non potrà ferirmi"><label for="q3o2">A chi non potrà ferirmi</label>
-                    <input type="radio" id="q3o3" name="q3" value="A chi amo"><label for="q3o3">A chi amo</label>
-                    <input type="radio" id="q3o4" name="q3" value="A me stesso"><label for="q3o4">A me stesso</label>
-                </div>
-            </div>
-
-            <div class="question-section" data-question-id="q4">
-                <p>4. Cosa ti ferisce di più?</p>
-                <div class="options">
-                    <input type="radio" id="q4o1" name="q4" value="Essere dimenticato"><label for="q4o1">Essere dimenticato</label>
-                    <input type="radio" id="q4o2" name="q4" value="Non essere capito"><label for="q4o2">Non essere capito</label>
-                    <input type="radio" id="q4o3" name="q4" value="Sentirmi inadeguato"><label for="q4o3">Sentirmi inadeguato</label>
-                    <input type="radio" id="q4o4" name="q4" value="Essere visto, davvero"><label for="q4o4">Essere visto, davvero</label>
-                </div>
-            </div>
+        <div id="quiz-navigation">
+            <button id="prev-question-button" class="hidden">Precedente</button>
+            <button id="next-question-button">Successivo</button>
+            <button id="submit-quiz" class="hidden" disabled>Scopri la tua verità</button>
         </div>
-        <button id="submit-quiz" disabled>Scopri la tua verità</button>
     </div>
 
     <div id="result-section" class="page-section">
       <h2>La verità non consola. Ma almeno ti guarda in faccia.</h2>
       <ul id="summary" style="list-style: none; padding: 0;"></ul>
       <img src="corvo.JPG" alt="Condividi su WhatsApp" id="final-image">
-      </div>
+    </div>
   </div>
 
   <script>
@@ -312,17 +325,36 @@
     const preQuizSection = document.getElementById('pre-quiz-section');
     const startQuizButton = document.getElementById('start-quiz-button');
     const quizSection = document.getElementById('quiz-section');
+    const quizContent = document.getElementById('quizContent');
+    const prevButton = document.getElementById('prev-question-button');
+    const nextButton = document.getElementById('next-question-button');
+    const submitButton = document.getElementById('submit-quiz');
     const resultSection = document.getElementById('result-section');
     const mainContainer = document.getElementById('container');
     const body = document.body;
-    const submitButton = document.getElementById('submit-quiz');
-    const finalPhraseElement = document.getElementById('final-phrase');
-    const finalImage = document.getElementById('final-image'); // L'immagine su cui cliccare per condividere
+    const finalImage = document.getElementById('final-image');
 
-    const allRadios = document.querySelectorAll('#quiz-section input[type="radio"]');
-    const questionsDivs = document.querySelectorAll('.question-section');
+    const quizData = [
+      {
+        question: "Cosa speri che non vedano nei tuoi occhi?",
+        options: ["La stanchezza", "La rabbia", "Il senso di colpa", "Il vuoto"]
+      },
+      {
+        question: "Cosa dici quando stai male?",
+        options: ["'Sto solo pensando'", "'Sono stanco'", "'Lasciami un po’ di spazio'", "Niente"]
+      },
+      {
+        question: "A chi racconti la tua versione peggiore?",
+        options: ["Nessuno", "A chi non potrà ferirmi", "A chi amo", "A me stesso"]
+      },
+      {
+        question: "Cosa ti ferisce di più?",
+        options: ["Essere dimenticato", "Non essere capito", "Sentirmi inadeguato", "Essere visto, davvero"]
+      }
+    ];
 
-    let userAnswers = {};
+    let userAnswers = new Array(quizData.length).fill(undefined);
+    let currentQuestionIndex = 0;
 
     function changeSection(hideSection, showSection, newBodyClass = null, newContainerClass = null) {
         hideSection.classList.remove('active');
@@ -338,8 +370,8 @@
                 mainContainer.className = newContainerClass;
             }
 
-            showSection.style.display = 'block';
-            showSection.offsetWidth;
+            showSection.style.display = 'flex'; // Usiamo flexbox per centrare il contenuto
+            showSection.offsetWidth; // Trigger reflow per animazione
             showSection.classList.add('active');
             mainContainer.classList.remove('transitioning');
         }, parseFloat(getComputedStyle(hideSection).transitionDuration) * 1000);
@@ -355,70 +387,116 @@
 
     startQuizButton.addEventListener('click', () => {
         changeSection(preQuizSection, quizSection, 'phase-2', 'container phase-2');
-        userAnswers = {};
-        allRadios.forEach(radio => radio.checked = false);
-        document.querySelectorAll('.options label').forEach(label => {
-            label.style.backgroundColor = '';
-            label.style.borderColor = '';
-            label.style.color = '';
-        });
-        checkAllAnswered();
+        userAnswers.fill(undefined); // Reset risposte
+        currentQuestionIndex = 0; // Inizia dalla prima domanda
+        renderQuestion();
     });
 
-    function checkAllAnswered() {
-        let allAnswered = true;
-        questionsDivs.forEach(qDiv => {
-            const questionName = qDiv.querySelector('input[type="radio"]').name;
-            const isQuestionAnswered = qDiv.querySelector(`input[name="${questionName}"]:checked`);
-            if (!isQuestionAnswered) {
-                allAnswered = false;
+    function renderQuestion() {
+        quizContent.innerHTML = ''; // Pulisce il contenuto precedente
+        const q = quizData[currentQuestionIndex];
+
+        const div = document.createElement('div');
+        div.classList.add('question-section');
+        div.innerHTML = `<p>${currentQuestionIndex + 1}. ${q.question}</p>`; // Numera la domanda
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.classList.add('options');
+
+        q.options.forEach((option, optionIndex) => {
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.id = `q${currentQuestionIndex}o${optionIndex}`;
+            input.name = `question${currentQuestionIndex}`;
+            input.value = option;
+            input.addEventListener('change', () => selectAnswer(currentQuestionIndex, option, input));
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `q${currentQuestionIndex}o${optionIndex}`);
+            label.innerText = option;
+
+            optionsDiv.appendChild(input);
+            optionsDiv.appendChild(label);
+
+            // Se questa opzione era già selezionata, la marchiamo come checked e con lo stile
+            if (userAnswers[currentQuestionIndex] === option) {
+                input.checked = true;
+                label.style.backgroundColor = 'var(--quiz-primary-color)';
+                label.style.borderColor = 'var(--quiz-primary-color)';
+                label.style.color = 'white';
             }
         });
+        div.appendChild(optionsDiv);
+        quizContent.appendChild(div);
+
+        updateNavigationButtons();
+    }
+
+    function selectAnswer(questionIndex, answer, selectedInput) {
+        userAnswers[questionIndex] = answer;
+
+        // Rimuove lo stile di selezione da tutte le opzioni della domanda corrente
+        const optionsLabels = selectedInput.parentElement.querySelectorAll('label');
+        optionsLabels.forEach(label => {
+            label.style.backgroundColor = 'var(--quiz-container-bg)';
+            label.style.borderColor = 'var(--quiz-border-color)';
+            label.style.color = 'var(--quiz-text-color)';
+        });
+
+        // Applica lo stile solo all'opzione selezionata
+        selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-primary-color)';
+        selectedInput.nextElementSibling.style.borderColor = 'var(--quiz-primary-color)';
+        selectedInput.nextElementSibling.style.color = 'white';
+
+        updateNavigationButtons(); // Aggiorna lo stato dei bottoni (inclusi submit)
+    }
+
+    function updateNavigationButtons() {
+        prevButton.classList.toggle('hidden', currentQuestionIndex === 0);
+        nextButton.classList.toggle('hidden', currentQuestionIndex === quizData.length - 1);
+        submitButton.classList.toggle('hidden', currentQuestionIndex !== quizData.length - 1);
+
+        // Abilita il pulsante "Scopri la tua verità" solo se tutte le domande hanno una risposta
+        const allAnswered = userAnswers.every(answer => answer !== undefined);
         submitButton.disabled = !allAnswered;
     }
 
-    allRadios.forEach(radio => {
-        radio.addEventListener('change', (event) => {
-            const questionName = event.target.name;
-            const answerValue = event.target.value;
-            userAnswers[questionName] = answerValue;
+    prevButton.addEventListener('click', () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            renderQuestion();
+        }
+    });
 
-            const currentLabel = event.target.nextElementSibling;
-            const optionsInThisQuestion = event.target.parentElement.querySelectorAll('label');
-            optionsInThisQuestion.forEach(label => {
-                label.style.backgroundColor = 'var(--quiz-container-bg)';
-                label.style.borderColor = 'var(--quiz-border-color)';
-                label.style.color = 'var(--quiz-text-color)';
-            });
-            currentLabel.style.backgroundColor = 'var(--quiz-primary-color)';
-            currentLabel.style.borderColor = 'var(--quiz-primary-color)';
-            currentLabel.style.color = 'white';
-
-            checkAllAnswered();
-        });
+    nextButton.addEventListener('click', () => {
+        // Controlla se la domanda attuale ha una risposta prima di passare alla successiva
+        if (userAnswers[currentQuestionIndex] !== undefined) {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        } else {
+            alert("Per favore, seleziona una risposta per questa domanda prima di continuare.");
+        }
     });
 
     submitButton.addEventListener('click', () => {
-        if (Object.keys(userAnswers).length < questionsDivs.length) {
-            alert("Rispondi a tutte le domande per scoprire la tua verità.");
-            return;
+        // Una verifica finale prima di mostrare i risultati
+        if (userAnswers.every(answer => answer !== undefined)) {
+            showResult();
+        } else {
+            alert("Per favore, rispondi a tutte le domande.");
         }
-        showResult();
     });
+
 
     function showResult() {
         const ul = document.getElementById('summary');
         ul.innerHTML = '';
-        questionsDivs.forEach(qDiv => {
-            const questionText = qDiv.querySelector('p').textContent;
-            const questionName = qDiv.querySelector('input[type="radio"]').name;
-            const answer = userAnswers[questionName];
-
-            if (answer) {
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${questionText}</strong> <br> &rarr; ${answer}`;
-                ul.appendChild(li);
-            }
+        userAnswers.forEach((answer, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${index + 1}. ${quizData[index].question}</strong> <br> &rarr; ${answer}`;
+            ul.appendChild(li);
         });
 
         changeSection(quizSection, resultSection, 'phase-2', 'container phase-2');
@@ -430,39 +508,25 @@
     function shareWhatsApp() {
         let whatsappMessage = "Ho scoperto il mio lato nascosto:\n\n";
 
-        questionsDivs.forEach(qDiv => {
-            const questionText = qDiv.querySelector('p').textContent.replace(/^\d+\.\s/, '');
-            const questionName = qDiv.querySelector('input[type="radio"]').name;
-            const answer = userAnswers[questionName];
-            if (answer) {
-                whatsappMessage += `${questionText.trim()} → ${answer}\n`;
-            }
+        userAnswers.forEach((answer, index) => {
+            whatsappMessage += `${index + 1}. ${quizData[index].question.replace(/^\d+\.\s/, '')} → ${answer}\n`;
         });
 
-        whatsappMessage += `\n"${finalPhraseElement.textContent}"`;
-        whatsappMessage += `\n\nScoprilo anche tu: ${window.location.href}`;
+        // Puoi aggiungere qui una frase finale se vuoi, o lasciarla vuota
+        const finalPhrase = "Questa è la mia verità. Scoprila anche tu!"; // Frase finale
+        whatsappMessage += `\n"${finalPhrase}"`;
+        whatsappMessage += `\n\nScoprilo anche tu: ${window.location.href}`; // Link del sito
 
-        // L'URL dell'immagine del corvo per la condivisione (corvo.JPG)
-        const imageUrl = window.location.origin + '/corvo.JPG'; // Assicurati che il percorso sia corretto
-
-        // Tenta di includere l'immagine nell'URL di WhatsApp.
-        // NOTA: Questa funzionalità è molto limitata e potrebbe non funzionare.
-        // WhatsApp solitamente permette di pre-compilare solo il testo.
         const encodedMessage = encodeURIComponent(whatsappMessage);
-        // Alcune fonti suggeriscono di aggiungere &attachment=URL_IMMAGINE ma non è standard.
-        // In alternativa, si potrebbe provare a usare l'API Web Share se si condivide un blob/file,
-        // ma è più complesso e richiede il consenso dell'utente.
-        const whatsappUrl = `https://wa.me/?text=${encodedMessage}`; // Questo è l'approccio più affidabile per solo testo
-
-        // Per un tentativo di includere l'immagine (non garantito):
-        // const whatsappUrl = `https://wa.me/?text=${encodedMessage}&image=${encodeURIComponent(imageUrl)}`;
-        // Oppure, per desktop, si può provare con file:// URL (ma ha restrizioni di sicurezza)
-        // La soluzione migliore è che l'utente selezioni l'immagine manualmente.
+        const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
 
         window.open(whatsappUrl, '_blank');
     }
 
-    checkAllAnswered();
+    // Inizializza i bottoni di navigazione al caricamento
+    // Non chiamo renderQuestion qui perché inizialmente non siamo nel quiz
+    // La prima domanda verrà renderizzata quando si clicca "Inizia il Quiz"
+    // updateNavigationButtons(); // Commentato perché non serve all'inizio
   </script>
 </body>
 </html>
