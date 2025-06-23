@@ -90,7 +90,7 @@
     }
     #app.phase-3 {
         background-color: var(--result-container-bg); /* Contenitore bianco */
-        box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2; /* Bordo neon */
+        box-shadow: 0 8px 20px var(--result-shadow-color); /* Ombra normale per il container */
         max-width: 95%;
         padding: 30px 20px;
         color: var(--result-text-color);
@@ -159,7 +159,7 @@
         width: 200px; /* Dimensione dell'immagine */
         height: 200px;
         object-fit: cover;
-        border-radius: 15px; /* Bordi leggermente arrotondati */
+        border-radius: 50%; /* Reso circolare */
         cursor: pointer;
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
@@ -214,6 +214,7 @@
         color: white; /* Testo bianco per contrasto */
     }
 
+    /* I pulsanti di navigazione sono stati rimossi in JS, ma tengo lo stile base */
     .action-button {
         background-color: var(--quiz-primary-color);
         color: white;
@@ -224,6 +225,8 @@
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
         margin-top: 20px;
+        /* Bordo neon per tutti i pulsanti */
+        box-shadow: 0 0 10px 2px #ff00ff, 0 0 15px 5px #8a2be2;
     }
 
     .action-button:hover {
@@ -237,18 +240,10 @@
         transform: translateY(0);
     }
 
+    /* #quiz-navigation non è più usato, ma lo lascio vuoto per precauzione */
     #quiz-navigation {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        width: 100%;
+        display: none; /* Nascosto completamente */
     }
-    #quiz-navigation button {
-        flex-grow: 1;
-        margin: 0 5px;
-    }
-    #quiz-navigation button:first-child { margin-left: 0; }
-    #quiz-navigation button:last-child { margin-right: 0; }
 
     #summary {
         list-style: none;
@@ -287,6 +282,9 @@
         z-index: 10;
         opacity: 0;
         transition: opacity 0.5s ease-in-out;
+        /* Bordo neon per l'immagine del corvo da condividere */
+        box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2;
+        border-radius: 50%; /* Mantiene la forma circolare anche con il bordo neon */
     }
     #final-image-wrapper.show {
         opacity: 1;
@@ -299,12 +297,12 @@
         cursor: pointer;
         transition: transform 0.3s ease-out;
         border-radius: 50%;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     #final-image:hover {
         transform: scale(1.1);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        /* Mantieni l'ombra per un leggero effetto di sollevamento, o rimuovila se preferisci solo il neon */
+        /* box-shadow: 0 6px 12px rgba(0,0,0,0.3); */
     }
 
     /* Media queries per una migliore responsività */
@@ -346,13 +344,7 @@
         #final-phrase {
             font-size: 1.2em;
         }
-        #quiz-navigation {
-            flex-direction: column;
-        }
-        #quiz-navigation button {
-            width: 100%;
-            margin-top: 10px;
-        }
+        /* #quiz-navigation è nascosto, non necessita di media query */
 
         #final-image-wrapper {
             bottom: 10px;
@@ -401,7 +393,7 @@
             <div id="intro">
                 <h1>Sai quanto ti amo?</h1>
                 <p>Clicca per scoprire il mio amore verso di te.</p>
-                <img src="image.png-bfd206ac-6a31-48e3-8590-d4f63533ab07" alt="Corvo e coniglio" id="intro-image">
+                <img src="image.png-71d06fc6-d286-4b9c-ae50-0cb1fcd5fdbd" alt="Corvo e coniglio" id="intro-image">
             </div>
         `;
         body.className = 'phase-1';
@@ -414,7 +406,7 @@
         app.innerHTML = `
             <div id="pre-quiz-section">
                 <h2>Ora che hai cliccato… vediamo il tuo lato nascosto.</h2>
-                <img src="corvodorme.JPG" alt="Inizia il Quiz" id="start-quiz-image">
+                <img src="image.png-e3cd8e99-f7b5-4f88-a3d9-013c3e3d0544" alt="Inizia il Quiz" id="start-quiz-image">
             </div>
         `;
         body.className = 'phase-2';
@@ -447,11 +439,6 @@
                         <div class="options">${optionsHtml}</div>
                     </div>
                 </div>
-                <div id="quiz-navigation">
-                    <button id="prev-question-button" class="action-button ${currentQuestionIndex === 0 ? 'hidden' : ''}">Precedente</button>
-                    <button id="next-question-button" class="action-button ${currentQuestionIndex === quizData.length - 1 ? 'hidden' : ''}">Successivo</button>
-                    <button id="submit-quiz" class="action-button ${currentQuestionIndex !== quizData.length - 1 ? 'hidden' : ''}" ${userAnswers.every(a => a !== undefined) ? '' : 'disabled'}>Scopri la tua verità</button>
-                </div>
             </div>
         `;
         body.className = 'phase-2';
@@ -461,36 +448,17 @@
         document.querySelectorAll(`#quizContent input[type="radio"]`).forEach(input => {
             input.addEventListener('change', (event) => {
                 selectAnswer(currentQuestionIndex, event.target.value, event.target);
+                // Avanza alla prossima domanda o mostra il risultato automaticamente
+                setTimeout(() => { // Piccolo ritardo per visualizzare la selezione
+                    if (currentQuestionIndex < quizData.length - 1) {
+                        currentQuestionIndex++;
+                        renderQuiz();
+                    } else {
+                        renderResult();
+                    }
+                }, 300); // 300ms di ritardo
             });
         });
-
-        // Aggiungi listener per i bottoni di navigazione e submit
-        if (currentQuestionIndex > 0) {
-            document.getElementById('prev-question-button').addEventListener('click', () => {
-                currentQuestionIndex--;
-                renderQuiz();
-            });
-        }
-        if (currentQuestionIndex < quizData.length - 1) {
-            document.getElementById('next-question-button').addEventListener('click', () => {
-                if (userAnswers[currentQuestionIndex] !== undefined) {
-                    currentQuestionIndex++;
-                    renderQuiz();
-                } else {
-                    alert("Per favorere, seleziona una risposta per questa domanda prima di continuare.");
-                }
-            });
-        }
-        if (currentQuestionIndex === quizData.length - 1) {
-            document.getElementById('submit-quiz').addEventListener('click', () => {
-                if (userAnswers.every(a => a !== undefined)) {
-                    renderResult();
-                } else {
-                    alert("Per favore, rispondi a tutte le domande.");
-                }
-            });
-        }
-        updateSubmitButtonState();
     }
 
     function selectAnswer(questionIndex, answer, selectedInput) {
@@ -506,16 +474,6 @@
         selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-selected-option-color)'; // Viola pastello
         selectedInput.nextElementSibling.style.borderColor = 'var(--quiz-primary-color)';
         selectedInput.nextElementSibling.style.color = 'white';
-
-        updateSubmitButtonState();
-    }
-
-    function updateSubmitButtonState() {
-        const submitButton = document.getElementById('submit-quiz');
-        if (submitButton) {
-            const allAnswered = userAnswers.every(answer => answer !== undefined);
-            submitButton.disabled = !allAnswered;
-        }
     }
 
     function renderResult() {
