@@ -196,6 +196,8 @@
         border: 1px solid var(--quiz-border-color);
         font-size: 1em;
         color: var(--quiz-text-color);
+        /* Bordo neon per le opzioni del quiz */
+        box-shadow: 0 0 5px 1px #ff00ff, 0 0 10px 3px #8a2be2;
     }
 
     .options label:hover {
@@ -212,6 +214,8 @@
         background-color: var(--quiz-selected-option-color); /* Viola pastello dolce */
         border-color: var(--quiz-primary-color); /* Mantiene il bordo viola scuro */
         color: white; /* Testo bianco per contrasto */
+        /* Bordo neon un po' più intenso per l'opzione selezionata */
+        box-shadow: 0 0 10px 2px #ff00ff, 0 0 20px 6px #8a2be2;
     }
 
     /* I pulsanti di navigazione sono stati rimossi in JS, ma tengo lo stile base */
@@ -225,7 +229,7 @@
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
         margin-top: 20px;
-        /* Bordo neon per tutti i pulsanti */
+        /* Bordo neon per tutti i pulsanti (in questo caso il pulsante "Inizia il Quiz" se ripristinato, o altri eventuali) */
         box-shadow: 0 0 10px 2px #ff00ff, 0 0 15px 5px #8a2be2;
     }
 
@@ -393,7 +397,7 @@
             <div id="intro">
                 <h1>Sai quanto ti amo?</h1>
                 <p>Clicca per scoprire il mio amore verso di te.</p>
-                <img src="image.png-71d06fc6-d286-4b9c-ae50-0cb1fcd5fdbd" alt="Corvo e coniglio" id="intro-image">
+                <img src="corvocarino.JPG" alt="Corvo carino" id="intro-image">
             </div>
         `;
         body.className = 'phase-1';
@@ -406,7 +410,7 @@
         app.innerHTML = `
             <div id="pre-quiz-section">
                 <h2>Ora che hai cliccato… vediamo il tuo lato nascosto.</h2>
-                <img src="image.png-e3cd8e99-f7b5-4f88-a3d9-013c3e3d0544" alt="Inizia il Quiz" id="start-quiz-image">
+                <img src="corvodorme.JPG" alt="Inizia il Quiz" id="start-quiz-image">
             </div>
         `;
         body.className = 'phase-2';
@@ -469,11 +473,15 @@
             label.style.backgroundColor = 'var(--quiz-container-bg)';
             label.style.borderColor = 'var(--quiz-border-color)';
             label.style.color = 'var(--quiz-text-color)';
+            // Rimuovi lo shadow dalle opzioni non selezionate per coerenza
+            label.style.boxShadow = '0 0 5px 1px #ff00ff, 0 0 10px 3px #8a2be2';
         });
 
         selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-selected-option-color)'; // Viola pastello
         selectedInput.nextElementSibling.style.borderColor = 'var(--quiz-primary-color)';
         selectedInput.nextElementSibling.style.color = 'white';
+        // Applica lo shadow più intenso all'opzione selezionata
+        selectedInput.nextElementSibling.style.boxShadow = '0 0 10px 2px #ff00ff, 0 0 20px 6px #8a2be2';
     }
 
     function renderResult() {
