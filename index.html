@@ -38,40 +38,41 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif; /* Font di base, verrà sovrascritto */
-      background-color: var(--intro-bg-color); /* Rosa chiaro iniziale */
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--intro-bg-color);
       color: var(--intro-text-color);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      transition: all 0.8s ease;
+      transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
       text-align: center;
-      position: relative; /* Per posizionamento assoluto delle sezioni */
-      overflow-x: hidden; /* Evita scroll orizzontale durante transizioni */
+      position: relative;
+      overflow-x: hidden;
     }
 
-    #container {
+    #app {
       max-width: 90%;
       width: 100%;
       padding: 20px;
       box-sizing: border-box;
-      position: relative; /* Necessario per sezioni page-section assolute */
-      min-height: 500px; /* Altezza minima per il container */
-      display: flex; /* Flex per centrare il contenuto delle fasi */
+      position: relative;
+      min-height: 500px;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, padding var(--transition-speed) ease;
     }
 
     /* Stili per la Fase 2 (Quiz) */
     body.phase-2 {
         background-color: var(--quiz-bg-color);
-        color: var(--quiz-text-color); /* Testo base chiaro */
+        color: var(--quiz-text-color);
         font-family: var(--quiz-font);
     }
-    .container.phase-2 {
+    #app.phase-2 {
         background-color: var(--quiz-container-bg);
         box-shadow: 0 8px 20px var(--quiz-shadow-color);
         max-width: 95%;
@@ -85,7 +86,7 @@
         color: var(--result-text-color);
         font-family: var(--quiz-font);
     }
-    .container.phase-3 {
+    #app.phase-3 {
         background-color: var(--result-container-bg);
         box-shadow: 0 8px 20px var(--result-shadow-color);
         max-width: 95%;
@@ -97,19 +98,19 @@
     }
 
     .hidden {
-      display: none !important; /* Forza la scomparsa */
+      display: none !important;
     }
 
     /* Stili introduttivi romantici con font originale */
     #intro h1 {
-        font-family: 'Segoe UI', sans-serif; /* Font originale per il titolo intro */
-        color: #e91e63; /* Rosa più profondo */
+        font-family: 'Segoe UI', sans-serif;
+        color: #e91e63;
         font-size: 2.8em;
         margin-bottom: 10px;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     #intro p {
-        font-family: 'Segoe UI', sans-serif; /* Font originale per il sottotitolo intro */
+        font-family: 'Segoe UI', sans-serif;
         font-size: 1.2em;
         color: #555;
         margin-bottom: 30px;
@@ -132,12 +133,12 @@
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     }
 
-    .phase-2 h1, .phase-2 h2 {
+    #pre-quiz-section h2, #quiz-section h2 {
         color: var(--quiz-primary-color);
         margin-bottom: 25px;
         font-weight: 700;
     }
-    .phase-3 h2 {
+    #result-section h2 {
         color: var(--result-primary-color);
         margin-bottom: 25px;
         font-weight: 700;
@@ -146,7 +147,7 @@
     .question-section {
         margin-bottom: 30px;
         text-align: left;
-        width: 100%; /* Assicurati che la sezione domanda occupi lo spazio */
+        width: 100%;
     }
 
     .question-section p {
@@ -184,7 +185,7 @@
         color: white;
     }
 
-    .phase-2 button {
+    .action-button {
         background-color: var(--quiz-primary-color);
         color: white;
         border: none;
@@ -196,38 +197,22 @@
         margin-top: 20px;
     }
 
-    .phase-2 button:hover {
+    .action-button:hover {
         background-color: var(--quiz-button-hover-color);
         transform: translateY(-2px);
     }
 
-    .phase-2 button:disabled {
+    .action-button:disabled {
         background-color: #999;
         cursor: not-allowed;
         transform: translateY(0);
-    }
-
-    .phase-3 button { /* I bottoni della fase risultato non dovrebbero esserci, ma lascio lo stile */
-        background-color: var(--result-primary-color);
-        color: white;
-        border: none;
-        padding: 15px 25px;
-        border-radius: 8px;
-        font-size: 1.1em;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        margin-top: 20px;
-    }
-    .phase-3 button:hover {
-        background-color: #8b008b;
-        transform: translateY(-2px);
     }
 
     #quiz-navigation {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
-        width: 100%; /* Occupa tutta la larghezza */
+        width: 100%;
     }
     #quiz-navigation button {
         flex-grow: 1;
@@ -240,7 +225,7 @@
         list-style: none;
         padding: 0;
         margin-bottom: 20px;
-        text-align: left; /* Allinea il testo delle risposte a sinistra */
+        text-align: left;
     }
     #summary li {
         margin-bottom: 10px;
@@ -259,7 +244,7 @@
         word-wrap: break-word;
     }
 
-    /* Immagine finale del corvo fuori dal container dei risultati */
+    /* Immagine finale del corvo, ora posizionata globalmente */
     #final-image-wrapper {
         position: absolute;
         bottom: 20px;
@@ -271,7 +256,6 @@
         justify-content: center;
         align-items: center;
         z-index: 10;
-        /* Aggiungo transizione per l'apparizione */
         opacity: 0;
         transition: opacity 0.5s ease-in-out;
     }
@@ -294,48 +278,9 @@
         box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     }
 
-    /* Gestione delle sezioni con opacità per transizioni fluide */
-    .page-section {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%; /* Copre l'altezza del container genitore */
-        padding: inherit;
-        box-sizing: border-box;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-in-out;
-        transform: translateY(20px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .page-section.active {
-        opacity: 1;
-        pointer-events: all;
-        transform: translateY(0);
-        position: static; /* Quando attiva, occupa spazio normale nel flusso */
-    }
-    .page-section:not(.active) {
-        display: none;
-    }
-
-    #result-section.page-section.active {
-        justify-content: flex-start; /* Allinea il contenuto in alto nella sezione risultato */
-        padding-top: 50px;
-        height: auto; /* Permetti al contenuto di dettare l'altezza */
-    }
-
-    .container.transitioning {
-        overflow: hidden;
-    }
-
-
     /* Media queries per una migliore responsività */
     @media (max-width: 600px) {
-        .container {
+        #app {
             padding: 20px;
             margin: 10px;
         }
@@ -351,7 +296,7 @@
             height: 150px;
         }
 
-        .phase-2 h1, .phase-2 h2, .phase-3 h2 {
+        #pre-quiz-section h2, #quiz-section h2, #result-section h2 {
             font-size: 1.6em;
         }
 
@@ -364,7 +309,7 @@
             font-size: 0.95em;
         }
 
-        .phase-2 button, .phase-3 button {
+        .action-button {
             padding: 12px 20px;
             font-size: 1em;
         }
@@ -389,57 +334,19 @@
   </style>
 </head>
 <body class="phase-1">
-  <div id="container">
-
-    <div id="intro" class="page-section active">
-      <h1>Sai quanto ti amo?</h1>
-      <p>Clicca per scoprire il mio amore verso di te.</p>
-      <img src="corvocarino.JPG" alt="Cliccami per scoprire" id="intro-image">
+  <div id="app">
     </div>
-
-    <div id="pre-quiz-section" class="page-section hidden">
-        <h2>Ora che hai cliccato… vediamo il tuo lato nascosto.</h2>
-        <button id="start-quiz-button">Inizia il Quiz</button>
-    </div>
-
-    <div id="quiz-section" class="page-section hidden">
-        <div id="quizContent">
-            </div>
-        <div id="quiz-navigation">
-            <button id="prev-question-button" class="hidden">Precedente</button>
-            <button id="next-question-button">Successivo</button>
-            <button id="submit-quiz" class="hidden" disabled>Scopri la tua verità</button>
-        </div>
-    </div>
-
-    <div id="result-section" class="page-section hidden">
-      <h2>La verità non consola. Ma almeno ti guarda in faccia.</h2>
-      <ul id="summary"></ul>
-      <p id="final-phrase">Questa è la mia verità. Scoprila anche tu!</p>
-    </div>
-  </div>
 
   <div id="final-image-wrapper" class="hidden">
     <img src="corvo.JPG" alt="Condividi su WhatsApp" id="final-image">
   </div>
 
-
   <script>
-    const introSection = document.getElementById('intro');
-    const introImage = document.getElementById('intro-image');
-    const preQuizSection = document.getElementById('pre-quiz-section');
-    const startQuizButton = document.getElementById('start-quiz-button');
-    const quizSection = document.getElementById('quiz-section');
-    const quizContent = document.getElementById('quizContent');
-    const prevButton = document.getElementById('prev-question-button');
-    const nextButton = document.getElementById('next-question-button');
-    const submitButton = document.getElementById('submit-quiz');
-    const resultSection = document.getElementById('result-section');
-    const mainContainer = document.getElementById('container');
+    const app = document.getElementById('app');
     const body = document.body;
-    const finalImage = document.getElementById('final-image');
     const finalImageWrapper = document.getElementById('final-image-wrapper');
-    const finalPhraseElement = document.getElementById('final-phrase');
+    let userAnswers = [];
+    let currentQuestionIndex = 0;
 
     const quizData = [
       {
@@ -460,101 +367,107 @@
       }
     ];
 
-    let userAnswers = new Array(quizData.length).fill(undefined);
-    let currentQuestionIndex = 0;
-
-    function changeSection(hideSection, showSection, newBodyClass = null, newContainerClass = null) {
-        // Nascondi immediatamente l'immagine finale prima di qualsiasi transizione
-        finalImageWrapper.classList.add('hidden');
-
-        // Imposta la sezione che deve scomparire come non attiva
-        hideSection.classList.remove('active');
-        mainContainer.classList.add('transitioning'); // Aggiungi classe per la transizione del container
-
-        setTimeout(() => {
-            hideSection.style.display = 'none'; // Nascondi completamente la sezione che scompare
-
-            // Rimuovi tutte le classi di fase precedenti dal body e dal container
-            body.classList.remove('phase-1', 'phase-2', 'phase-3');
-            mainContainer.classList.remove('phase-1', 'phase-2', 'phase-3');
-
-            // Applica le nuove classi di fase al body e al container
-            if (newBodyClass) {
-                body.classList.add(newBodyClass);
-            }
-            if (newContainerClass) {
-                mainContainer.classList.add(newContainerClass);
-            }
-
-            // Mostra la nuova sezione e rendila attiva
-            showSection.style.display = 'flex'; // Imposta display flex per il contenuto
-            showSection.offsetWidth; // Trigger reflow per animazione
-            showSection.classList.add('active');
-
-            // Mostra l'immagine finale solo se la sezione mostrata è resultSection
-            if (showSection === resultSection) {
-                finalImageWrapper.classList.remove('hidden');
-                finalImageWrapper.classList.add('show'); // Aggiungi classe per l'animazione di opacità
-            }
-
-            mainContainer.classList.remove('transitioning'); // Rimuovi classe di transizione
-        }, parseFloat(getComputedStyle(hideSection).transitionDuration) * 1000);
+    function renderIntro() {
+        app.innerHTML = `
+            <div id="intro">
+                <h1>Sai quanto ti amo?</h1>
+                <p>Clicca per scoprire il mio amore verso di te.</p>
+                <img src="corvocarino.JPG" alt="Corvo e coniglio" id="intro-image">
+            </div>
+        `;
+        body.className = 'phase-1';
+        app.className = ''; // Rimuovi classi specifiche del container
+        document.getElementById('intro-image').addEventListener('click', renderPreQuiz);
+        finalImageWrapper.classList.add('hidden'); // Assicurati che sia nascosto
     }
 
-    // Passaggio da intro a pre-quiz
-    introImage.addEventListener('click', () => {
-        changeSection(introSection, preQuizSection, 'phase-2', 'container phase-2');
-    });
+    function renderPreQuiz() {
+        app.innerHTML = `
+            <div id="pre-quiz-section">
+                <h2>Ora che hai cliccato… vediamo il tuo lato nascosto.</h2>
+                <button id="start-quiz-button" class="action-button">Inizia il Quiz</button>
+            </div>
+        `;
+        body.className = 'phase-2';
+        app.className = 'phase-2'; // Applica classi per il container
+        document.getElementById('start-quiz-button').addEventListener('click', renderQuiz);
+    }
 
-    startQuizButton.addEventListener('click', () => {
-        changeSection(preQuizSection, quizSection, 'phase-2', 'container phase-2');
-        userAnswers.fill(undefined);
-        currentQuestionIndex = 0;
-        renderQuestion();
-    });
+    function renderQuiz() {
+        if (userAnswers.length === 0) { // Inizializza le risposte solo alla prima entrata nel quiz
+            userAnswers = new Array(quizData.length).fill(undefined);
+        }
 
-    function renderQuestion() {
-        quizContent.innerHTML = '';
         const q = quizData[currentQuestionIndex];
-
-        const div = document.createElement('div');
-        div.classList.add('question-section');
-        div.innerHTML = `<p>${currentQuestionIndex + 1}. ${q.question}</p>`;
-
-        const optionsDiv = document.createElement('div');
-        optionsDiv.classList.add('options');
-
+        let optionsHtml = '';
         q.options.forEach((option, optionIndex) => {
-            const input = document.createElement('input');
-            input.type = 'radio';
-            input.id = `q${currentQuestionIndex}o${optionIndex}`;
-            input.name = `question${currentQuestionIndex}`;
-            input.value = option;
-            input.addEventListener('change', () => selectAnswer(currentQuestionIndex, option, input));
-
-            const label = document.createElement('label');
-            label.setAttribute('for', `q${currentQuestionIndex}o${optionIndex}`);
-            label.innerText = option;
-
-            optionsDiv.appendChild(input);
-            optionsDiv.appendChild(label);
-
-            if (userAnswers[currentQuestionIndex] === option) {
-                input.checked = true;
-                label.style.backgroundColor = 'var(--quiz-primary-color)';
-                label.style.borderColor = 'var(--quiz-primary-color)';
-                label.style.color = 'white';
-            }
+            const checked = userAnswers[currentQuestionIndex] === option ? 'checked' : '';
+            const selectedClass = userAnswers[currentQuestionIndex] === option ?
+                'background-color: var(--quiz-primary-color); border-color: var(--quiz-primary-color); color: white;' : '';
+            optionsHtml += `
+                <input type="radio" id="q${currentQuestionIndex}o${optionIndex}" name="question${currentQuestionIndex}" value="${option}" ${checked}>
+                <label for="q${currentQuestionIndex}o${optionIndex}" style="${selectedClass}">${option}</label>
+            `;
         });
-        div.appendChild(optionsDiv);
-        quizContent.appendChild(div);
 
-        updateNavigationButtons();
+        app.innerHTML = `
+            <div id="quiz-section">
+                <div id="quizContent">
+                    <div class="question-section">
+                        <p>${currentQuestionIndex + 1}. ${q.question}</p>
+                        <div class="options">${optionsHtml}</div>
+                    </div>
+                </div>
+                <div id="quiz-navigation">
+                    <button id="prev-question-button" class="action-button ${currentQuestionIndex === 0 ? 'hidden' : ''}">Precedente</button>
+                    <button id="next-question-button" class="action-button ${currentQuestionIndex === quizData.length - 1 ? 'hidden' : ''}">Successivo</button>
+                    <button id="submit-quiz" class="action-button ${currentQuestionIndex !== quizData.length - 1 ? 'hidden' : ''}" ${userAnswers.every(a => a !== undefined) ? '' : 'disabled'}>Scopri la tua verità</button>
+                </div>
+            </div>
+        `;
+        body.className = 'phase-2';
+        app.className = 'phase-2'; // Applica classi per il container
+
+        // Aggiungi listener per le opzioni
+        document.querySelectorAll(`#quizContent input[type="radio"]`).forEach(input => {
+            input.addEventListener('change', (event) => {
+                selectAnswer(currentQuestionIndex, event.target.value, event.target);
+            });
+        });
+
+        // Aggiungi listener per i bottoni di navigazione e submit
+        if (currentQuestionIndex > 0) {
+            document.getElementById('prev-question-button').addEventListener('click', () => {
+                currentQuestionIndex--;
+                renderQuiz();
+            });
+        }
+        if (currentQuestionIndex < quizData.length - 1) {
+            document.getElementById('next-question-button').addEventListener('click', () => {
+                if (userAnswers[currentQuestionIndex] !== undefined) {
+                    currentQuestionIndex++;
+                    renderQuiz();
+                } else {
+                    alert("Per favore, seleziona una risposta per questa domanda prima di continuare.");
+                }
+            });
+        }
+        if (currentQuestionIndex === quizData.length - 1) {
+            document.getElementById('submit-quiz').addEventListener('click', () => {
+                if (userAnswers.every(a => a !== undefined)) {
+                    renderResult();
+                } else {
+                    alert("Per favore, rispondi a tutte le domande.");
+                }
+            });
+        }
+        updateSubmitButtonState(); // Aggiorna lo stato iniziale del submit button
     }
 
     function selectAnswer(questionIndex, answer, selectedInput) {
         userAnswers[questionIndex] = answer;
 
+        // Aggiorna lo stile delle label per la domanda corrente
         const optionsLabels = selectedInput.parentElement.querySelectorAll('label');
         optionsLabels.forEach(label => {
             label.style.backgroundColor = 'var(--quiz-container-bg)';
@@ -566,66 +479,52 @@
         selectedInput.nextElementSibling.style.borderColor = 'var(--quiz-primary-color)';
         selectedInput.nextElementSibling.style.color = 'white';
 
-        updateNavigationButtons();
+        updateSubmitButtonState();
     }
 
-    function updateNavigationButtons() {
-        prevButton.classList.toggle('hidden', currentQuestionIndex === 0);
-        nextButton.classList.toggle('hidden', currentQuestionIndex === quizData.length - 1);
-        submitButton.classList.toggle('hidden', currentQuestionIndex !== quizData.length - 1);
-
-        const allAnswered = userAnswers.every(answer => answer !== undefined);
-        submitButton.disabled = !allAnswered;
+    function updateSubmitButtonState() {
+        const submitButton = document.getElementById('submit-quiz');
+        if (submitButton) {
+            const allAnswered = userAnswers.every(answer => answer !== undefined);
+            submitButton.disabled = !allAnswered;
+        }
     }
 
-    prevButton.addEventListener('click', () => {
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            renderQuestion();
-        }
-    });
-
-    nextButton.addEventListener('click', () => {
-        if (userAnswers[currentQuestionIndex] !== undefined) {
-            if (currentQuestionIndex < quizData.length - 1) {
-                currentQuestionIndex++;
-                renderQuestion();
-            }
-        } else {
-            alert("Per favore, seleziona una risposta per questa domanda prima di continuare.");
-        }
-    });
-
-    submitButton.addEventListener('click', () => {
-        if (userAnswers.every(answer => answer !== undefined)) {
-            showResult();
-        } else {
-            alert("Per favore, rispondi a tutte le domande.");
-        }
-    });
-
-    function showResult() {
-        const ul = document.getElementById('summary');
-        ul.innerHTML = '';
+    function renderResult() {
+        let summaryHtml = '';
         userAnswers.forEach((answer, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${index + 1}. ${quizData[index].question}</strong> <br> &rarr; ${answer}`;
-            ul.appendChild(li);
+            summaryHtml += `
+                <li>
+                    <strong>${index + 1}. ${quizData[index].question}</strong> <br> &rarr; ${answer}
+                </li>
+            `;
         });
 
-        changeSection(quizSection, resultSection, 'phase-3', 'container phase-3');
+        app.innerHTML = `
+            <div id="result-section">
+                <h2>La verità non consola. Ma almeno ti guarda in faccia.</h2>
+                <ul id="summary">${summaryHtml}</ul>
+                <p id="final-phrase">Questa è la mia verità. Scoprila anche tu!</p>
+            </div>
+        `;
+        body.className = 'phase-3';
+        app.className = 'phase-3'; // Applica classi per il container
+
+        // Mostra l'immagine finale della condivisione
+        finalImageWrapper.classList.remove('hidden');
+        finalImageWrapper.classList.add('show');
+        document.getElementById('final-image').addEventListener('click', shareWhatsApp);
     }
 
-    finalImage.addEventListener('click', shareWhatsApp);
-
     function shareWhatsApp() {
+        const finalPhraseText = document.getElementById('final-phrase').textContent;
         let whatsappMessage = "Ho scoperto il mio lato nascosto:\n\n";
 
         userAnswers.forEach((answer, index) => {
-            whatsappMessage += `${index + 1}. ${quizData[index].question.replace(/^\d+\.\s/, '')} → ${answer}\n`;
+            whatsappMessage += `${index + 1}. ${quizData[index].question} → ${answer}\n`;
         });
 
-        whatsappMessage += `\n"${finalPhraseElement.textContent}"`;
+        whatsappMessage += `\n"${finalPhraseText}"`;
         whatsappMessage += `\n\nScoprilo anche tu: ${window.location.href}`;
 
         const encodedMessage = encodeURIComponent(whatsappMessage);
@@ -633,6 +532,9 @@
 
         window.open(whatsappUrl, '_blank');
     }
+
+    // Inizializza l'applicazione mostrando la prima fase
+    renderIntro();
   </script>
 </body>
 </html>
