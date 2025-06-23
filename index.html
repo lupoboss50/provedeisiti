@@ -22,15 +22,17 @@
       --quiz-border-color: #C8C1DA; /* Bordo più chiaro per contrasto */
       --quiz-container-bg: rgba(55, 45, 86, 0.9); /* Container viola scuro leggermente trasparente */
       --quiz-shadow-color: rgba(0, 0, 0, 0.4);
+      --quiz-selected-option-color: #A799FF; /* Viola pastello dolce per opzione selezionata */
+
 
       --quiz-question-color: #E0E0E0; /* Domande in un colore molto chiaro su sfondo scuro */
 
-      /* Colori Fase 3 (Risultato - Sfondo viola chiaro) */
-      --result-bg-color: #E8E6FC; /* Lavanda molto chiaro */
-      --result-text-color: #333; /* Testo scuro */
+      /* Colori Fase 3 (Risultato - Sfondo viola scuro come corvo) */
+      --result-bg-color: #372D56; /* Viola scuro come sfondo del corvo che dorme */
+      --result-text-color: #333; /* Testo scuro per il container bianco */
       --result-primary-color: #6a05ad;
       --result-container-bg: #f5f3ff; /* Container risultato viola chiaro */
-      --result-shadow-color: rgba(0, 0, 0, 0.15);
+      --result-shadow-color: rgba(0, 0, 0, 0.15); /* Ombra normale per il container */
 
       --transition-speed: 0.8s;
     }
@@ -82,13 +84,13 @@
 
     /* Stili per la Fase 3 (Risultato) */
     body.phase-3 {
-        background-color: var(--result-bg-color);
+        background-color: var(--result-bg-color); /* Sfondo viola scuro per la pagina dei risultati */
         color: var(--result-text-color);
         font-family: var(--quiz-font);
     }
     #app.phase-3 {
-        background-color: var(--result-container-bg);
-        box-shadow: 0 8px 20px var(--result-shadow-color);
+        background-color: var(--result-container-bg); /* Contenitore bianco */
+        box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2; /* Bordo neon */
         max-width: 95%;
         padding: 30px 20px;
         color: var(--result-text-color);
@@ -133,16 +135,42 @@
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     }
 
-    #pre-quiz-section h2, #quiz-section h2 {
+    /* Stili per la pagina "Ora che hai cliccato..." */
+    #pre-quiz-section h2 {
+        color: white; /* Titolo in bianco */
+        margin-bottom: 25px;
+        font-weight: 700;
+    }
+    /* Stili per il quiz vero e proprio */
+    #quiz-section h2 {
         color: var(--quiz-primary-color);
         margin-bottom: 25px;
         font-weight: 700;
     }
+    /* Stili per la pagina dei risultati */
     #result-section h2 {
         color: var(--result-primary-color);
         margin-bottom: 25px;
         font-weight: 700;
     }
+
+    /* Pulsante/Immagine "Inizia il Quiz" */
+    #start-quiz-image {
+        width: 200px; /* Dimensione dell'immagine */
+        height: 200px;
+        object-fit: cover;
+        border-radius: 15px; /* Bordi leggermente arrotondati */
+        cursor: pointer;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        margin-top: 30px;
+        border: 4px solid var(--quiz-primary-color); /* Bordo colorato */
+    }
+    #start-quiz-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
 
     .question-section {
         margin-bottom: 30px;
@@ -179,10 +207,11 @@
         display: none;
     }
 
+    /* Stile per l'opzione selezionata (viola pastello) */
     .options input[type="radio"]:checked + label {
-        background-color: var(--quiz-primary-color);
-        border-color: var(--quiz-primary-color);
-        color: white;
+        background-color: var(--quiz-selected-option-color); /* Viola pastello dolce */
+        border-color: var(--quiz-primary-color); /* Mantiene il bordo viola scuro */
+        color: white; /* Testo bianco per contrasto */
     }
 
     .action-button {
@@ -372,7 +401,7 @@
             <div id="intro">
                 <h1>Sai quanto ti amo?</h1>
                 <p>Clicca per scoprire il mio amore verso di te.</p>
-                <img src="corvocarino.JPG" alt="Corvo e coniglio" id="intro-image">
+                <img src="image.png-bfd206ac-6a31-48e3-8590-d4f63533ab07" alt="Corvo e coniglio" id="intro-image">
             </div>
         `;
         body.className = 'phase-1';
@@ -385,12 +414,12 @@
         app.innerHTML = `
             <div id="pre-quiz-section">
                 <h2>Ora che hai cliccato… vediamo il tuo lato nascosto.</h2>
-                <button id="start-quiz-button" class="action-button">Inizia il Quiz</button>
+                <img src="corvodorme.JPG" alt="Inizia il Quiz" id="start-quiz-image">
             </div>
         `;
         body.className = 'phase-2';
         app.className = 'phase-2'; // Applica classi per il container
-        document.getElementById('start-quiz-button').addEventListener('click', renderQuiz);
+        document.getElementById('start-quiz-image').addEventListener('click', renderQuiz);
     }
 
     function renderQuiz() {
@@ -402,11 +431,11 @@
         let optionsHtml = '';
         q.options.forEach((option, optionIndex) => {
             const checked = userAnswers[currentQuestionIndex] === option ? 'checked' : '';
-            const selectedClass = userAnswers[currentQuestionIndex] === option ?
-                'background-color: var(--quiz-primary-color); border-color: var(--quiz-primary-color); color: white;' : '';
+            const selectedStyle = userAnswers[currentQuestionIndex] === option ?
+                'background-color: var(--quiz-selected-option-color); border-color: var(--quiz-primary-color); color: white;' : '';
             optionsHtml += `
                 <input type="radio" id="q${currentQuestionIndex}o${optionIndex}" name="question${currentQuestionIndex}" value="${option}" ${checked}>
-                <label for="q${currentQuestionIndex}o${optionIndex}" style="${selectedClass}">${option}</label>
+                <label for="q${currentQuestionIndex}o${optionIndex}" style="${selectedStyle}">${option}</label>
             `;
         });
 
@@ -448,7 +477,7 @@
                     currentQuestionIndex++;
                     renderQuiz();
                 } else {
-                    alert("Per favore, seleziona una risposta per questa domanda prima di continuare.");
+                    alert("Per favorere, seleziona una risposta per questa domanda prima di continuare.");
                 }
             });
         }
@@ -461,13 +490,12 @@
                 }
             });
         }
-        updateSubmitButtonState(); // Aggiorna lo stato iniziale del submit button
+        updateSubmitButtonState();
     }
 
     function selectAnswer(questionIndex, answer, selectedInput) {
         userAnswers[questionIndex] = answer;
 
-        // Aggiorna lo stile delle label per la domanda corrente
         const optionsLabels = selectedInput.parentElement.querySelectorAll('label');
         optionsLabels.forEach(label => {
             label.style.backgroundColor = 'var(--quiz-container-bg)';
@@ -475,7 +503,7 @@
             label.style.color = 'var(--quiz-text-color)';
         });
 
-        selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-primary-color)';
+        selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-selected-option-color)'; // Viola pastello
         selectedInput.nextElementSibling.style.borderColor = 'var(--quiz-primary-color)';
         selectedInput.nextElementSibling.style.color = 'white';
 
