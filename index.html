@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quanto mi ami davvero?</title>
+  <title>Sai quanto ti amo?</title>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     /* Variabili CSS */
     :root {
-      /* Colori Fase 1 (basati sull'immagine del coniglio e corvo) */
+      /* Colori Fase 1 (Introduzione) */
       --intro-bg-color: #fef1f5; /* Rosa chiaro */
-      --intro-text-color: #333;
+      --intro-text-color: #333; /* Testo scuro */
       --intro-clickable-hover: #ffc8d3; /* Hover per l'immagine cliccabile */
 
-      /* Colori Fase 2 (per il quiz - ora basati sul viola scuro del corvo che dorme) */
+      /* Colori Fase 2 (Quiz - Sfondo viola scuro) */
       --quiz-bg-color: #372D56; /* Viola scuro dominante dall'immagine del corvo che dorme */
-      --quiz-text-color: #E0E0E0; /* Testo chiaro per contrasto con sfondo scuro */
+      --quiz-text-color: #F5F5F5; /* Testo molto chiaro per leggibilità su sfondo scuro */
       --quiz-font: 'Inter', sans-serif;
       --quiz-primary-color: #6a05ad; /* Viola scuro/intenso per bottoni/selezione */
       --quiz-button-hover-color: #8b008b;
-      --quiz-border-color: #7A6F97; /* Bordo leggermente più chiaro per contrasto */
-      --quiz-container-bg: rgba(255, 255, 255, 0.1); /* Container leggermente trasparente su sfondo scuro */
-      --quiz-shadow-color: rgba(0, 0, 0, 0.4); /* Ombra più scura */
+      --quiz-border-color: #C8C1DA; /* Bordo più chiaro per contrasto */
+      --quiz-container-bg: rgba(55, 45, 86, 0.9); /* Container viola scuro leggermente trasparente */
+      --quiz-shadow-color: rgba(0, 0, 0, 0.4);
 
-      --quiz-question-color: #4A037F; /* Viola scuro per le domande */
+      --quiz-question-color: #E0E0E0; /* Domande in un colore molto chiaro su sfondo scuro */
 
-      /* Colori Fase 3 (per il risultato - torna al viola chiaro) */
+      /* Colori Fase 3 (Risultato - Sfondo viola chiaro) */
       --result-bg-color: #E8E6FC; /* Lavanda molto chiaro */
-      --result-text-color: #333;
+      --result-text-color: #333; /* Testo scuro */
       --result-primary-color: #6a05ad;
-      --result-container-bg: #f5f3ff;
+      --result-container-bg: #f5f3ff; /* Container risultato viola chiaro */
       --result-shadow-color: rgba(0, 0, 0, 0.15);
 
       --transition-speed: 0.8s;
@@ -38,7 +38,7 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', sans-serif; /* Font di base, verrà sovrascritto */
       background-color: var(--intro-bg-color); /* Rosa chiaro iniziale */
       color: var(--intro-text-color);
       display: flex;
@@ -48,6 +48,7 @@
       min-height: 100vh;
       transition: all 0.8s ease;
       text-align: center;
+      position: relative; /* Per posizionamento assoluto delle sezioni */
     }
 
     #container {
@@ -55,51 +56,56 @@
       width: 100%;
       padding: 20px;
       box-sizing: border-box;
+      position: relative; /* Necessario per sezioni page-section assolute */
+      min-height: 500px; /* Altezza minima per il container */
     }
 
     /* Stili per la Fase 2 (Quiz) */
     body.phase-2 {
-        background-color: var(--quiz-bg-color); /* Viola scuro per il quiz */
-        color: var(--quiz-text-color);
+        background-color: var(--quiz-bg-color);
+        color: var(--quiz-text-color); /* Testo base chiaro */
         font-family: var(--quiz-font);
     }
     .container.phase-2 {
-        background-color: var(--quiz-container-bg); /* Container quiz leggermente trasparente */
+        background-color: var(--quiz-container-bg);
         box-shadow: 0 8px 20px var(--quiz-shadow-color);
-        max-width: 95%; /* Più largo */
+        max-width: 95%;
         padding: 30px 20px;
-        color: var(--quiz-text-color); /* Assicura che il testo nel container sia chiaro */
+        color: var(--quiz-text-color);
     }
 
     /* Stili per la Fase 3 (Risultato) */
     body.phase-3 {
-        background-color: var(--result-bg-color); /* Viola chiaro per il risultato */
+        background-color: var(--result-bg-color);
         color: var(--result-text-color);
         font-family: var(--quiz-font);
     }
     .container.phase-3 {
-        background-color: var(--result-container-bg); /* Container risultato viola chiaro */
+        background-color: var(--result-container-bg);
         box-shadow: 0 8px 20px var(--result-shadow-color);
         max-width: 95%;
         padding: 30px 20px;
         color: var(--result-text-color);
+        /* Altezza ridotta per far vedere il viola sotto */
+        min-height: auto; /* Rimuovi min-height */
+        height: auto;
+        padding-bottom: 20px; /* Padding inferiore per il contenuto */
     }
-
 
     .hidden {
       display: none;
     }
 
-    /* Stili introduttivi più romantici */
+    /* Stili introduttivi romantici con font originale */
     #intro h1 {
-        font-family: 'Pacifico', cursive; /* Font più elegante */
-        color: #e91e63; /* Un rosa più profondo */
+        font-family: 'Segoe UI', sans-serif; /* Font originale per il titolo intro */
+        color: #e91e63; /* Rosa più profondo */
         font-size: 2.8em;
         margin-bottom: 10px;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     #intro p {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Segoe UI', sans-serif; /* Font originale per il sottotitolo intro */
         font-size: 1.2em;
         color: #555;
         margin-bottom: 30px;
@@ -107,27 +113,27 @@
     }
 
     #intro-image {
-        width: 180px; /* Un po' più grande per renderla più cliccabile visivamente */
+        width: 180px;
         height: 180px;
         border-radius: 50%;
         object-fit: cover;
         cursor: pointer;
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Ombra più pronunciata */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
         margin-top: 20px;
-        border: 4px solid var(--intro-clickable-hover); /* Bordo leggero per indicare cliccabilità */
+        border: 4px solid var(--intro-clickable-hover);
     }
     #intro-image:hover {
-        transform: scale(1.08); /* Effetto leggermente più accentuato */
+        transform: scale(1.08);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     }
 
     .phase-2 h1, .phase-2 h2 {
-        color: var(--quiz-primary-color); /* Titoli quiz rimangono viola scuro */
+        color: var(--quiz-primary-color);
         margin-bottom: 25px;
         font-weight: 700;
     }
-    .phase-3 h2 { /* Titolo risultato */
+    .phase-3 h2 {
         color: var(--result-primary-color);
         margin-bottom: 25px;
         font-weight: 700;
@@ -141,25 +147,25 @@
     .question-section p {
       font-size: 1.15em;
       margin-bottom: 15px;
-      color: var(--quiz-question-color); /* Colore delle domande */
+      color: var(--quiz-question-color); /* Colore delle domande (chiaro) */
       font-weight: bold;
     }
 
     .options label {
         display: block;
-        background-color: var(--quiz-container-bg); /* Il container trasparente */
+        background-color: var(--quiz-container-bg); /* Container viola scuro leggermente trasparente */
         padding: 15px;
         margin-bottom: 10px;
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease, border-color 0.3s ease;
-        border: 1px solid var(--quiz-border-color);
+        border: 1px solid var(--quiz-border-color); /* Bordo chiaro */
         font-size: 1em;
         color: var(--quiz-text-color); /* Testo opzioni chiaro */
     }
 
     .options label:hover {
-        background-color: rgba(255, 255, 255, 0.2); /* Sfondo leggermente più visibile all'hover */
+        background-color: rgba(255, 255, 255, 0.2);
         border-color: var(--quiz-primary-color);
     }
 
@@ -173,7 +179,6 @@
         color: white;
     }
 
-    /* Stile per tutti i bottoni nella Fase 2 (Inizia Quiz, Scopri la tua verità, Navigazione) */
     .phase-2 button {
         background-color: var(--quiz-primary-color);
         color: white;
@@ -197,7 +202,6 @@
         transform: translateY(0);
     }
 
-    /* Bottoni della fase risultato (stesso stile del quiz) */
     .phase-3 button {
         background-color: var(--result-primary-color);
         color: white;
@@ -210,10 +214,9 @@
         margin-top: 20px;
     }
     .phase-3 button:hover {
-        background-color: #8b008b; /* Stesso hover del quiz */
+        background-color: #8b008b;
         transform: translateY(-2px);
     }
-
 
     #quiz-navigation {
         display: flex;
@@ -227,19 +230,45 @@
     #quiz-navigation button:first-child { margin-left: 0; }
     #quiz-navigation button:last-child { margin-right: 0; }
 
+    #summary {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px; /* Spazio prima della frase finale */
+    }
+    #summary li {
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    #summary strong {
+        display: block; /* Metti la domanda su una nuova riga */
+        margin-bottom: 5px;
+    }
 
     #final-phrase {
         font-size: 1.4em;
         font-style: italic;
         margin-bottom: 30px;
-        color: var(--result-primary-color); /* Colore del risultato */
+        color: var(--result-primary-color);
         word-wrap: break-word;
     }
 
-    #final-image {
+    /* Immagine finale del corvo fuori dal container dei risultati */
+    #final-image-wrapper {
+        position: absolute; /* Posizionamento assoluto rispetto al body o container principale */
+        bottom: 20px; /* Posizionalo in basso */
+        left: 50%;
+        transform: translateX(-50%); /* Centra orizzontalmente */
         width: 150px;
         height: 150px;
-        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10; /* Assicurati che sia sopra altri elementi */
+    }
+    #final-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         cursor: pointer;
         transition: transform 0.3s ease-out;
         border-radius: 50%;
@@ -257,6 +286,7 @@
         top: 0;
         left: 0;
         width: 100%;
+        height: 100%; /* Copre l'altezza del container */
         padding: inherit;
         box-sizing: border-box;
         opacity: 0;
@@ -267,18 +297,24 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
+        /* Per il risultato, il contenuto deve stare in alto, non centrato verticalmente */
+        justify-content: center;
     }
-
     .page-section.active {
         opacity: 1;
         pointer-events: all;
         transform: translateY(0);
         position: static;
     }
-
     .page-section:not(.active) {
         display: none;
+    }
+
+    /* Regola il giustificamento del contenuto per la sezione risultato */
+    #result-section.page-section.active {
+        justify-content: flex-start; /* Allinea il contenuto in alto */
+        padding-top: 50px; /* Spazio dall'alto */
+        height: auto; /* Permetti al contenuto di dettare l'altezza */
     }
 
     .container.transitioning {
@@ -332,6 +368,12 @@
             width: 100%;
             margin-top: 10px;
         }
+
+        #final-image-wrapper {
+            bottom: 10px; /* Riduci il margine dal basso su schermi piccoli */
+            width: 120px;
+            height: 120px;
+        }
     }
   </style>
 </head>
@@ -339,10 +381,10 @@
   <div id="container">
 
     <div id="intro" class="page-section active">
-      <h1>Il nostro amore, la mia verità.</h1>
-      <p>Clicca sulla nostra immagine per scoprire quanto mi ami davvero.</p>
+      <h1>Sai quanto ti amo?</h1>
+      <p>Clicca per scoprire il mio amore verso di te.</p>
       <img src="corvocarino.JPG" alt="Cliccami per scoprire" id="intro-image">
-      </div>
+    </div>
 
     <div id="pre-quiz-section" class="page-section">
         <h2>Ora che hai cliccato… vediamo il tuo lato nascosto.</h2>
@@ -362,9 +404,14 @@
     <div id="result-section" class="page-section">
       <h2>La verità non consola. Ma almeno ti guarda in faccia.</h2>
       <ul id="summary" style="list-style: none; padding: 0;"></ul>
-      <p id="final-phrase">Questa è la mia verità. Scoprila anche tu!</p> <img src="corvo.JPG" alt="Condividi su WhatsApp" id="final-image">
+      <p id="final-phrase">Questa è la mia verità. Scoprila anche tu!</p>
     </div>
   </div>
+
+  <div id="final-image-wrapper" class="hidden">
+    <img src="corvo.JPG" alt="Condividi su WhatsApp" id="final-image">
+  </div>
+
 
   <script>
     const introSection = document.getElementById('intro');
@@ -380,7 +427,8 @@
     const mainContainer = document.getElementById('container');
     const body = document.body;
     const finalImage = document.getElementById('final-image');
-    const finalPhraseElement = document.getElementById('final-phrase'); // Prendo l'elemento p con la frase finale
+    const finalImageWrapper = document.getElementById('final-image-wrapper');
+    const finalPhraseElement = document.getElementById('final-phrase');
 
     const quizData = [
       {
@@ -406,31 +454,35 @@
 
     function changeSection(hideSection, showSection, newBodyClass = null, newContainerClass = null) {
         hideSection.classList.remove('active');
-        mainContainer.classList.add('transitioning');
+        mainContainer.classList.add('transitioning'); // Aggiungi classe per la transizione del container
+
+        // Nascondi l'immagine finale quando si cambia sezione
+        finalImageWrapper.classList.add('hidden');
 
         setTimeout(() => {
             hideSection.style.display = 'none';
 
+            // Rimuovi tutte le classi di fase precedenti
+            body.classList.remove('phase-1', 'phase-2', 'phase-3');
+            mainContainer.classList.remove('phase-1', 'phase-2', 'phase-3');
+
+            // Applica le nuove classi di fase
             if (newBodyClass) {
-                body.className = newBodyClass;
+                body.classList.add(newBodyClass);
             }
             if (newContainerClass) {
-                mainContainer.className = newContainerClass;
+                mainContainer.classList.add(newContainerClass);
             }
-
-            // Aggiungi la classe specifica per la fase risultato
-            if (showSection === resultSection) {
-                body.classList.add('phase-3');
-                mainContainer.classList.add('phase-3');
-            } else {
-                body.classList.remove('phase-3');
-                mainContainer.classList.remove('phase-3');
-            }
-
 
             showSection.style.display = 'flex';
-            showSection.offsetWidth;
+            showSection.offsetWidth; // Trigger reflow per animazione
             showSection.classList.add('active');
+
+            // Mostra l'immagine finale solo se la sezione mostrata è resultSection
+            if (showSection === resultSection) {
+                finalImageWrapper.classList.remove('hidden');
+            }
+
             mainContainer.classList.remove('transitioning');
         }, parseFloat(getComputedStyle(hideSection).transitionDuration) * 1000);
     }
@@ -491,11 +543,13 @@
 
         const optionsLabels = selectedInput.parentElement.querySelectorAll('label');
         optionsLabels.forEach(label => {
+            // Ripristina lo stile di base per tutte le label
             label.style.backgroundColor = 'var(--quiz-container-bg)';
             label.style.borderColor = 'var(--quiz-border-color)';
             label.style.color = 'var(--quiz-text-color)';
         });
 
+        // Applica lo stile di selezione a quella scelta
         selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-primary-color)';
         selectedInput.nextElementSibling.style.borderColor = 'var(--quiz-primary-color)';
         selectedInput.nextElementSibling.style.color = 'white';
@@ -543,15 +597,13 @@
         ul.innerHTML = '';
         userAnswers.forEach((answer, index) => {
             const li = document.createElement('li');
-            li.innerHTML = `<strong>${index + 1}. ${quizData[index].question.replace(/^\d+\.\s/, '')}</strong> <br> &rarr; ${answer}`;
+            li.innerHTML = `<strong>${index + 1}. ${quizData[index].question}</strong> <br> &rarr; ${answer}`;
             ul.appendChild(li);
         });
 
-        // Passa a phase-3 per il risultato
         changeSection(quizSection, resultSection, 'phase-3', 'container phase-3');
     }
 
-    // Condivisione WhatsApp al click sull'immagine finale
     finalImage.addEventListener('click', shareWhatsApp);
 
     function shareWhatsApp() {
@@ -561,7 +613,7 @@
             whatsappMessage += `${index + 1}. ${quizData[index].question.replace(/^\d+\.\s/, '')} → ${answer}\n`;
         });
 
-        whatsappMessage += `\n"${finalPhraseElement.textContent}"`; // Recupera la frase dall'elemento p
+        whatsappMessage += `\n"${finalPhraseElement.textContent}"`;
         whatsappMessage += `\n\nScoprilo anche tu: ${window.location.href}`;
 
         const encodedMessage = encodeURIComponent(whatsappMessage);
@@ -569,7 +621,6 @@
 
         window.open(whatsappUrl, '_blank');
     }
-
   </script>
 </body>
 </html>
