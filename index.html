@@ -38,11 +38,10 @@
       --final-images-text-color: #F5F5F5; /* Testo chiaro su sfondo scuro */
 
       /* Colori Fase 6 (Lettera) */
-      --letter-bg-color: #FFB6C1; /* Rosa pastello per il body */
+      --letter-bg-color: #FFB6C1; /* Rosa pastello per il body (come bordo esterno) */
       --letter-text-color: #333; /* Testo scuro per contrasto */
-      --letter-container-bg: #FFD1DC; /* Rosa più chiaro per lo sfondo interno della lettera */
+      --letter-container-bg: #FFD1DC; /* Rosa più chiaro per lo sfondo interno della lettera (parte "blu") */
       --letter-border-color: #FFB6C1; /* Bordo della sezione della lettera, colore leggermente più chiaro */
-
 
       --transition-speed: 0.8s;
     }
@@ -135,12 +134,12 @@
 
     /* Stili per la Fase 6 (Lettera) */
     body.phase-6 {
-        background-color: var(--letter-bg-color); /* Rosa pastello per il body */
+        background-color: var(--letter-bg-color); /* Rosa pastello per il body (come bordo esterno) */
         color: var(--letter-text-color); /* Testo scuro */
         font-family: var(--quiz-font);
     }
     #app.phase-6 {
-        background-color: var(--letter-container-bg); /* Rosa più chiaro per lo sfondo interno */
+        background-color: var(--letter-container-bg); /* Rosa più chiaro per lo sfondo interno della lettera */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         max-width: 80%;
         padding: 30px;
@@ -152,7 +151,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border: 2px solid var(--letter-border-color); /* Bordo rosa più chiaro */
+        border: 2px solid var(--letter-border-color); /* Bordo della sezione della lettera */
     }
 
 
@@ -289,7 +288,7 @@
         font-size: 1.5em; /* Dimensione icona freccia */
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
-        margin-top: 80px; /* Spazio sufficiente dalla frase per leggerla bene */
+        margin-top: 100px; /* Aumentato per lasciare spazio alla frase */
         box-shadow: 0 0 10px 2px #ff00ff, 0 0 15px 5px #8a2be2; /* Bordo neon */
         display: flex;
         align-items: center;
@@ -324,7 +323,7 @@
     #final-phrase {
         font-size: 1.4em;
         font-style: italic;
-        margin-bottom: 30px;
+        margin-bottom: 30px; /* Spazio sotto la frase per il pulsante */
         color: var(--result-primary-color);
         word-wrap: break-word;
         text-align: center; /* Centra la frase finale */
@@ -349,7 +348,7 @@
         height: auto; /* Mantieni le proporzioni */
         margin-bottom: 40px; /* Spazio sotto il cuore */
         border-radius: 10px; /* Bordo leggermente arrotondato per l'immagine */
-        /* Rimosso il bordo neon come richiesto */
+        box-shadow: none; /* RIMOSSO IL BORDO NEON */
         animation: heartbeat 1s infinite alternate; /* Animazione che fa battere il cuore */
     }
 
@@ -368,7 +367,7 @@
         display: flex;
         flex-direction: row; /* Disposizione orizzontale */
         align-items: center;
-        gap: 20px; /* Spazio leggermente aumentato tra le due immagini */
+        gap: 20px; /* Spazio tra le due immagini */
         margin-top: 20px; /* Spazio tra il cuore e le immagini */
         flex-wrap: wrap; /* Permette il wrapping su schermi piccoli */
         justify-content: center;
@@ -398,7 +397,7 @@
         width: 90%;
         max-width: 700px; /* Larghezza massima per la leggibilità */
         margin: 20px auto; /* Centra la lettera */
-        background-color: var(--letter-container-bg); /* Sfondo rosa chiaro per la parte interna */
+        background-color: var(--letter-container-bg); /* Sfondo rosa chiaro per la parte interna (BLU) */
         padding: 20px; /* Padding interno alla sezione della lettera */
         border-radius: 10px; /* Bordo arrotondato per la sezione interna */
     }
@@ -486,7 +485,7 @@
             width: 45px;
             height: 45px;
             font-size: 1.3em;
-            margin-top: 60px; /* Ridotto un po' per schermi più piccoli */
+            margin-top: 80px; /* Mantenuto più spazio anche su mobile */
         }
 
         .final-image-container {
