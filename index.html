@@ -24,8 +24,6 @@
       --quiz-container-bg: rgba(55, 45, 86, 0.9); /* Container viola scuro leggermente trasparente */
       --quiz-shadow-color: rgba(0, 0, 0, 0.4);
       --quiz-selected-option-color: #A799FF; /* Viola pastello dolce per opzione selezionata */
-
-
       --quiz-question-color: #E0E0E0; /* Domande in un colore molto chiaro su sfondo scuro */
 
       /* Colori Fase 3 (Risultato) */
@@ -43,6 +41,7 @@
       --letter-bg-color: #FFB6C1; /* Rosa pastello */
       --letter-text-color: #333; /* Testo scuro per contrasto */
       --letter-container-bg: rgba(255, 182, 193, 0.8); /* Rosa pastello leggermente trasparente per il container */
+      --letter-border-color: #FFD1DC; /* Rosa più chiaro per il bordo della lettera */
 
       --transition-speed: 0.8s;
     }
@@ -152,6 +151,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        border: 2px solid var(--letter-border-color); /* Bordo rosa più chiaro */
     }
 
 
@@ -293,10 +293,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        /* Posizionamento assoluto per il cerchio giallo indicato */
+        position: absolute;
+        bottom: 20px; /* O a seconda del tuo layout desiderato */
+        left: 50%;
+        transform: translateX(-50%);
     }
     #next-images-button:hover {
         background-color: var(--quiz-button-hover-color);
-        transform: translateY(-2px) scale(1.05);
+        transform: translateX(-50%) translateY(-2px) scale(1.05);
     }
 
     #summary {
@@ -337,64 +342,35 @@
         box-sizing: border-box; /* Include padding nell'altezza */
     }
 
-    /* Cuore in CSS con sfondo immagine e animazione */
-    .heart {
-        position: relative;
+    /* Immagine del cuore */
+    #heart-image {
         width: 100px;
-        height: 90px;
+        height: auto; /* Mantieni le proporzioni */
         margin-bottom: 40px; /* Spazio sotto il cuore */
-        transform: rotate(-45deg);
-        overflow: hidden; /* Nasconde le parti extra dell'immagine se troppo grande */
-        border-radius: 10px; /* Bordo leggermente arrotondato */
-        /* Sfondo con l'immagine */
-        background-image: url('sfondocuore.JPG');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        /* Bordo neon per il cuore */
-        box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2;
-        /* Animazione che fa battere il cuore */
-        animation: heartbeat 1s infinite alternate;
-    }
-    .heart::before,
-    .heart::after {
-        content: "";
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        /* Sfondo con l'immagine */
-        background-image: url('sfondocuore.JPG');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    .heart::before {
-        top: -50px;
-        left: 0;
-    }
-    .heart::after {
-        left: 50px;
-        top: 0;
+        border-radius: 10px; /* Bordo leggermente arrotondato per l'immagine */
+        box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2; /* Bordo neon per il cuore */
+        animation: heartbeat 1s infinite alternate; /* Animazione che fa battere il cuore */
     }
 
     /* Definizione dell'animazione heartbeat */
     @keyframes heartbeat {
         0% {
-            transform: rotate(-45deg) scale(1);
+            transform: scale(1);
         }
         100% {
-            transform: rotate(-45deg) scale(1.1);
+            transform: scale(1.1);
         }
     }
 
     /* Contenitore per le due immagini finali */
     .final-image-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: row; /* IMPEGNO: Disposizione orizzontale */
         align-items: center;
         gap: 30px; /* Spazio tra le due immagini */
         margin-top: 20px; /* Spazio tra il cuore e le immagini */
+        flex-wrap: wrap; /* Permette il wrapping su schermi piccoli */
+        justify-content: center;
     }
 
     .final-image-item {
@@ -492,15 +468,9 @@
             font-size: 1.2em;
         }
 
-        .heart {
+        #heart-image {
             width: 80px;
-            height: 72px;
             margin-bottom: 30px;
-        }
-        .heart::before,
-        .heart::after {
-            width: 80px;
-            height: 80px;
         }
 
         .final-image-item {
@@ -512,6 +482,11 @@
             width: 45px;
             height: 45px;
             font-size: 1.3em;
+        }
+
+        .final-image-container {
+            flex-direction: column; /* Torna in colonna su schermi molto piccoli se preferisci */
+            gap: 20px;
         }
     }
   </style>
@@ -526,36 +501,36 @@
     let userAnswers = []; // Array per memorizzare le risposte dell'utente (testo)
     let userEffectPhrases = []; // Array per memorizzare le frasi d'effetto scelte
     let currentQuestionIndex = 0;
-    
+
     // Contenuto della lettera, ora una variabile globale per facilitare il richiamo
     const loveLetterContent = `
       <h2>Il corvo ti ha mandato la lettera</h2>
 
-      <p>Tu non sei sola.  
-      Nemmeno quando il mondo sembra troppo,  
+      <p>Tu non sei sola.
+      Nemmeno quando il mondo sembra troppo,
       nemmeno quando pensi che nessuno ti stia guardando davvero.</p>
 
-      <p>Io ti vedo.  
-      Ti vedo anche quando non dici niente.  
+      <p>Io ti vedo.
+      Ti vedo anche quando non dici niente.
       Quando trattieni tutto, quando abbassi gli occhi, quando dici “tanto passa” ma dentro ti spegni un po’.</p>
 
-      <p>Io ti leggo.  
-      E non serve che tu spieghi tutto per filo e per segno: certe cose le sento.  
+      <p>Io ti leggo.
+      E non serve che tu spieghi tutto per filo e per segno: certe cose le sento.
       Le leggo nel modo in cui respiri piano, nel modo in cui ti chiudi ma vorresti essere abbracciata lo stesso.</p>
 
-      <p>Tu sei vista. E capita, anche nei pezzi che credi di dover nascondere.  
+      <p>Tu sei vista. E capita, anche nei pezzi che credi di dover nascondere.
       Io ti tengo dentro, anche quando non so bene come dirtelo.</p>
 
-      <p>È vero, magari non sempre riesco a supportarti nel modo perfetto.  
-      A volte mi perdo nel cercare le parole giuste, o ho paura di sbagliare.  </p>
+      <p>È vero, magari non sempre riesco a supportarti nel modo perfetto.
+      A volte mi perdo nel cercare le parole giuste, o ho paura di sbagliare. </p>
 
-      <p>Però tu, tu sei tutto quello che non passa inosservato.  
-      Anche quando sei fragile. Anche quando dici che stai bene ma hai lo sguardo stanco.  
+      <p>Però tu, tu sei tutto quello che non passa inosservato.
+      Anche quando sei fragile. Anche quando dici che stai bene ma hai lo sguardo stanco.
       E io ci sono. Davvero. Con tutto quello che sono, anche con i miei sbagli.</p>
 
-      <p>Il corvo ti ha portato questa lettera.  
-      Ma ogni parola l’ho scritta io, a modo mio.  
-      Per dirti solo questo:  
+      <p>Il corvo ti ha portato questa lettera.
+      Ma ogni parola l’ho scritta io, a modo mio.
+      Per dirti solo questo:
       <strong>tu non sei sola. Non lo sei mai stata.</strong></p>
 
       <p><em>Il tuo rimbambito 💜</em></p>
@@ -764,10 +739,10 @@
     function renderFinalImages() {
         app.innerHTML = `
             <div id="final-images-section">
-                <div class="heart"></div>
+                <img src="cuoresito.PNG" alt="Cuore" id="heart-image">
                 <div class="final-image-container">
-                    <img src="corvo.JPG" alt="Corvo" class="final-image-item" id="share-corvo">
                     <img src="corvolettera.JPG" alt="Corvo con lettera" class="final-image-item" id="open-letter">
+                    <img src="corvo.JPG" alt="Corvo" class="final-image-item" id="share-corvo">
                 </div>
             </div>
         `;
@@ -806,7 +781,7 @@
         if (imageName === 'corvo.JPG') {
             whatsappMessage += "\n\nQuesto corvo rappresenta la mia verità.";
         }
-        
+
         whatsappMessage += `\n\nScoprilo anche tu: ${window.location.href}`;
 
         const encodedMessage = encodeURIComponent(whatsappMessage);
