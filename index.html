@@ -375,22 +375,41 @@
 
     const quizData = [
       {
-        question: "Cosa speri che non vedano nei tuoi occhi?",
-        options: ["La stanchezza", "La rabbia", "Il senso di colpa", "Il vuoto"]
+        question: "Qual è la verità che ti fa più male ammettere?",
+        options: ["Che non sono abbastanza.", "Che se sparissi, non cambierebbe niente.", "Che faccio ridere anche quando mi spezzo.", "Che ho bisogno, ma non lo dico."]
       },
       {
-        question: "Cosa dici quando stai male?",
-        options: ["'Sto solo pensando'", "'Sono stanco'", "'Lasciami un po’ di spazio'", "Niente"]
+        question: "Quando stai male, cosa fai finta di essere?",
+        options: ["Impegnato.", "Tranquillo.", "Distratto.", "Fortissimo."]
       },
       {
-        question: "A chi racconti la tua versione peggiore?",
-        options: ["Nessuno", "A chi non potrà ferirmi", "A chi amo", "A me stesso"]
+        question: "Cosa ti è mancato più di tutto?",
+        options: ["Qualcuno che mi ascoltasse davvero.", "Un abbraccio sincero.", "Una voce che mi dicesse “resta”.", "Una volta in cui non mi sono sentito di troppo."]
       },
       {
-        question: "Cosa ti ferisce di più?",
-        options: ["Essere dimenticato", "Non essere capito", "Sentirmi inadeguato", "Essere visto, davvero"]
+        question: "A chi avresti voluto dire qualcosa, ma non l’hai fatto?",
+        options: ["A chi mi ha dimenticato.", "A me stesso, quando avevo paura.", "A chi mi ha usato.", "A chi ho lasciato andare senza capirmi."]
+      },
+      {
+        question: "Qual è il pensiero che ti fa più male, anche se non lo dici?",
+        options: ["Che forse non sarò mai scelto.", "Che chi dice di amarmi non mi vede.", "Che nessuno resterebbe se sapesse tutto.", "Che valgo solo quando sorrido."]
+      },
+      {
+        question: "Quando hai pianto da solo, cosa ti sei detto?",
+        options: ["“Devo smettere.”", "“Tanto nessuno capirebbe.”", "“Non posso crollare adesso.”", "“Almeno qui non mi vede nessuno.”"]
+      },
+      {
+        question: "Cosa tieni nascosto anche a chi ti ama?",
+        options: ["La mia rabbia silenziosa.", "La voglia di sparire.", "Tutte le volte che mi sento finto.", "I pensieri che mi fanno paura."]
+      },
+      {
+        question: "Cosa speri ancora, ma non lo ammetteresti mai?",
+        options: ["Che qualcuno mi scelga e resti.", "Che io possa smettere di fingere.", "Che il dolore un giorno serva a qualcosa.", "Che qualcuno dica: “Non importa, resto comunque.”"]
       }
     ];
+
+    const finalPhraseText = "Hai imparato a sembrare intera. Ma dentro, ogni giorno, perdi un pezzo che nessuno reclama.";
+
 
     function renderIntro() {
         app.innerHTML = `
@@ -496,9 +515,9 @@
 
         app.innerHTML = `
             <div id="result-section">
-                <h2>La verità non consola. Ma almeno ti guarda in faccia.</h2>
+                <h2>La verità che non dici</h2>
                 <ul id="summary">${summaryHtml}</ul>
-                <p id="final-phrase">Questa è la mia verità. Scoprila anche tu!</p>
+                <p id="final-phrase">${finalPhraseText}</p>
             </div>
         `;
         body.className = 'phase-3';
@@ -511,14 +530,14 @@
     }
 
     function shareWhatsApp() {
-        const finalPhraseText = document.getElementById('final-phrase').textContent;
+        // La frase finale è ora una costante
         let whatsappMessage = "Ho scoperto il mio lato nascosto:\n\n";
 
         userAnswers.forEach((answer, index) => {
             whatsappMessage += `${index + 1}. ${quizData[index].question} → ${answer}\n`;
         });
 
-        whatsappMessage += `\n"${finalPhraseText}"`;
+        whatsappMessage += `\n"${finalPhraseText}"`; // Usa la costante
         whatsappMessage += `\n\nScoprilo anche tu: ${window.location.href}`;
 
         const encodedMessage = encodeURIComponent(whatsappMessage);
