@@ -69,7 +69,7 @@
       width: 100%;
       padding: 20px;
       box-sizing: border-box;
-      position: relative;
+      position: relative; /* Importante per posizionare il pulsante con absolute */
       min-height: 500px;
       display: flex;
       flex-direction: column;
@@ -104,12 +104,13 @@
         max-width: 95%;
         padding: 30px 20px;
         color: var(--result-text-color);
-        min-height: auto;
+        min-height: 600px; /* Aumentato per accogliere il pulsante */
         height: auto;
-        padding-bottom: 20px;
+        padding-bottom: 80px; /* Spazio per il pulsante posizionato assolutamente */
         display: flex; /* Assicura che i contenuti siano disposti in colonna */
         flex-direction: column;
         align-items: center;
+        position: relative; /* Assicurati che sia position: relative per il pulsante absolute */
     }
 
     /* Stili per la Fase 5 (Immagini finali) - Sfondo rimane viola scuro */
@@ -131,6 +132,7 @@
         align-items: center;
         justify-content: center;
         flex-grow: 1;
+        position: relative; /* Potrebbe servire per eventuali elementi posizionati */
     }
 
     /* Stili per la Fase 6 (Lettera) */
@@ -153,8 +155,8 @@
         align-items: center;
         justify-content: center;
         border: 2px solid var(--letter-border-color); /* Bordo della sezione della lettera */
+        position: relative; /* Per posizionare il pulsante di copia */
     }
-
 
     .hidden {
       display: none !important;
@@ -289,20 +291,19 @@
         font-size: 1.5em; /* Dimensione icona freccia */
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
-        margin-top: 120px; /* Aumentato ulteriormente per maggiore spazio */
+        /* Nuovo posizionamento in basso a destra, relativo al div#app */
+        position: absolute; /* Ora è absolute, non fixed */
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000; /* Assicura che sia sopra gli altri elementi all'interno di #app */
         box-shadow: 0 0 10px 2px #ff00ff, 0 0 15px 5px #8a2be2; /* Bordo neon */
         display: flex;
         align-items: center;
         justify-content: center;
-        /* Posizionamento assoluto per il cerchio giallo indicato */
-        position: absolute;
-        bottom: 20px; /* O a seconda del tuo layout desiderato */
-        left: 50%;
-        transform: translateX(-50%);
     }
     #next-images-button:hover {
         background-color: var(--quiz-button-hover-color);
-        transform: translateX(-50%) translateY(-2px) scale(1.05);
+        transform: scale(1.05);
     }
 
     #summary {
@@ -324,7 +325,8 @@
     #final-phrase {
         font-size: 1.4em;
         font-style: italic;
-        margin-bottom: 30px; /* Spazio sotto la frase per il pulsante */
+        margin-top: 50px; /* Spazio sufficiente sopra la frase */
+        margin-bottom: 30px; /* Spazio sotto la frase per eventuali elementi */
         color: var(--result-primary-color);
         word-wrap: break-word;
         text-align: center; /* Centra la frase finale */
@@ -502,7 +504,8 @@
             width: 45px;
             height: 45px;
             font-size: 1.3em;
-            margin-top: 100px; /* Mantenuto più spazio anche su mobile */
+            bottom: 15px; /* Adattato per schermi più piccoli */
+            right: 15px; /* Adattato per schermi più piccoli */
         }
 
         .final-image-container {
@@ -759,13 +762,24 @@
                 </button>
             </div>
         `;
+
         body.className = 'phase-3';
         app.className = 'phase-3'; // Applica classi per il container
 
-        document.getElementById('next-images-button').addEventListener('click', renderFinalImages);
+        // Ora il pulsante è già nel DOM, quindi lo selezioniamo e gli aggiungiamo l'event listener
+        const nextButton = document.getElementById('next-images-button');
+        if (nextButton) {
+            nextButton.addEventListener('click', renderFinalImages);
+        }
     }
 
     function renderFinalImages() {
+        // Rimuovi il pulsante ➡️ quando passiamo a questa fase (non più necessario, dato che è ricreato)
+        // const nextButton = document.getElementById('next-images-button');
+        // if (nextButton) {
+        //     nextButton.remove(); // Non più necessario rimuoverlo manualmente, viene sovrascritto dall'innerHTML
+        // }
+
         app.innerHTML = `
             <div id="final-images-section">
                 <h2 id="final-images-title">Quello che è venuto fuori. E quello che voglio dirti</h2>
@@ -803,16 +817,21 @@
 
     // Funzione per copiare la lettera negli appunti
     function copyLetterToClipboard() {
-        const letterText = loveLetterContent.replace(/<[^>]*>/g, '').trim(); // Rimuove i tag HTML
-        navigator.clipboard.writeText(letterText)
-            .then(() => {
-                alert('Poesia copiata negli appunti!');
-            })
-            .catch(err => {
-                console.error('Errore durante la copia: ', err);
-                alert('Errore durante la copia della poesia. Riprova o copia manualmente.');
-            });
+        // Creiamo un elemento temporaneo per copiare il testo pulito
+        const tempTextArea = document.createElement('textarea');
+        // Usiamo un div temporaneo per rimuovere tutti i tag HTML mantenendo le interruzioni di riga
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = loveLetterContent;
+        tempTextArea.value = tempDiv.innerText; // .innerText mantiene le interruzioni di riga e rimuove i tag
+
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+
+        alert('Poesia copiata negli appunti!');
     }
+
 
     // Questa funzione genererà il messaggio WhatsApp con la frase d'effetto e l'URL
     function shareWhatsApp(imageName) {
