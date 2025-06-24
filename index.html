@@ -97,6 +97,9 @@
         min-height: auto;
         height: auto;
         padding-bottom: 20px;
+        display: flex; /* Assicura che i contenuti siano disposti in colonna */
+        flex-direction: column;
+        align-items: center;
     }
 
     .hidden {
@@ -119,10 +122,11 @@
         line-height: 1.5;
     }
 
+    /* IMPEGNO: Immagine intro con bordo circolare e ombra */
     #intro-image {
         width: 180px;
         height: 180px;
-        border-radius: 50%;
+        border-radius: 50%; /* Reso circolare */
         object-fit: cover;
         cursor: pointer;
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
@@ -154,7 +158,7 @@
         font-weight: 700;
     }
 
-    /* Pulsante/Immagine "Inizia il Quiz" */
+    /* IMPEGNO: Pulsante/Immagine "Inizia il Quiz" circolare con bordo neon */
     #start-quiz-image {
         width: 200px; /* Dimensione dell'immagine */
         height: 200px;
@@ -162,13 +166,15 @@
         border-radius: 50%; /* Reso circolare */
         cursor: pointer;
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        /* Bordo neon per l'immagine */
+        box-shadow: 0 0 10px 2px #ff00ff, 0 0 20px 6px #8a2be2;
         margin-top: 30px;
-        border: 4px solid var(--quiz-primary-color); /* Bordo colorato */
+        border: 4px solid var(--quiz-primary-color); /* Bordo colorato per la base */
     }
     #start-quiz-image:hover {
         transform: scale(1.05);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        /* Intensifica il neon all'hover */
+        box-shadow: 0 0 15px 3px #ff00ff, 0 0 25px 8px #8a2be2;
     }
 
 
@@ -254,6 +260,7 @@
         padding: 0;
         margin-bottom: 20px;
         text-align: left;
+        width: 100%; /* Occupa la larghezza disponibile */
     }
     #summary li {
         margin-bottom: 10px;
@@ -270,20 +277,18 @@
         margin-bottom: 30px;
         color: var(--result-primary-color);
         word-wrap: break-word;
+        text-align: center; /* Centra la frase finale */
+        width: 100%; /* Occupa la larghezza disponibile */
     }
 
-    /* Immagine finale del corvo, ora posizionata globalmente */
+    /* IMPEGNO: Immagine finale del corvo, ora gestita come blocco e riposizionata */
     #final-image-wrapper {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
         width: 150px;
         height: 150px;
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 10;
+        margin-top: 20px; /* Spazio sopra l'immagine */
         opacity: 0;
         transition: opacity 0.5s ease-in-out;
         /* Bordo neon per l'immagine del corvo da condividere */
@@ -305,8 +310,6 @@
 
     #final-image:hover {
         transform: scale(1.1);
-        /* Mantieni l'ombra per un leggero effetto di sollevamento, o rimuovila se preferisci solo il neon */
-        /* box-shadow: 0 6px 12px rgba(0,0,0,0.3); */
     }
 
     /* Media queries per una migliore responsività */
@@ -348,10 +351,8 @@
         #final-phrase {
             font-size: 1.2em;
         }
-        /* #quiz-navigation è nascosto, non necessita di media query */
 
         #final-image-wrapper {
-            bottom: 10px;
             width: 120px;
             height: 120px;
         }
@@ -362,14 +363,9 @@
   <div id="app">
     </div>
 
-  <div id="final-image-wrapper" class="hidden">
-    <img src="corvo.JPG" alt="Condividi su WhatsApp" id="final-image">
-  </div>
-
   <script>
     const app = document.getElementById('app');
     const body = document.body;
-    const finalImageWrapper = document.getElementById('final-image-wrapper');
     let userAnswers = [];
     let currentQuestionIndex = 0;
 
@@ -422,7 +418,6 @@
         body.className = 'phase-1';
         app.className = ''; // Rimuovi classi specifiche del container
         document.getElementById('intro-image').addEventListener('click', renderPreQuiz);
-        finalImageWrapper.classList.add('hidden'); // Assicurati che sia nascosto
     }
 
     function renderPreQuiz() {
@@ -518,19 +513,21 @@
                 <h2>La verità che non dici</h2>
                 <ul id="summary">${summaryHtml}</ul>
                 <p id="final-phrase">${finalPhraseText}</p>
+                <div id="final-image-wrapper">
+                    <img src="corvo.JPG" alt="Condividi su WhatsApp" id="final-image">
+                </div>
             </div>
         `;
         body.className = 'phase-3';
         app.className = 'phase-3'; // Applica classi per il container
 
-        // Mostra l'immagine finale della condivisione
-        finalImageWrapper.classList.remove('hidden');
-        finalImageWrapper.classList.add('show');
+        // Mostra l'immagine finale della condivisione con un leggero ritardo per l'effetto di transizione
+        const finalImageWrapperElement = document.getElementById('final-image-wrapper');
+        finalImageWrapperElement.classList.add('show');
         document.getElementById('final-image').addEventListener('click', shareWhatsApp);
     }
 
     function shareWhatsApp() {
-        // La frase finale è ora una costante
         let whatsappMessage = "Ho scoperto il mio lato nascosto:\n\n";
 
         userAnswers.forEach((answer, index) => {
