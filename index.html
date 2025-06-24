@@ -23,18 +23,18 @@
       --quiz-container-bg: rgba(55, 45, 86, 0.9); /* Container viola scuro leggermente trasparente */
       --quiz-shadow-color: rgba(0, 0, 0, 0.4);
       --quiz-selected-option-color: #A799FF; /* Viola pastello dolce per opzione selezionata */
-
-
       --quiz-question-color: #E0E0E0; /* Domande in un colore molto chiaro su sfondo scuro */
 
-      /* Colori Fase 3 (Risultato - Sfondo viola scuro come corvo) */
+      /* Colori Fase 3 (Risultato e Immagini Finali - Sfondo viola scuro come corvo) */
       --result-bg-color: #372D56; /* Viola scuro come sfondo del corvo che dorme */
-      --result-text-color: #333; /* Testo scuro per il container bianco */
+      --result-text-color: #333; /* Testo scuro per il container bianco del riepilogo */
       --result-primary-color: #6a05ad;
       --result-container-bg: #f5f3ff; /* Container risultato viola chiaro */
       --result-shadow-color: rgba(0, 0, 0, 0.15); /* Ombra normale per il container */
 
       --transition-speed: 0.8s;
+      --neon-color1: #ff00ff; /* Magenta */
+      --neon-color2: #8a2be2; /* BlueViolet */
     }
 
     body {
@@ -82,25 +82,31 @@
         color: var(--quiz-text-color);
     }
 
-    /* Stili per la Fase 3 (Risultato) */
+    /* Stili per la Fase 3 (Risultato e Immagini Finali) */
     body.phase-3 {
-        background-color: var(--result-bg-color); /* Sfondo viola scuro per la pagina dei risultati */
+        background-color: var(--result-bg-color);
         color: var(--result-text-color);
         font-family: var(--quiz-font);
     }
     #app.phase-3 {
-        background-color: var(--result-container-bg); /* Contenitore bianco */
-        box-shadow: 0 8px 20px var(--result-shadow-color); /* Ombra normale per il container */
+        background-color: var(--result-container-bg);
+        box-shadow: 0 8px 20px var(--result-shadow-color);
         max-width: 95%;
         padding: 30px 20px;
         color: var(--result-text-color);
         min-height: auto;
         height: auto;
         padding-bottom: 20px;
-        display: flex; /* Assicura che i contenuti siano disposti in colonna */
+        display: flex;
         flex-direction: column;
         align-items: center;
     }
+    #app.phase-3.final-images {
+        background-color: transparent; /* Sfondo dell'app trasparente per mostrare il background del body */
+        box-shadow: none;
+        color: var(--quiz-text-color); /* Per il testo della lettera */
+    }
+
 
     .hidden {
       display: none !important;
@@ -122,11 +128,11 @@
         line-height: 1.5;
     }
 
-    /* IMPEGNO: Immagine intro con bordo circolare e ombra */
+    /* Immagine intro con bordo circolare e ombra */
     #intro-image {
         width: 180px;
         height: 180px;
-        border-radius: 50%; /* Reso circolare */
+        border-radius: 50%;
         object-fit: cover;
         cursor: pointer;
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
@@ -141,7 +147,7 @@
 
     /* Stili per la pagina "Ora che hai cliccato..." */
     #pre-quiz-section h2 {
-        color: white; /* Titolo in bianco */
+        color: white;
         margin-bottom: 25px;
         font-weight: 700;
     }
@@ -158,23 +164,21 @@
         font-weight: 700;
     }
 
-    /* IMPEGNO: Pulsante/Immagine "Inizia il Quiz" circolare con bordo neon */
+    /* Pulsante/Immagine "Inizia il Quiz" circolare con bordo neon */
     #start-quiz-image {
-        width: 200px; /* Dimensione dell'immagine */
+        width: 200px;
         height: 200px;
         object-fit: cover;
-        border-radius: 50%; /* Reso circolare */
+        border-radius: 50%;
         cursor: pointer;
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-        /* Bordo neon per l'immagine */
-        box-shadow: 0 0 10px 2px #ff00ff, 0 0 20px 6px #8a2be2;
+        box-shadow: 0 0 10px 2px var(--neon-color1), 0 0 20px 6px var(--neon-color2);
         margin-top: 30px;
-        border: 4px solid var(--quiz-primary-color); /* Bordo colorato per la base */
+        border: 4px solid var(--quiz-primary-color);
     }
     #start-quiz-image:hover {
         transform: scale(1.05);
-        /* Intensifica il neon all'hover */
-        box-shadow: 0 0 15px 3px #ff00ff, 0 0 25px 8px #8a2be2;
+        box-shadow: 0 0 15px 3px var(--neon-color1), 0 0 25px 8px var(--neon-color2);
     }
 
 
@@ -202,8 +206,7 @@
         border: 1px solid var(--quiz-border-color);
         font-size: 1em;
         color: var(--quiz-text-color);
-        /* Bordo neon per le opzioni del quiz */
-        box-shadow: 0 0 5px 1px #ff00ff, 0 0 10px 3px #8a2be2;
+        box-shadow: 0 0 5px 1px var(--neon-color1), 0 0 10px 3px var(--neon-color2);
     }
 
     .options label:hover {
@@ -217,14 +220,12 @@
 
     /* Stile per l'opzione selezionata (viola pastello) */
     .options input[type="radio"]:checked + label {
-        background-color: var(--quiz-selected-option-color); /* Viola pastello dolce */
-        border-color: var(--quiz-primary-color); /* Mantiene il bordo viola scuro */
-        color: white; /* Testo bianco per contrasto */
-        /* Bordo neon un po' più intenso per l'opzione selezionata */
-        box-shadow: 0 0 10px 2px #ff00ff, 0 0 20px 6px #8a2be2;
+        background-color: var(--quiz-selected-option-color);
+        border-color: var(--quiz-primary-color);
+        color: white;
+        box-shadow: 0 0 10px 2px var(--neon-color1), 0 0 20px 6px var(--neon-color2);
     }
 
-    /* I pulsanti di navigazione sono stati rimossi in JS, ma tengo lo stile base */
     .action-button {
         background-color: var(--quiz-primary-color);
         color: white;
@@ -235,8 +236,7 @@
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
         margin-top: 20px;
-        /* Bordo neon per tutti i pulsanti (in questo caso il pulsante "Inizia il Quiz" se ripristinato, o altri eventuali) */
-        box-shadow: 0 0 10px 2px #ff00ff, 0 0 15px 5px #8a2be2;
+        box-shadow: 0 0 10px 2px var(--neon-color1), 0 0 15px 5px var(--neon-color2);
     }
 
     .action-button:hover {
@@ -250,17 +250,13 @@
         transform: translateY(0);
     }
 
-    /* #quiz-navigation non è più usato, ma lo lascio vuoto per precauzione */
-    #quiz-navigation {
-        display: none; /* Nascosto completamente */
-    }
-
     #summary {
         list-style: none;
         padding: 0;
         margin-bottom: 20px;
         text-align: left;
-        width: 100%; /* Occupa la larghezza disponibile */
+        width: 100%;
+        color: var(--result-text-color); /* Assicurati che il testo del summary sia scuro */
     }
     #summary li {
         margin-bottom: 10px;
@@ -269,6 +265,7 @@
     #summary strong {
         display: block;
         margin-bottom: 5px;
+        color: var(--result-primary-color); /* Colore più evidente per le domande */
     }
 
     #final-phrase {
@@ -277,39 +274,95 @@
         margin-bottom: 30px;
         color: var(--result-primary-color);
         word-wrap: break-word;
-        text-align: center; /* Centra la frase finale */
-        width: 100%; /* Occupa la larghezza disponibile */
+        text-align: center;
+        width: 100%;
     }
 
-    /* IMPEGNO: Immagine finale del corvo, ora gestita come blocco e riposizionata */
-    #final-image-wrapper {
-        width: 150px;
-        height: 150px;
+    /* Stili per il pulsante "Avanti" (freccia) */
+    .next-button {
+        background: none;
+        border: none;
+        font-size: 3em; /* Rendi la freccia grande e visibile */
+        color: var(--quiz-primary-color); /* Colore viola */
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.2s ease;
+        padding: 10px;
+        margin-top: 20px;
+        text-shadow: 0 0 8px var(--neon-color1); /* Piccola ombra neon */
+    }
+
+    .next-button:hover {
+        transform: translateX(5px); /* Sposta leggermente a destra all'hover */
+        color: var(--neon-color1); /* Cambia colore all'hover */
+    }
+
+
+    /* Contenitore per le due immagini finali */
+    #final-images-container {
         display: flex;
+        flex-direction: row; /* Immagini affiancate */
         justify-content: center;
         align-items: center;
-        margin-top: 20px; /* Spazio sopra l'immagine */
-        opacity: 0;
+        gap: 30px; /* Spazio tra le immagini */
+        margin-top: 40px; /* Spazio dal bordo superiore */
+        width: 100%;
+        min-height: 200px; /* Altezza minima per contenere le immagini */
         transition: opacity 0.5s ease-in-out;
-        /* Bordo neon per l'immagine del corvo da condividere */
-        box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2;
-        border-radius: 50%; /* Mantiene la forma circolare anche con il bordo neon */
+        opacity: 0; /* Inizialmente nascosto */
     }
-    #final-image-wrapper.show {
+
+    #final-images-container.show {
         opacity: 1;
     }
 
-    #final-image {
-        width: 100%;
-        height: 100%;
+    .final-image-item {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
         object-fit: cover;
         cursor: pointer;
-        transition: transform 0.3s ease-out;
-        border-radius: 50%;
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        box-shadow: 0 0 15px 5px var(--neon-color1), 0 0 25px 10px var(--neon-color2);
+        border: 4px solid transparent; /* Base per il bordo neon */
     }
 
-    #final-image:hover {
+    .final-image-item:hover {
         transform: scale(1.1);
+    }
+
+    /* Stili per la lettera d'amore */
+    #love-letter {
+        background-color: white; /* Sfondo bianco per la leggibilità */
+        color: #333; /* Testo scuro */
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        margin: 20px auto;
+        text-align: left;
+        line-height: 1.6;
+        font-family: var(--quiz-font);
+        box-sizing: border-box; /* Include padding e border nella larghezza totale */
+    }
+
+    #love-letter h2 {
+        color: var(--quiz-primary-color);
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 1.8em;
+    }
+
+    #love-letter p {
+        margin-bottom: 15px;
+        font-size: 1.1em;
+    }
+
+    #love-letter em {
+        display: block;
+        text-align: right;
+        margin-top: 30px;
+        font-size: 1.2em;
+        color: var(--quiz-primary-color);
     }
 
     /* Media queries per una migliore responsività */
@@ -317,6 +370,7 @@
         #app {
             padding: 20px;
             margin: 10px;
+            max-width: 98%; /* Più largo su schermi piccoli */
         }
 
         #intro h1 {
@@ -352,9 +406,27 @@
             font-size: 1.2em;
         }
 
-        #final-image-wrapper {
+        #final-images-container {
+            flex-direction: column; /* Immagini impilate su schermi piccoli */
+            gap: 20px;
+        }
+
+        .final-image-item {
             width: 120px;
             height: 120px;
+        }
+
+        .next-button {
+            font-size: 2.5em;
+        }
+
+        #love-letter {
+            padding: 20px;
+            font-size: 0.95em;
+        }
+
+        #love-letter h2 {
+            font-size: 1.5em;
         }
     }
   </style>
@@ -366,46 +438,84 @@
   <script>
     const app = document.getElementById('app');
     const body = document.body;
-    let userAnswers = [];
+    let userAnswers = []; // Array per memorizzare le risposte dell'utente (testo)
     let currentQuestionIndex = 0;
+    let finalEffectPhrase = ""; // Variabile per memorizzare la frase d'effetto dell'ultima risposta
 
     const quizData = [
       {
         question: "Qual è la verità che ti fa più male ammettere?",
-        options: ["Che non sono abbastanza.", "Che se sparissi, non cambierebbe niente.", "Che faccio ridere anche quando mi spezzo.", "Che ho bisogno, ma non lo dico."]
+        options: [
+          { text: "Che non sono abbastanza.", effectPhrase: "A forza di sforzarti per valere qualcosa, hai smesso di guardarti con tenerezza." },
+          { text: "Che se sparissi, non cambierebbe niente.", effectPhrase: "Ti annulli a piccoli passi, sperando che qualcuno dica “resta”." },
+          { text: "Che faccio ridere anche quando mi spezzo.", effectPhrase: "Nessuno ti ha mai chiesto se stavi bene mentre li facevi sorridere." },
+          { text: "Che ho bisogno, ma non lo dico.", effectPhrase: "Hai imparato a nascondere la fame d’amore sotto sorrisi controllati." }
+        ]
       },
       {
         question: "Quando stai male, cosa fai finta di essere?",
-        options: ["Impegnato.", "Tranquillo.", "Distratto.", "Fortissimo."]
+        options: [
+          { text: "Impegnato.", effectPhrase: "Sei bravo a sembrare calmo, ma dentro a volte tremi senza un suono." },
+          { text: "Tranquillo.", effectPhrase: "Ogni tuo “va tutto bene” nasconde una tempesta che solo tu sai reggere." },
+          { text: "Distratto.", effectPhrase: "Ti perdi nei pensieri pur di non far vedere quanto hai bisogno di essere visto." },
+          { text: "Fortissimo.", effectPhrase: "Hai fatto della forza una maschera, ma anche i giganti si stancano." }
+        ]
       },
       {
         question: "Cosa ti è mancato più di tutto?",
-        options: ["Qualcuno che mi ascoltasse davvero.", "Un abbraccio sincero.", "Una voce che mi dicesse “resta”.", "Una volta in cui non mi sono sentito di troppo."]
+        options: [
+          { text: "Qualcuno che mi ascoltasse davvero.", effectPhrase: "Hai imparato a non chiedere più, ma il bisogno è rimasto in silenzio dentro di te." },
+          { text: "Un abbraccio sincero.", effectPhrase: "Ti manca ciò che non hai mai ricevuto davvero: un abbraccio che dicesse “ci sono”." },
+          { text: "Una voce che mi dicesse “resta”.", effectPhrase: "Hai aspettato quella voce, e forse la stai ancora aspettando." },
+          { text: "Una volta in cui non mi sono sentito di troppo.", effectPhrase: "Ogni volta che ti sei sentito di troppo, hai costruito muri che ora ti stringono." }
+        ]
       },
       {
         question: "A chi avresti voluto dire qualcosa, ma non l’hai fatto?",
-        options: ["A chi mi ha dimenticato.", "A me stesso, quando avevo paura.", "A chi mi ha usato.", "A chi ho lasciato andare senza capirmi."]
+        options: [
+          { text: "A chi mi ha dimenticato.", effectPhrase: "Ci sono parole che hai sepolto per non disturbare. Ma gridano ancora, dentro." },
+          { text: "A me stesso, quando avevo paura.", effectPhrase: "Hai lasciato andare per proteggerti, ma certe paure andavano abbracciate." },
+          { text: "A chi mi ha usato.", effectPhrase: "Chi ti ha usato non ha tolto valore a ciò che sei. Solo luce a ciò che dai." },
+          { text: "A chi ho lasciato andare senza capirmi.", effectPhrase: "Non capirti non è colpa tua. E anche nel silenzio, vali." }
+        ]
       },
       {
         question: "Qual è il pensiero che ti fa più male, anche se non lo dici?",
-        options: ["Che forse non sarò mai scelto.", "Che chi dice di amarmi non mi vede.", "Che nessuno resterebbe se sapesse tutto.", "Che valgo solo quando sorrido."]
+        options: [
+          { text: "Che forse non sarò mai scelto.", effectPhrase: "Ti tormenti col dubbio di non essere scelto, ma l’amore non è una selezione." },
+          { text: "Che chi dice di amarmi non mi vede.", effectPhrase: "Essere visti davvero è raro. Ma tu meriti occhi che restano." },
+          { text: "Che nessuno resterebbe se sapesse tutto.", effectPhrase: "Se anche mostrassi tutto, resterebbe chi ti ama per intero." },
+          { text: "Che valgo solo quando sorrido.", effectPhrase: "Non sei solo il tuo sorriso. Sei anche ciò che nascondi dietro." }
+        ]
       },
       {
         question: "Quando hai pianto da solo, cosa ti sei detto?",
-        options: ["“Devo smettere.”", "“Tanto nessuno capirebbe.”", "“Non posso crollare adesso.”", "“Almeno qui non mi vede nessuno.”"]
+        options: [
+          { text: "“Devo smettere.”", effectPhrase: "Ti sei detto che dovevi smettere. Ma sentire non è mai una colpa." },
+          { text: "“Tanto nessuno capirebbe.”", effectPhrase: "Non sei strano per essere fragile. Sei umano per esserlo in silenzio." },
+          { text: "“Non posso crollare adesso.”", effectPhrase: "Hai tenuto in piedi il mondo quando il tuo stava crollando." },
+          { text: "“Almeno qui non mi vede nessuno.”", effectPhrase: "Il buio non ti ha mai fatto paura: solo non essere visto dentro di esso." }
+        ]
       },
       {
         question: "Cosa tieni nascosto anche a chi ti ama?",
-        options: ["La mia rabbia silenziosa.", "La voglia di sparire.", "Tutte le volte che mi sento finto.", "I pensieri che mi fanno paura."]
+        options: [
+          { text: "La mia rabbia silenziosa.", effectPhrase: "La tua rabbia silenziosa ha un cuore buono che non è stato ascoltato." },
+          { text: "La voglia di sparire.", effectPhrase: "Non è fuga. È sopravvivenza. Ma ora puoi anche restare." },
+          { text: "Tutte le volte che mi sento finto.", effectPhrase: "Non sei finto. Sei solo stanco di fingere di stare bene." },
+          { text: "I pensieri che mi fanno paura.", effectPhrase: "Ciò che ti spaventa non ti rende debole. Ti rende vero." }
+        ]
       },
       {
         question: "Cosa speri ancora, ma non lo ammetteresti mai?",
-        options: ["Che qualcuno mi scelga e resti.", "Che io possa smettere di fingere.", "Che il dolore un giorno serva a qualcosa.", "Che qualcuno dica: “Non importa, resto comunque.”"]
+        options: [
+          { text: "Che qualcuno mi scelga e resti.", effectPhrase: "Vorresti qualcuno che ti scegliesse anche nei tuoi giorni più bui." },
+          { text: "Che io possa smettere di fingere.", effectPhrase: "Smettere di fingere sarebbe il tuo primo vero respiro." },
+          { text: "Che il dolore un giorno serva a qualcosa.", effectPhrase: "Hai dato un senso al dolore degli altri. Ora meriti che il tuo ne abbia uno." },
+          { text: "Che qualcuno dica: “Non importa, resto comunque.”", effectPhrase: "“Resto comunque” è la frase che avresti voluto sentire. E la meriti." }
+        ]
       }
     ];
-
-    const finalPhraseText = "Hai imparato a sembrare intera. Ma dentro, ogni giorno, perdi un pezzo che nessuno reclama.";
-
 
     function renderIntro() {
         app.innerHTML = `
@@ -433,19 +543,19 @@
     }
 
     function renderQuiz() {
-        if (userAnswers.length === 0) { // Inizializza le risposte solo alla prima entrata nel quiz
+        if (userAnswers.length === 0) { // Inizializza le risposte alla prima entrata
             userAnswers = new Array(quizData.length).fill(undefined);
         }
 
         const q = quizData[currentQuestionIndex];
         let optionsHtml = '';
         q.options.forEach((option, optionIndex) => {
-            const checked = userAnswers[currentQuestionIndex] === option ? 'checked' : '';
-            const selectedStyle = userAnswers[currentQuestionIndex] === option ?
+            const checked = userAnswers[currentQuestionIndex] === option.text ? 'checked' : '';
+            const selectedStyle = userAnswers[currentQuestionIndex] === option.text ?
                 'background-color: var(--quiz-selected-option-color); border-color: var(--quiz-primary-color); color: white;' : '';
             optionsHtml += `
-                <input type="radio" id="q${currentQuestionIndex}o${optionIndex}" name="question${currentQuestionIndex}" value="${option}" ${checked}>
-                <label for="q${currentQuestionIndex}o${optionIndex}" style="${selectedStyle}">${option}</label>
+                <input type="radio" id="q${currentQuestionIndex}o${optionIndex}" name="question${currentQuestionIndex}" value="${option.text}" data-effect-phrase="${option.effectPhrase}" ${checked}>
+                <label for="q${currentQuestionIndex}o${optionIndex}" style="${selectedStyle}">${option.text}</label>
             `;
         });
 
@@ -465,7 +575,8 @@
         // Aggiungi listener per le opzioni
         document.querySelectorAll(`#quizContent input[type="radio"]`).forEach(input => {
             input.addEventListener('change', (event) => {
-                selectAnswer(currentQuestionIndex, event.target.value, event.target);
+                // Salva sia la risposta che la frase d'effetto
+                selectAnswer(currentQuestionIndex, event.target.value, event.target.dataset.effectPhrase, event.target);
                 // Avanza alla prossima domanda o mostra il risultato automaticamente
                 setTimeout(() => { // Piccolo ritardo per visualizzare la selezione
                     if (currentQuestionIndex < quizData.length - 1) {
@@ -479,24 +590,27 @@
         });
     }
 
-    function selectAnswer(questionIndex, answer, selectedInput) {
-        userAnswers[questionIndex] = answer;
+    function selectAnswer(questionIndex, answerText, effectPhrase, selectedInput) {
+        userAnswers[questionIndex] = answerText;
+        // Aggiorna la frase d'effetto finale con quella dell'ultima risposta selezionata
+        finalEffectPhrase = effectPhrase;
 
+        // Resetta gli stili di tutte le opzioni della domanda corrente
         const optionsLabels = selectedInput.parentElement.querySelectorAll('label');
         optionsLabels.forEach(label => {
             label.style.backgroundColor = 'var(--quiz-container-bg)';
             label.style.borderColor = 'var(--quiz-border-color)';
             label.style.color = 'var(--quiz-text-color)';
-            // Rimuovi lo shadow dalle opzioni non selezionate per coerenza
-            label.style.boxShadow = '0 0 5px 1px #ff00ff, 0 0 10px 3px #8a2be2';
+            label.style.boxShadow = '0 0 5px 1px var(--neon-color1), 0 0 10px 3px var(--neon-color2)';
         });
 
-        selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-selected-option-color)'; // Viola pastello
+        // Applica gli stili per l'opzione selezionata
+        selectedInput.nextElementSibling.style.backgroundColor = 'var(--quiz-selected-option-color)';
         selectedInput.nextElementSibling.style.borderColor = 'var(--quiz-primary-color)';
         selectedInput.nextElementSibling.style.color = 'white';
-        // Applica lo shadow più intenso all'opzione selezionata
-        selectedInput.nextElementSibling.style.boxShadow = '0 0 10px 2px #ff00ff, 0 0 20px 6px #8a2be2';
+        selectedInput.nextElementSibling.style.boxShadow = '0 0 10px 2px var(--neon-color1), 0 0 20px 6px var(--neon-color2)';
     }
+
 
     function renderResult() {
         let summaryHtml = '';
@@ -512,19 +626,35 @@
             <div id="result-section">
                 <h2>La verità che non dici</h2>
                 <ul id="summary">${summaryHtml}</ul>
-                <p id="final-phrase">${finalPhraseText}</p>
-                <div id="final-image-wrapper">
-                    <img src="corvo.JPG" alt="Condividi su WhatsApp" id="final-image">
-                </div>
+                <p id="final-phrase">${finalEffectPhrase}</p>
+                <button class="next-button" id="proceed-to-final-images">➡️</button>
             </div>
         `;
         body.className = 'phase-3';
         app.className = 'phase-3'; // Applica classi per il container
 
-        // Mostra l'immagine finale della condivisione con un leggero ritardo per l'effetto di transizione
-        const finalImageWrapperElement = document.getElementById('final-image-wrapper');
-        finalImageWrapperElement.classList.add('show');
-        document.getElementById('final-image').addEventListener('click', shareWhatsApp);
+        document.getElementById('proceed-to-final-images').addEventListener('click', renderFinalContent);
+    }
+
+    function renderFinalContent() {
+        app.innerHTML = `
+            <div id="final-images-container">
+                <img src="corvo.JPG" alt="Condividi su WhatsApp" class="final-image-item" id="whatsapp-image">
+                <img src="corvolettera.JPG" alt="Leggi la lettera" class="final-image-item" id="letter-image">
+            </div>
+        `;
+        // Applica le classi per il background e il colore del testo della fase 3
+        body.className = 'phase-3';
+        app.className = 'phase-3 final-images'; // Aggiungi una classe specifica per le immagini finali, forse con background trasparente per l'app
+
+        // Mostra il contenitore delle immagini con transizione
+        const finalImagesContainer = document.getElementById('final-images-container');
+        setTimeout(() => {
+            finalImagesContainer.classList.add('show');
+        }, 50); // Piccolo ritardo per l'effetto di transizione
+
+        document.getElementById('whatsapp-image').addEventListener('click', shareWhatsApp);
+        document.getElementById('letter-image').addEventListener('click', renderLoveLetter);
     }
 
     function shareWhatsApp() {
@@ -534,13 +664,59 @@
             whatsappMessage += `${index + 1}. ${quizData[index].question} → ${answer}\n`;
         });
 
-        whatsappMessage += `\n"${finalPhraseText}"`; // Usa la costante
+        whatsappMessage += `\n"${finalEffectPhrase}"`; // Usa la frase d'effetto dell'ultima risposta
         whatsappMessage += `\n\nScoprilo anche tu: ${window.location.href}`;
 
         const encodedMessage = encodeURIComponent(whatsappMessage);
         const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
 
         window.open(whatsappUrl, '_blank');
+    }
+
+    function renderLoveLetter() {
+        app.innerHTML = `
+            <div id="love-letter">
+              <h2>Il corvo ti ha mandato la lettera🐦‍⬛💜</h2>
+
+              <p>Tu non sei sola.  
+              Nemmeno quando il mondo sembra troppo,  
+              nemmeno quando pensi che nessuno ti stia guardando davvero.</p>
+
+              <p>Io ti vedo.  
+              Ti vedo anche quando non dici niente.  
+              Quando trattieni tutto, quando abbassi gli occhi, quando dici “tanto passa” ma dentro ti spegni un po’.</p>
+
+              <p>Io ti leggo.  
+              E non serve che tu spieghi tutto per filo e per segno: certe cose le sento.  
+              Le leggo nel modo in cui respiri piano, nel modo in cui ti chiudi ma vorresti essere abbracciata lo stesso.</p>
+
+              <p>Tu sei vista. E capita, anche nei pezzi che credi di dover nascondere.  
+              Io ti tengo dentro, anche quando non so bene come dirtelo.</p>
+
+              <p>È vero, magari non sempre riesco a supportarti nel modo perfetto.  
+              A volte mi perdo nel cercare le parole giuste, o ho paura di sbagliare.  </p>
+
+              <p>Però tu, tu sei tutto quello che non passa inosservato.  
+              Anche quando sei fragile. Anche quando dici che stai bene ma hai lo sguardo stanco.  
+              E io ci sono. Davvero. Con tutto quello che sono, anche con i miei sbagli.</p>
+
+              <p>Il corvo ti ha portato questa lettera.  
+              Ma ogni parola l’ho scritta io, a modo mio.  
+              Per dirti solo questo:  
+              <strong>tu non sei sola. Non lo sei mai stata.</strong></p>
+
+              <p><em>Il tuo rimbambito 💜</em></p>
+            </div>
+            <button class="action-button" onclick="window.location.reload()">Ricomincia</button>
+        `;
+        // Assicurati che lo sfondo del body rimanga quello della fase 3
+        body.className = 'phase-3';
+        // Rimuovi la classe 'final-images' dall'app se presente, per resettare gli stili del contenitore se la lettera non è trasparente
+        app.className = 'phase-3';
+        // Imposta un'altezza automatica per l'app in modo che la lettera non sia tagliata
+        app.style.minHeight = 'auto';
+        app.style.height = 'auto';
+        app.style.justifyContent = 'flex-start'; // Allinea il contenuto in alto per la lettera
     }
 
     // Inizializza l'applicazione mostrando la prima fase
