@@ -38,10 +38,11 @@
       --final-images-text-color: #F5F5F5; /* Testo chiaro su sfondo scuro */
 
       /* Colori Fase 6 (Lettera) */
-      --letter-bg-color: #FFB6C1; /* Rosa pastello */
+      --letter-bg-color: #FFB6C1; /* Rosa pastello per il body */
       --letter-text-color: #333; /* Testo scuro per contrasto */
-      --letter-container-bg: rgba(255, 182, 193, 0.8); /* Rosa pastello leggermente trasparente per il container */
-      --letter-border-color: #FFD1DC; /* Rosa più chiaro per il bordo della lettera */
+      --letter-container-bg: #FFD1DC; /* Rosa più chiaro per lo sfondo interno della lettera */
+      --letter-border-color: #FFB6C1; /* Bordo della sezione della lettera, colore leggermente più chiaro */
+
 
       --transition-speed: 0.8s;
     }
@@ -134,12 +135,12 @@
 
     /* Stili per la Fase 6 (Lettera) */
     body.phase-6 {
-        background-color: var(--letter-bg-color); /* Rosa pastello */
+        background-color: var(--letter-bg-color); /* Rosa pastello per il body */
         color: var(--letter-text-color); /* Testo scuro */
         font-family: var(--quiz-font);
     }
     #app.phase-6 {
-        background-color: var(--letter-container-bg); /* Rosa pastello leggermente trasparente */
+        background-color: var(--letter-container-bg); /* Rosa più chiaro per lo sfondo interno */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         max-width: 80%;
         padding: 30px;
@@ -288,7 +289,7 @@
         font-size: 1.5em; /* Dimensione icona freccia */
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
-        margin-top: 20px; /* Spazio dal testo sopra */
+        margin-top: 80px; /* Spazio sufficiente dalla frase per leggerla bene */
         box-shadow: 0 0 10px 2px #ff00ff, 0 0 15px 5px #8a2be2; /* Bordo neon */
         display: flex;
         align-items: center;
@@ -348,7 +349,7 @@
         height: auto; /* Mantieni le proporzioni */
         margin-bottom: 40px; /* Spazio sotto il cuore */
         border-radius: 10px; /* Bordo leggermente arrotondato per l'immagine */
-        box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2; /* Bordo neon per il cuore */
+        /* Rimosso il bordo neon come richiesto */
         animation: heartbeat 1s infinite alternate; /* Animazione che fa battere il cuore */
     }
 
@@ -365,9 +366,9 @@
     /* Contenitore per le due immagini finali */
     .final-image-container {
         display: flex;
-        flex-direction: row; /* IMPEGNO: Disposizione orizzontale */
+        flex-direction: row; /* Disposizione orizzontale */
         align-items: center;
-        gap: 30px; /* Spazio tra le due immagini */
+        gap: 20px; /* Spazio leggermente aumentato tra le due immagini */
         margin-top: 20px; /* Spazio tra il cuore e le immagini */
         flex-wrap: wrap; /* Permette il wrapping su schermi piccoli */
         justify-content: center;
@@ -397,6 +398,9 @@
         width: 90%;
         max-width: 700px; /* Larghezza massima per la leggibilità */
         margin: 20px auto; /* Centra la lettera */
+        background-color: var(--letter-container-bg); /* Sfondo rosa chiaro per la parte interna */
+        padding: 20px; /* Padding interno alla sezione della lettera */
+        border-radius: 10px; /* Bordo arrotondato per la sezione interna */
     }
     #letter-section h2 {
         color: #e91e63; /* Colore rosa più intenso per il titolo */
@@ -482,6 +486,7 @@
             width: 45px;
             height: 45px;
             font-size: 1.3em;
+            margin-top: 60px; /* Ridotto un po' per schermi più piccoli */
         }
 
         .final-image-container {
@@ -722,7 +727,7 @@
 
         app.innerHTML = `
             <div id="result-section">
-                <h2>La verità che non dici</h2>
+                <h2>La verità non consola. Ma almeno ti guarda in faccia.</h2>
                 <ul id="summary">${summaryHtml}</ul>
                 <p id="final-phrase">${finalEffectPhrase}</p>
                 <button id="next-images-button" aria-label="Vai alle immagini finali">
