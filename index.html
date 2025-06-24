@@ -41,7 +41,7 @@
 
       /* Colori Fase 6 (Lettera) */
       --letter-bg-color: #FFB6C1; /* Rosa pastello */
-      --letter-text-color: #333; /* Testo scuro */
+      --letter-text-color: #333; /* Testo scuro per contrasto */
       --letter-container-bg: rgba(255, 182, 193, 0.8); /* Rosa pastello leggermente trasparente per il container */
 
       --transition-speed: 0.8s;
@@ -113,12 +113,12 @@
     }
 
     /* Stili per la Fase 5 (Immagini finali) - Sfondo rimane viola scuro */
-    body.phase-5 { /* Rinominato da phase-4 a phase-5 */
+    body.phase-5 {
         background-color: var(--result-bg-color); /* Sfondo viola scuro */
         color: var(--final-images-text-color); /* Testo chiaro */
         font-family: var(--quiz-font);
     }
-    #app.phase-5 { /* Rinominato da phase-4 a phase-5 */
+    #app.phase-5 {
         background-color: transparent; /* Il div app sarà trasparente per mostrare lo sfondo del body */
         box-shadow: none; /* Nessuna ombra per il div app */
         max-width: 95%;
@@ -136,7 +136,7 @@
     /* Stili per la Fase 6 (Lettera) */
     body.phase-6 {
         background-color: var(--letter-bg-color); /* Rosa pastello */
-        color: var(--letter-text-color);
+        color: var(--letter-text-color); /* Testo scuro */
         font-family: var(--quiz-font);
     }
     #app.phase-6 {
@@ -227,7 +227,7 @@
     #start-quiz-image:hover {
         transform: scale(1.05);
         /* Intensifica il neon all'hover */
-        box_shadow: 0 0 15px 3px #ff00ff, 0 0 25px 8px #8a2be2;
+        box-shadow: 0 0 15px 3px #ff00ff, 0 0 25px 8px #8a2be2;
     }
 
 
@@ -344,10 +344,13 @@
         height: 90px;
         margin-bottom: 40px; /* Spazio sotto il cuore */
         transform: rotate(-45deg);
+        overflow: hidden; /* Nasconde le parti extra dell'immagine se troppo grande */
+        border-radius: 10px; /* Bordo leggermente arrotondato */
         /* Sfondo con l'immagine */
         background-image: url('sfondocuore.JPG');
         background-size: cover;
         background-position: center;
+        background-repeat: no-repeat;
         /* Bordo neon per il cuore */
         box-shadow: 0 0 15px 5px #ff00ff, 0 0 25px 10px #8a2be2;
         /* Animazione che fa battere il cuore */
@@ -364,6 +367,7 @@
         background-image: url('sfondocuore.JPG');
         background-size: cover;
         background-position: center;
+        background-repeat: no-repeat;
     }
     .heart::before {
         top: -50px;
@@ -412,7 +416,7 @@
         white-space: pre-line; /* Mantiene le interruzioni di riga nel testo */
         font-size: 1.1em;
         line-height: 1.6;
-        color: var(--letter-text-color);
+        color: var(--letter-text-color); /* Colore testo scuro per contrasto */
         text-align: left; /* Allinea il testo a sinistra */
         width: 90%;
         max-width: 700px; /* Larghezza massima per la leggibilità */
@@ -433,7 +437,7 @@
         text-align: right;
         font-style: normal; /* Rimuove l'italico se non desiderato */
         font-weight: bold;
-        color: #e91e63;
+        color: #e91e63; /* Colore rosa più intenso per la firma */
     }
 
     /* Pulsante per chiudere la lettera */
@@ -608,7 +612,7 @@
         options: [
           { text: "“Devo smettere.”", effectPhrase: "Ti sei detto che dovevi smettere. Ma sentire non è mai una colpa." },
           { text: "“Tanto nessuno capirebbe.”", effectPhrase: "Non sei strano per essere fragile. Sei umano per esserlo in silenzio." },
-          { text: "“Non posso crollare adesso.”", effectPhrase: "Hai tenuto in piedi il mondo quando il tuo stava crollando." },
+          { text: "“Non posso crollare adesso.”", effectEffectPhrase: "Hai tenuto in piedi il mondo quando il tuo stava crollando." },
           { text: "“Almeno qui non mi vede nessuno.”", effectPhrase: "Il buio non ti ha mai fatto paura: solo non essere visto dentro di esso." }
         ]
       },
