@@ -36,6 +36,7 @@
       /* Colori Fase 5 (Immagini finali) */
       /* Sfondo rimane viola scuro come result-bg-color */
       --final-images-text-color: #F5F5F5; /* Testo chiaro su sfondo scuro */
+      --final-images-title-color: #A799FF; /* Colore per il nuovo titolo */
 
       /* Colori Fase 6 (Lettera) */
       --letter-bg-color: #FFB6C1; /* Rosa pastello per il body (come bordo esterno) */
@@ -288,7 +289,7 @@
         font-size: 1.5em; /* Dimensione icona freccia */
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
-        margin-top: 100px; /* Aumentato per lasciare spazio alla frase */
+        margin-top: 120px; /* Aumentato ulteriormente per maggiore spazio */
         box-shadow: 0 0 10px 2px #ff00ff, 0 0 15px 5px #8a2be2; /* Bordo neon */
         display: flex;
         align-items: center;
@@ -342,24 +343,13 @@
         box-sizing: border-box; /* Include padding nell'altezza */
     }
 
-    /* Immagine del cuore */
-    #heart-image {
-        width: 100px;
-        height: auto; /* Mantieni le proporzioni */
-        margin-bottom: 40px; /* Spazio sotto il cuore */
-        border-radius: 10px; /* Bordo leggermente arrotondato per l'immagine */
-        box-shadow: none; /* RIMOSSO IL BORDO NEON */
-        animation: heartbeat 1s infinite alternate; /* Animazione che fa battere il cuore */
-    }
-
-    /* Definizione dell'animazione heartbeat */
-    @keyframes heartbeat {
-        0% {
-            transform: scale(1);
-        }
-        100% {
-            transform: scale(1.1);
-        }
+    /* Nuovo titolo al posto dell'immagine del cuore */
+    #final-images-title {
+        font-size: 2em;
+        color: var(--final-images-title-color); /* Colore del titolo */
+        margin-bottom: 30px; /* Spazio sotto il titolo */
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        text-align: center;
     }
 
     /* Contenitore per le due immagini finali */
@@ -368,7 +358,7 @@
         flex-direction: row; /* Disposizione orizzontale */
         align-items: center;
         gap: 20px; /* Spazio tra le due immagini */
-        margin-top: 20px; /* Spazio tra il cuore e le immagini */
+        margin-top: 20px; /* Spazio tra il titolo e le immagini */
         flex-wrap: wrap; /* Permette il wrapping su schermi piccoli */
         justify-content: center;
     }
@@ -400,6 +390,7 @@
         background-color: var(--letter-container-bg); /* Sfondo rosa chiaro per la parte interna (BLU) */
         padding: 20px; /* Padding interno alla sezione della lettera */
         border-radius: 10px; /* Bordo arrotondato per la sezione interna */
+        position: relative; /* Per posizionare il pulsante di copia */
     }
     #letter-section h2 {
         color: #e91e63; /* Colore rosa più intenso per il titolo */
@@ -434,6 +425,32 @@
     #close-letter-button:hover {
         background-color: var(--quiz-button-hover-color);
         transform: translateY(-2px);
+    }
+
+    /* Pulsante Copia */
+    #copy-letter-button {
+        background-color: var(--quiz-primary-color);
+        color: white;
+        border: none;
+        width: 40px; /* Dimensioni fisse per un'icona */
+        height: 40px;
+        border-radius: 50%; /* Circolare */
+        font-size: 1.2em; /* Dimensione icona */
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Posizionamento assoluto in alto a destra all'interno della lettera */
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    #copy-letter-button:hover {
+        background-color: var(--quiz-button-hover-color);
+        transform: scale(1.1);
     }
 
     /* Media queries per una migliore responsività */
@@ -471,9 +488,9 @@
             font-size: 1.2em;
         }
 
-        #heart-image {
-            width: 80px;
-            margin-bottom: 30px;
+        #final-images-title {
+            font-size: 1.6em;
+            margin-bottom: 20px;
         }
 
         .final-image-item {
@@ -485,12 +502,20 @@
             width: 45px;
             height: 45px;
             font-size: 1.3em;
-            margin-top: 80px; /* Mantenuto più spazio anche su mobile */
+            margin-top: 100px; /* Mantenuto più spazio anche su mobile */
         }
 
         .final-image-container {
             flex-direction: column; /* Torna in colonna su schermi molto piccoli se preferisci */
             gap: 20px;
+        }
+
+        #copy-letter-button {
+            width: 35px;
+            height: 35px;
+            font-size: 1.1em;
+            top: 10px;
+            right: 10px;
         }
     }
   </style>
@@ -743,7 +768,7 @@
     function renderFinalImages() {
         app.innerHTML = `
             <div id="final-images-section">
-                <img src="cuoresito.PNG" alt="Cuore" id="heart-image">
+                <h2 id="final-images-title">Quello che è venuto fuori. E quello che voglio dirti</h2>
                 <div class="final-image-container">
                     <img src="corvolettera.JPG" alt="Corvo con lettera" class="final-image-item" id="open-letter">
                     <img src="corvo.JPG" alt="Corvo" class="final-image-item" id="share-corvo">
@@ -762,6 +787,9 @@
     function renderLetter() {
         app.innerHTML = `
             <div id="letter-section">
+                <button id="copy-letter-button" aria-label="Copia la poesia">
+                    <i class="far fa-copy"></i>
+                </button>
                 ${loveLetterContent}
                 <button id="close-letter-button">Chiudi la lettera</button>
             </div>
@@ -770,6 +798,20 @@
         app.className = 'phase-6'; // NUOVA CLASSE PER LA FASE DELLA LETTERA
 
         document.getElementById('close-letter-button').addEventListener('click', renderFinalImages); // Torna alla schermata delle immagini finali
+        document.getElementById('copy-letter-button').addEventListener('click', copyLetterToClipboard);
+    }
+
+    // Funzione per copiare la lettera negli appunti
+    function copyLetterToClipboard() {
+        const letterText = loveLetterContent.replace(/<[^>]*>/g, '').trim(); // Rimuove i tag HTML
+        navigator.clipboard.writeText(letterText)
+            .then(() => {
+                alert('Poesia copiata negli appunti!');
+            })
+            .catch(err => {
+                console.error('Errore durante la copia: ', err);
+                alert('Errore durante la copia della poesia. Riprova o copia manualmente.');
+            });
     }
 
     // Questa funzione genererà il messaggio WhatsApp con la frase d'effetto e l'URL
