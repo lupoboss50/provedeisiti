@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
@@ -38,11 +38,17 @@
       --final-images-text-color: #F5F5F5; /* Testo chiaro su sfondo scuro */
       --final-images-title-color: #A799FF; /* Colore per il nuovo titolo */
 
-      /* Colori Fase 6 (Lettera) */
+      /* Colori Fase 6 (Lettera del Corvo - default) */
       --letter-bg-color: #FFB6C1; /* Rosa pastello per il body (come bordo esterno) */
       --letter-text-color: #333; /* Testo scuro per contrasto */
       --letter-container-bg: #FFD1DC; /* Rosa più chiaro per lo sfondo interno della lettera (parte "blu") */
       --letter-border-color: #FFB6C1; /* Bordo della sezione della lettera, colore leggermente più chiaro */
+
+      /* NUOVI COLORI FASE 6 (Lettera dell'Ermellino) - Ermellino Invernale con Rosé */
+      --ermellino-letter-bg-color: #F8F8FF; /* Floral White */
+      --ermellino-letter-container-bg: #FFF0F5; /* Lavender Blush */
+      --ermellino-letter-border-color: #FFC0CB; /* Pink */
+
 
       --transition-speed: 0.8s;
     }
@@ -135,7 +141,7 @@
         position: relative; /* Potrebbe servire per eventuali elementi posizionati */
     }
 
-    /* Stili per la Fase 6 (Lettera) */
+    /* Stili per la Fase 6 (Lettera del Corvo - default) */
     body.phase-6 {
         background-color: var(--letter-bg-color); /* Rosa pastello per il body (come bordo esterno) */
         color: var(--letter-text-color); /* Testo scuro */
@@ -157,6 +163,21 @@
         border: 2px solid var(--letter-border-color); /* Bordo della sezione della lettera */
         position: relative; /* Per posizionare il pulsante di copia */
     }
+
+    /* NUOVI STILI PER LA LETTERA DELL'ERMELLINO (Sovrascrivono i precedenti quando la classe è attiva) */
+    body.phase-6.letter-ermellino-active {
+        background-color: var(--ermellino-letter-bg-color);
+    }
+    #app.phase-6.letter-ermellino-active {
+        background-color: var(--ermellino-letter-container-bg);
+        border: 2px solid var(--ermellino-letter-border-color);
+    }
+    /* Colore specifico per titolo e firma della lettera ermellino */
+    #app.phase-6.letter-ermellino-active #letter-section h2,
+    #app.phase-6.letter-ermellino-active #letter-section em {
+        color: #E9967A; /* Dark Salmon per titolo e firma ermellino */
+    }
+
 
     .hidden {
       display: none !important;
@@ -837,6 +858,11 @@
         body.className = 'phase-5';
         app.className = 'phase-5';
 
+        // Assicurati di rimuovere eventuali classi di lettera attive quando si torna a questa fase
+        body.classList.remove('letter-ermellino-active');
+        app.classList.remove('letter-ermellino-active');
+
+
         // Listener per la condivisione WhatsApp (solo per corvo.JPG)
         document.getElementById('share-corvo').addEventListener('click', () => shareWhatsApp('corvo.JPG'));
         // Listener per aprire la lettera del corvo
@@ -849,8 +875,12 @@
         let contentToDisplay = '';
         if (letterType === 'corvo') {
             contentToDisplay = loveLetterContentCorvo;
+            body.classList.remove('letter-ermellino-active'); // Rimuovi la classe ermellino se si apre il corvo
+            app.classList.remove('letter-ermellino-active');
         } else if (letterType === 'ermellino') {
             contentToDisplay = loveLetterContentErmellino;
+            body.classList.add('letter-ermellino-active'); // Aggiungi la classe ermellino
+            app.classList.add('letter-ermellino-active');
         }
 
         // Salva il contenuto attualmente visualizzato per la funzione di copia
@@ -866,7 +896,7 @@
             </div>
         `;
         body.className = 'phase-6';
-        app.className = 'phase-6';
+        app.className = 'phase-6'; // Applica la classe base per la fase 6
 
         document.getElementById('close-letter-button').addEventListener('click', renderFinalImages);
         // La funzione di copia ora non ha bisogno di un argomento, usa la variabile globale
