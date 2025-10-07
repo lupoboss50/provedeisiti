@@ -16,10 +16,9 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f7f7f7; /* Sfondo neutro */
             height: 100vh;
             width: 100vw;
-            overflow: hidden; /* CRUCIALE: Mantiene lo stile PowerPoint a schermo intero */
+            overflow: hidden; 
         }
         
         /* Stile comune per tutte le slide (sezioni) */
@@ -33,23 +32,33 @@
             flex-direction: column; 
             justify-content: center;
             align-items: center;
-            background-color: #f7f7f7;
             padding: 20px;
             z-index: 10;
-            transition: opacity 0.5s ease;
+            transition: background-color 0.5s ease; /* Transizione per il cambio colore */
         }
         
         .slide.attiva {
             display: flex;
-            opacity: 1;
         }
-        
+
+        /* -------------------------------------- */
+        /* SFONDI DIVERSI PER SLIDE (NUOVO!) */
+        /* -------------------------------------- */
+        #slide-principale { background-color: #F8F8FF; /* Bianco leggero */ }
+        #slide-informazioni { background-color: #E0FFFF; /* Azzurro chiarissimo */ }
+        #slide-generali { background-color: #FFFACD; /* Giallo pastello */ }
+        #slide-piace { background-color: #FFE4E1; /* Rosa pastello */ }
+        #slide-carattere { background-color: #AFEEEE; /* Azzurro pastello */ }
+
+
         /* Titoli Generali */
         h1 {
             font-family: 'Pacifico', cursive;
             color: #333;
             font-size: clamp(2.5em, 8vw, 3.5em);
             margin-bottom: 10px;
+            /* Leggera ombra per un look 3D */
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1); 
         }
 
         h2 {
@@ -59,77 +68,69 @@
             margin-bottom: 30px;
         }
 
-        /* Testo Corpo */
+        /* Testo Corpo (Contenitore) */
         .testo-corpo {
             max-width: 600px;
+            width: 90%;
             text-align: left;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* Ombra più marcata */
+            max-height: 60vh; /* Limite per far scorrere su schermi piccoli */
+            overflow-y: auto; /* ✨ FIX SCORRIMENTO: Rende il testo scrollabile */
         }
-
-        .testo-corpo p {
+        
+        .testo-corpo p, .testo-corpo li {
             font-size: clamp(1em, 4vw, 1.1em);
             line-height: 1.6;
             margin-bottom: 15px;
             color: #444;
         }
-        .testo-corpo ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        .testo-corpo li {
-            margin-bottom: 10px;
-            font-size: clamp(1em, 4vw, 1.1em);
-        }
         .testo-corpo strong {
             color: #E91E63; /* Colore accento */
+            font-weight: 700;
+        }
+        .testo-corpo ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+        .testo-corpo li {
+            margin-bottom: 12px;
         }
 
 
-        /* Pulsanti e Navigazione */
-        .pulsante-nav {
-            cursor: pointer;
-            padding: 15px 30px;
-            margin: 10px;
-            border: none;
-            border-radius: 10px;
-            background-color: #4CAF50; /* Verde accattivante */
-            color: white;
-            font-size: clamp(1.1em, 4vw, 1.4em);
-            transition: background-color 0.3s;
-        }
-        .pulsante-nav:hover {
-            background-color: #45a049;
-        }
-
-        /* Pulsanti Caratteristiche (Slide 2) */
+        /* Pulsanti Caratteristiche (Slide 2 - NUOVO STILE) */
         .pulsanti-caratteristiche {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            max-width: 300px;
+            gap: 20px;
+            max-width: 350px;
             width: 100%;
         }
         .pulsanti-caratteristiche button {
-            background-color: #E91E63; /* Rosa accento */
-            padding: 15px;
-            border-radius: 50px; /* Pulsanti arrotondati */
+            background-color: #FF577F; /* Rosa/rosso acceso */
+            padding: 18px 25px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 0 #D81B60; /* Ombra 3D sotto */
+            color: white;
+            font-size: clamp(1.2em, 5vw, 1.5em);
+            font-weight: 700;
+            transition: all 0.1s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
+            cursor: pointer;
         }
-        .pulsanti-caratteristiche button:hover {
+        .pulsanti-caratteristiche button:active {
+            transform: translateY(5px); /* Sposta in giù al click */
+            box-shadow: 0 0 0 #D81B60; /* Nasconde l'ombra 3D */
             background-color: #d81b60;
-        }
-        .pulsanti-caratteristiche button span {
-            margin-left: 10px;
-            font-size: 1.2em;
         }
         .pulsanti-caratteristiche button .emoji {
             font-size: 1.5em;
+            margin-right: 15px;
         }
         
         /* Freccia di Navigazione (Right Arrow/Back Arrow) */
@@ -138,9 +139,10 @@
             cursor: pointer;
             margin-top: 40px;
             transition: transform 0.2s;
+            color: #E91E63; /* Colore accento */
         }
         .nav-freccia:active {
-            transform: scale(0.9);
+            transform: scale(0.8);
         }
     </style>
 </head>
@@ -193,8 +195,16 @@
     <div id="slide-piace" class="slide">
         <h1>COSE CHE GLI PIACCIONO</h1>
         <div class="testo-corpo">
-            <h2>Queste sono le passioni di Cozmin... (Mandami il testo, bro!)</h2>
-            <p>Testo segnaposto...</p>
+            <h2>Cosa piace al leggendario Cozmin Toma?</h2>
+            <p>Scoprire i segreti di Cozmin Toma è stata un’impresa, ma ce l’ho fatta! Dopo indagini serrate, ecco cosa fa vibrare l’anima di questo Homo erectus moderno. Preparatevi, allo shock.</p>
+            <ul>
+                <li>• È un <strong>nerd DOC</strong>: anime e manga sono il suo ossigeno. Il suo preferito? <strong>Tokyo Ghoul</strong>, un capolavoro che lo fa sognare a occhi aperti.</li>
+                <li>• Leggere manga è la sua arte: si perde tra pagine di avventure epiche, e guai a interromperlo!</li>
+                <li>• Creare siti web è la sua missione: questo sito che state leggendo? Un’opera d’arte firmata dal suo genio creativo.</li>
+                <li>• Gli animali sono la sua vita: che siano cani, gatti o tartarughe, Cozmin li ama tutti con un cuore enorme.</li>
+                <li>• Giocare alla Play è il suo momento di gloria: impugna il controller come un samurai e domina ogni sfida virtuale.</li>
+                <li>• Fare corsette è il suo superpotere: porco dio, avete visto le sue gambe? Corre come un fulmine!</li>
+            </ul>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
     </div>
@@ -202,8 +212,16 @@
     <div id="slide-carattere" class="slide">
         <h1>CARATTERE</h1>
         <div class="testo-corpo">
-            <h2>Analisi del comportamento di Cozmin... (Mandami il testo, bro!)</h2>
-            <p>Testo segnaposto...</p>
+            <h2>Il carattere del misterioso Cozmin Toma</h2>
+            <p>Dopo anni di osservazioni sul campo, appostamenti notturni e analisi degne di un’équipe scientifica, siamo finalmente riusciti a decifrare il carattere di Cozmin Toma, un esemplare unico di Homo erectus moderno. Attenzione, spettatori, perché ciò che state per scoprire vi lascerà sbalorditi! Questo individuo è un rompicapo vivente, un mix di tratti che sfida ogni classificazione. Ecco il rapporto ufficiale sul suo comportamento, raccolto con fatica e dedizione per preservare la sua leggenda.</p>
+            <ul>
+                <li>• <strong>Nonchalance pazzesca</strong>: il mondo può crollare, ma lui resta calmo e figo.</li>
+                <li>• <strong>Timido</strong>, e non poco! Si dice che si rifugia nella sua tana quando la timidezza colpisce.</li>
+                <li>• <strong>Introverso</strong>: Non gliene frega niente di fare chiacchiere con gli altri, sta meglio da solo (e, diciamolo, ha un legame speciale col lupus solitarius).</li>
+                <li>• <strong>Altruista</strong>, un cuore enorme! È sempre pronto a salvare qualcuno, anche se poi scappa nella sua tana.</li>
+                <li>• <strong>Gentile</strong>, porco dio! Questo tizio sa come farti sentire speciale con un sorriso.</li>
+                <li>• <strong>Simpatico</strong>, e che simpatia! Le sue battute sono come un colpo critico in un boss fight.</li>
+            </ul>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
     </div>
@@ -220,7 +238,7 @@
             document.getElementById(id).classList.add('attiva');
         }
 
-        // Assicura che la prima slide sia attiva al caricamento (ridondante ma sicuro)
+        // Assicura che la prima slide sia attiva al caricamento 
         document.addEventListener('DOMContentLoaded', () => {
              mostraSlide('slide-principale'); 
         });
