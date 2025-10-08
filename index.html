@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentario Cozmin Toma (Metodo 1)</title>
+    <title>Documentario Cozmin Toma (Metodo 2 - Slider)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     
     <style>
@@ -16,38 +16,36 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden; 
+            background-color: #FFF5F6; /* Sfondo principale */
         }
         
-        /* Stile comune per tutte le slide */
+        /* Contenitori Principali */
+        .slider-wrapper {
+            width: 500%; /* 5 slide x 100% */
+            height: 100vh;
+            display: flex;
+            transition: transform 0.6s ease-in-out; /* Transizione scorrimento */
+        }
+
         .slide {
-            min-height: 100vh;
-            width: 100vw;
-            position: absolute; 
-            top: 0;
-            left: 0;
-            display: none; 
+            width: 20%; /* 100% / 5 slide */
+            flex-shrink: 0;
+            display: flex;
             flex-direction: column; 
             justify-content: center;
             align-items: center;
             padding: 20px;
-            z-index: 10;
-            /* Transizione di Fading (Nuovo) */
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out, background-color 0.5s ease;
-        }
-        
-        .slide.attiva {
-            display: flex;
-            opacity: 1; /* Rende visibile la slide attiva */
         }
 
-        /* SFONDI PASTELLO */
-        #slide-principale { background-color: #FFF5F6; /* Chablis */ }
-        #slide-informazioni { background-color: #E1CADB; /* Lavanda Chiaro */ }
-        #slide-generali { background-color: #E3D5CA; /* Beige Caldo */ }
-        #slide-piace { background-color: #FADCE4; /* Piggy Pink */ }
-        #slide-carattere { background-color: #D3E4EB; /* Botticelli - Azzurro */ }
+        /* SFONDI PASTELLO (Applicati direttamente alle slide) */
+        #slide-principale { background-color: #FFF5F6; }
+        #slide-informazioni { background-color: #E1CADB; }
+        #slide-generali { background-color: #E3D5CA; }
+        #slide-piace { background-color: #FADCE4; }
+        #slide-carattere { background-color: #D3E4EB; }
 
+        /* Controlli Radio (Nascosti) */
+        .slide-radio { display: none; }
 
         /* TITOLI & TESTO */
         h1 {
@@ -56,21 +54,55 @@
             font-size: clamp(2.5em, 8vw, 3.5em);
             text-shadow: 2px 2px 0px rgba(0,0,0,0.1); 
         }
-
         .testo-corpo {
             max-width: 600px;
             width: 90%;
-            text-align: left;
-            padding: 20px;
+            max-height: 60vh; 
+            overflow-y: auto; 
             background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
-            max-height: 60vh; 
-            overflow-y: auto; /* Scorrimento abilitato */
+            text-align: left;
         }
         .testo-corpo strong { color: #E5A8B1; }
 
-        /* PULSANTI DI NAVIGAZIONE */
+
+        /* -------------------------------------- */
+        /* LOGICA SLIDER (CSS-ONLY) */
+        /* -------------------------------------- */
+        #radio1:checked ~ .slider-wrapper { transform: translateX(0%); }
+        #radio2:checked ~ .slider-wrapper { transform: translateX(-20%); }
+        #radio3:checked ~ .slider-wrapper { transform: translateX(-40%); }
+        #radio4:checked ~ .slider-wrapper { transform: translateX(-60%); }
+        #radio5:checked ~ .slider-wrapper { transform: translateX(-80%); }
+
+        /* Controlli Dot (Pulsanti in basso) */
+        .slider-dot-control {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+        .slider-dot-control label {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #radio1:checked ~ .slider-dot-control label:nth-child(1),
+        #radio2:checked ~ .slider-dot-control label:nth-child(2),
+        #radio3:checked ~ .slider-dot-control label:nth-child(3),
+        #radio4:checked ~ .slider-dot-control label:nth-child(4),
+        #radio5:checked ~ .slider-dot-control label:nth-child(5) {
+            background: #E5A8B1; /* Colore attivo */
+        }
+        /* Pulsanti di Selezione (nella slide 2) - Stile Metodo 1 */
         .pulsanti-caratteristiche {
             display: flex;
             flex-direction: column;
@@ -95,91 +127,105 @@
             box-shadow: 0 0 0 #D9A7A4; 
             background-color: #D9A7A4;
         }
-        
-        .nav-freccia {
-            font-size: 3em;
-            cursor: pointer;
-            margin-top: 40px;
-            color: #E5A8B1;
-        }
+
+        /* MAPPATURA PULSANTI SLIDE 2 A RADIO BUTTONS */
+        /* Questo è un trucco CSS per simulare il click sul pulsante */
+        #btn-generali:hover { background-color: #D9A7A4; }
+        #btn-piace:hover { background-color: #D9A7A4; }
+        #btn-carattere:hover { background-color: #D9A7A4; }
     </style>
 </head>
 <body>
 
-    <div id="slide-principale" class="slide attiva">
-        <h1>COZMIN TOMA</h1>
-        <h2>ecco delle informazioni su questo esemplare</h2>
-        <div class="testo-corpo"><p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di <strong>Homo erectus</strong> (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza.</p></div>
-        <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">➡️</span>
+    <input type="radio" name="slider-control" class="slide-radio" id="radio1" checked>
+    <input type="radio" name="slider-control" class="slide-radio" id="radio2">
+    <input type="radio" name="slider-control" class="slide-radio" id="radio3">
+    <input type="radio" name="slider-control" class="slide-radio" id="radio4">
+    <input type="radio" name="slider-control" class="slide-radio" id="radio5">
+
+    <div class="slider-dot-control">
+        <label for="radio1"></label>
+        <label for="radio2"></label>
+        <label for="radio3"></label>
+        <label for="radio4"></label>
+        <label for="radio5"></label>
     </div>
 
-    <div id="slide-informazioni" class="slide">
-        <h1>INFORMAZIONI</h1>
-        <h2>Numerosi studi hanno cercato di capire un po’ di più su questo esemplare. Per ora sappiamo poco, e le informazioni sono elencate qui sotto.</h2>
-        <div class="pulsanti-caratteristiche">
-            <button onclick="mostraSlide('slide-generali')"><span class="emoji">⛄️</span><span>Generali</span></button>
-            <button onclick="mostraSlide('slide-piace')"><span class="emoji">🐱</span><span>Cose che gli piacciono</span></button>
-            <button onclick="mostraSlide('slide-carattere')"><span class="emoji">🏖️</span><span>Carattere</span></button>
+    <div class="slider-wrapper">
+        
+        <div id="slide-principale" class="slide">
+            <h1>COZMIN TOMA</h1>
+            <h2>ecco delle informazioni su questo esemplare</h2>
+            <div class="testo-corpo"><p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di <strong>Homo erectus</strong> (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza.</p></div>
+            <label for="radio2" class="nav-freccia">➡️</label>
         </div>
-    </div>
 
-    <div id="slide-generali" class="slide">
-        <h1>GENERALI</h1>
-        <div class="testo-corpo">
-            <h2>Ecco cosa ho scoperto sul misterioso Cozmin Toma</h2>
-            <p>Dopo anni di studi approfonditi, posso dirvi che Cozmin Toma è un esemplare estremamente difficile da decifrare. [...] non è uno qualunque!</p>
-            <ul>
-                <li>• È nato il <strong>18 dicembre</strong>: segnatevi la data, perché il suo compleanno è un evento epico.</li>
-                <li>• Ha occhi marrone scuro, profondi come un mistero da risolvere.</li>
-                <li>• I suoi capelli? Ondulati, né ricci né lisci, un mix perfetto di caos e stile.</li>
-                <li>• Ma la vera bomba? Porta un <strong>42 di piede!</strong> Sì, avete letto bene: un dettaglio che ha scioccato anche me.</li>
-            </ul>
+        <div id="slide-informazioni" class="slide">
+            <h1>INFORMAZIONI</h1>
+            <h2>Numerosi studi hanno cercato di capire un po’ di più su questo esemplare. Per ora sappiamo poco, e le informazioni sono elencate qui sotto.</h2>
+            
+            <div class="pulsanti-caratteristiche">
+                <label for="radio3" class="pulsanti-caratteristiche button" id="btn-generali">
+                    <span class="emoji">⛄️</span><span>Generali</span>
+                </label>
+                <label for="radio4" class="pulsanti-caratteristiche button" id="btn-piace">
+                    <span class="emoji">🐱</span><span>Cose che gli piacciono</span>
+                </label>
+                <label for="radio5" class="pulsanti-caratteristiche button" id="btn-carattere">
+                    <span class="emoji">🏖️</span><span>Carattere</span>
+                </label>
+            </div>
         </div>
-        <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
-    </div>
 
-    <div id="slide-piace" class="slide">
-        <h1>COSE CHE GLI PIACCIONO</h1>
-        <div class="testo-corpo">
-            <h2>Cosa piace al leggendario Cozmin Toma?</h2>
-            <p>Scoprire i segreti di Cozmin Toma è stata un’impresa, ma ce l’ho fatta! Dopo indagini serrate, ecco cosa fa vibrare l’anima di questo Homo erectus moderno. Preparatevi, allo shock.</p>
-            <ul>
-                <li>• È un <strong>nerd DOC</strong>: anime e manga sono il suo ossigeno. Il suo preferito? <strong>Tokyo Ghoul</strong>, un capolavoro che lo fa sognare a occhi aperti.</li>
-                <li>• Leggere manga è la sua arte: si perde tra pagine di avventure epiche, e guai a interromperlo!</li>
-                <li>• Creare siti web è la sua missione: questo sito che state leggendo? Un’opera d’arte firmata dal suo genio creativo.</li>
-                <li>• Gli animali sono la sua vita: che siano cani, gatti o tartarughe, Cozmin li ama tutti con un cuore enorme.</li>
-                <li>• Giocare alla Play è il suo momento di gloria: impugna il controller come un samurai e domina ogni sfida virtuale.</li>
-                <li>• Fare corsette è il suo superpotere: porco dio, avete visto le sue gambe? Corre come un fulmine!</li>
-            </ul>
+        <div id="slide-generali" class="slide">
+            <h1>GENERALI</h1>
+            <div class="testo-corpo">
+                <h2>Ecco cosa ho scoperto sul misterioso Cozmin Toma</h2>
+                <p>Dopo anni di studi approfonditi, posso dirvi che Cozmin Toma è un esemplare estremamente difficile da decifrare. [...] non è uno qualunque!</p>
+                <ul>
+                    <li>• È nato il <strong>18 dicembre</strong>: segnatevi la data, perché il suo compleanno è un evento epico.</li>
+                    <li>• Ha occhi marrone scuro, profondi come un mistero da risolvere.</li>
+                    <li>• I suoi capelli? Ondulati, né ricci né lisci, un mix perfetto di caos e stile.</li>
+                    <li>• Ma la vera bomba? Porta un <strong>42 di piede!</strong> Sì, avete letto bene: un dettaglio che ha scioccato anche me.</li>
+                </ul>
+            </div>
+            <label for="radio2" class="nav-freccia">⬅️</label>
         </div>
-        <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
-    </div>
 
-    <div id="slide-carattere" class="slide">
-        <h1>CARATTERE</h1>
-        <div class="testo-corpo">
-            <h2>Il carattere del misterioso Cozmin Toma</h2>
-            <p>Dopo anni di osservazioni sul campo, appostamenti notturni e analisi degne di un’équipe scientifica, siamo finalmente riusciti a decifrare il carattere di Cozmin Toma... Ecco il rapporto ufficiale sul suo comportamento:</p>
-            <ul>
-                <li>• <strong>Nonchalance pazzesca</strong>: il mondo può crollare, ma lui resta calmo e figo.</li>
-                <li>• <strong>Timido</strong>, e non poco! Si dice che si rifugia nella sua tana quando la timidezza colpisce.</li>
-                <li>• <strong>Introverso</strong>: Non gliene frega niente di fare chiacchiere con gli altri, sta meglio da solo (e, diciamolo, ha un legame speciale col lupus solitarius).</li>
-                <li>• <strong>Altruista</strong>, un cuore enorme! È sempre pronto a salvare qualcuno, anche se poi scappa nella sua tana.</li>
-                <li>• <strong>Gentile</strong>, porco dio! Questo tizio sa come farti sentire speciale con un sorriso.</li>
-                <li>• <strong>Simpatico</strong>, e che simpatia! Le sue battute sono come un colpo critico in un boss fight.</li>
-            </ul>
+        <div id="slide-piace" class="slide">
+            <h1>COSE CHE GLI PIACCIONO</h1>
+            <div class="testo-corpo">
+                <h2>Cosa piace al leggendario Cozmin Toma?</h2>
+                <p>Scoprire i segreti di Cozmin Toma è stata un’impresa, ma ce l’ho fatta! Dopo indagini serrate, ecco cosa fa vibrare l’anima di questo Homo erectus moderno. Preparatevi, allo shock.</p>
+                <ul>
+                    <li>• È un <strong>nerd DOC</strong>: anime e manga sono il suo ossigeno. Il suo preferito? <strong>Tokyo Ghoul</strong>, un capolavoro che lo fa sognare a occhi aperti.</li>
+                    <li>• Leggere manga è la sua arte: si perde tra pagine di avventure epiche, e guai a interromperlo!</li>
+                    <li>• Creare siti web è la sua missione: questo sito che state leggendo? Un’opera d’arte firmata dal suo genio creativo.</li>
+                    <li>• Gli animali sono la sua vita: che siano cani, gatti o tartarughe, Cozmin li ama tutti con un cuore enorme.</li>
+                    <li>• Giocare alla Play è il suo momento di gloria: impugna il controller come un samurai e domina ogni sfida virtuale.</li>
+                    <li>• Fare corsette è il suo superpotere: porco dio, avete visto le sue gambe? Corre come un fulmine!</li>
+                </ul>
+            </div>
+            <label for="radio2" class="nav-freccia">⬅️</label>
         </div>
-        <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
-    </div>
 
-    <script>
-        function mostraSlide(id) {
-            document.querySelectorAll('.slide').forEach(slide => {
-                slide.classList.remove('attiva');
-            });
-            document.getElementById(id).classList.add('attiva');
-        }
-        document.addEventListener('DOMContentLoaded', () => { mostraSlide('slide-principale'); });
-    </script>
+        <div id="slide-carattere" class="slide">
+            <h1>CARATTERE</h1>
+            <div class="testo-corpo">
+                <h2>Il carattere del misterioso Cozmin Toma</h2>
+                <p>Dopo anni di osservazioni sul campo, appostamenti notturni e analisi degne di un’équipe scientifica, siamo finalmente riusciti a decifrare il carattere di Cozmin Toma... Ecco il rapporto ufficiale sul suo comportamento:</p>
+                <ul>
+                    <li>• <strong>Nonchalance pazzesca</strong>: il mondo può crollare, ma lui resta calmo e figo.</li>
+                    <li>• <strong>Timido</strong>, e non poco! Si dice che si rifugia nella sua tana quando la timidezza colpisce.</li>
+                    <li>• <strong>Introverso</strong>: Non gliene frega niente di fare chiacchiere con gli altri, sta meglio da solo.</li>
+                    <li>• <strong>Altruista</strong>, un cuore enorme! È sempre pronto a salvare qualcuno, anche se poi scappa nella sua tana.</li>
+                    <li>• <strong>Gentile</strong>, porco dio! Questo tizio sa come farti sentire speciale con un sorriso.</li>
+                    <li>• <strong>Simpatico</strong>, e che simpatia! Le sue battute sono come un colpo critico in un boss fight.</li>
+                </ul>
+            </div>
+            <label for="radio2" class="nav-freccia">⬅️</label>
+        </div>
+
+    </div>
 </body>
 </html>
