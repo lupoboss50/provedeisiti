@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentario Cozmin Toma</title>
+    <title>Documentario Cozmin Toma (Metodo 1)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            box-sizing: border-box; 
-        }
-
+        * { box-sizing: border-box; }
         body {
             font-family: 'Roboto', sans-serif;
             text-align: center;
@@ -21,7 +18,7 @@
             overflow: hidden; 
         }
         
-        /* Stile comune per tutte le slide (sezioni) */
+        /* Stile comune per tutte le slide */
         .slide {
             min-height: 100vh;
             width: 100vw;
@@ -34,73 +31,46 @@
             align-items: center;
             padding: 20px;
             z-index: 10;
-            transition: background-color 0.5s ease; /* Transizione per il cambio colore */
+            /* Transizione di Fading (Nuovo) */
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out, background-color 0.5s ease;
         }
         
         .slide.attiva {
             display: flex;
+            opacity: 1; /* Rende visibile la slide attiva */
         }
 
-        /* -------------------------------------- */
-        /* SFONDI DIVERSI PER SLIDE (NUOVO!) */
-        /* -------------------------------------- */
-        #slide-principale { background-color: #F8F8FF; /* Bianco leggero */ }
-        #slide-informazioni { background-color: #E0FFFF; /* Azzurro chiarissimo */ }
-        #slide-generali { background-color: #FFFACD; /* Giallo pastello */ }
-        #slide-piace { background-color: #FFE4E1; /* Rosa pastello */ }
-        #slide-carattere { background-color: #AFEEEE; /* Azzurro pastello */ }
+        /* SFONDI PASTELLO */
+        #slide-principale { background-color: #FFF5F6; /* Chablis */ }
+        #slide-informazioni { background-color: #E1CADB; /* Lavanda Chiaro */ }
+        #slide-generali { background-color: #E3D5CA; /* Beige Caldo */ }
+        #slide-piace { background-color: #FADCE4; /* Piggy Pink */ }
+        #slide-carattere { background-color: #D3E4EB; /* Botticelli - Azzurro */ }
 
 
-        /* Titoli Generali */
+        /* TITOLI & TESTO */
         h1 {
             font-family: 'Pacifico', cursive;
             color: #333;
             font-size: clamp(2.5em, 8vw, 3.5em);
-            margin-bottom: 10px;
-            /* Leggera ombra per un look 3D */
             text-shadow: 2px 2px 0px rgba(0,0,0,0.1); 
         }
 
-        h2 {
-            font-size: clamp(1.2em, 5vw, 1.8em);
-            color: #666;
-            font-weight: 400;
-            margin-bottom: 30px;
-        }
-
-        /* Testo Corpo (Contenitore) */
         .testo-corpo {
             max-width: 600px;
             width: 90%;
             text-align: left;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 10px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* Ombra più marcata */
-            max-height: 60vh; /* Limite per far scorrere su schermi piccoli */
-            overflow-y: auto; /* ✨ FIX SCORRIMENTO: Rende il testo scrollabile */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
+            max-height: 60vh; 
+            overflow-y: auto; /* Scorrimento abilitato */
         }
-        
-        .testo-corpo p, .testo-corpo li {
-            font-size: clamp(1em, 4vw, 1.1em);
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #444;
-        }
-        .testo-corpo strong {
-            color: #E91E63; /* Colore accento */
-            font-weight: 700;
-        }
-        .testo-corpo ul {
-            list-style: disc;
-            padding-left: 20px;
-        }
-        .testo-corpo li {
-            margin-bottom: 12px;
-        }
+        .testo-corpo strong { color: #E5A8B1; }
 
-
-        /* Pulsanti Caratteristiche (Slide 2 - NUOVO STILE) */
+        /* PULSANTI DI NAVIGAZIONE */
         .pulsanti-caratteristiche {
             display: flex;
             flex-direction: column;
@@ -109,40 +79,28 @@
             width: 100%;
         }
         .pulsanti-caratteristiche button {
-            background-color: #FF577F; /* Rosa/rosso acceso */
+            background-color: #E5A8B1;
             padding: 18px 25px;
             border: none;
             border-radius: 12px;
-            box-shadow: 0 5px 0 #D81B60; /* Ombra 3D sotto */
+            box-shadow: 0 5px 0 #D9A7A4; 
             color: white;
             font-size: clamp(1.2em, 5vw, 1.5em);
             font-weight: 700;
-            transition: all 0.1s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
+            transition: all 0.1s ease;
         }
         .pulsanti-caratteristiche button:active {
-            transform: translateY(5px); /* Sposta in giù al click */
-            box-shadow: 0 0 0 #D81B60; /* Nasconde l'ombra 3D */
-            background-color: #d81b60;
-        }
-        .pulsanti-caratteristiche button .emoji {
-            font-size: 1.5em;
-            margin-right: 15px;
+            transform: translateY(5px); 
+            box-shadow: 0 0 0 #D9A7A4; 
+            background-color: #D9A7A4;
         }
         
-        /* Freccia di Navigazione (Right Arrow/Back Arrow) */
         .nav-freccia {
             font-size: 3em;
             cursor: pointer;
             margin-top: 40px;
-            transition: transform 0.2s;
-            color: #E91E63; /* Colore accento */
-        }
-        .nav-freccia:active {
-            transform: scale(0.8);
+            color: #E5A8B1;
         }
     </style>
 </head>
@@ -151,29 +109,17 @@
     <div id="slide-principale" class="slide attiva">
         <h1>COZMIN TOMA</h1>
         <h2>ecco delle informazioni su questo esemplare</h2>
-        <div class="testo-corpo">
-            <p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di <strong>Homo erectus</strong> (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza.</p>
-        </div>
+        <div class="testo-corpo"><p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di <strong>Homo erectus</strong> (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza.</p></div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">➡️</span>
     </div>
 
     <div id="slide-informazioni" class="slide">
         <h1>INFORMAZIONI</h1>
         <h2>Numerosi studi hanno cercato di capire un po’ di più su questo esemplare. Per ora sappiamo poco, e le informazioni sono elencate qui sotto.</h2>
-        
         <div class="pulsanti-caratteristiche">
-            <button onclick="mostraSlide('slide-generali')">
-                <span class="emoji">⛄️</span>
-                <span>Generali</span>
-            </button>
-            <button onclick="mostraSlide('slide-piace')">
-                <span class="emoji">🐱</span>
-                <span>Cose che gli piacciono</span>
-            </button>
-            <button onclick="mostraSlide('slide-carattere')">
-                <span class="emoji">🏖️</span>
-                <span>Carattere</span>
-            </button>
+            <button onclick="mostraSlide('slide-generali')"><span class="emoji">⛄️</span><span>Generali</span></button>
+            <button onclick="mostraSlide('slide-piace')"><span class="emoji">🐱</span><span>Cose che gli piacciono</span></button>
+            <button onclick="mostraSlide('slide-carattere')"><span class="emoji">🏖️</span><span>Carattere</span></button>
         </div>
     </div>
 
@@ -181,7 +127,7 @@
         <h1>GENERALI</h1>
         <div class="testo-corpo">
             <h2>Ecco cosa ho scoperto sul misterioso Cozmin Toma</h2>
-            <p>Dopo anni di studi approfonditi, posso dirvi che Cozmin Toma è un esemplare estremamente difficile da decifrare. Le informazioni su di lui sono poche, ma quelle che ho raccolto sono a dir poco sorprendenti. Preparatevi, perché questo Homo erectus moderno non è uno qualunque!</p>
+            <p>Dopo anni di studi approfonditi, posso dirvi che Cozmin Toma è un esemplare estremamente difficile da decifrare. [...] non è uno qualunque!</p>
             <ul>
                 <li>• È nato il <strong>18 dicembre</strong>: segnatevi la data, perché il suo compleanno è un evento epico.</li>
                 <li>• Ha occhi marrone scuro, profondi come un mistero da risolvere.</li>
@@ -213,35 +159,27 @@
         <h1>CARATTERE</h1>
         <div class="testo-corpo">
             <h2>Il carattere del misterioso Cozmin Toma</h2>
-            <p>Dopo anni di osservazioni sul campo, appostamenti notturni e analisi degne di un’équipe scientifica, siamo finalmente riusciti a decifrare il carattere di Cozmin Toma, un esemplare unico di Homo erectus moderno. Attenzione, spettatori, perché ciò che state per scoprire vi lascerà sbalorditi! Questo individuo è un rompicapo vivente, un mix di tratti che sfida ogni classificazione. Ecco il rapporto ufficiale sul suo comportamento, raccolto con fatica e dedizione per preservare la sua leggenda.</p>
+            <p>Dopo anni di osservazioni sul campo, appostamenti notturni e analisi degne di un’équipe scientifica, siamo finalmente riusciti a decifrare il carattere di Cozmin Toma... Ecco il rapporto ufficiale sul suo comportamento:</p>
             <ul>
                 <li>• <strong>Nonchalance pazzesca</strong>: il mondo può crollare, ma lui resta calmo e figo.</li>
                 <li>• <strong>Timido</strong>, e non poco! Si dice che si rifugia nella sua tana quando la timidezza colpisce.</li>
                 <li>• <strong>Introverso</strong>: Non gliene frega niente di fare chiacchiere con gli altri, sta meglio da solo (e, diciamolo, ha un legame speciale col lupus solitarius).</li>
                 <li>• <strong>Altruista</strong>, un cuore enorme! È sempre pronto a salvare qualcuno, anche se poi scappa nella sua tana.</li>
                 <li>• <strong>Gentile</strong>, porco dio! Questo tizio sa come farti sentire speciale con un sorriso.</li>
-                <li>• <strong>Simpatico</strong>, e che simpatia!.</li>
+                <li>• <strong>Simpatico</strong>, e che simpatia! Le sue battute sono come un colpo critico in un boss fight.</li>
             </ul>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
     </div>
 
     <script>
-        // Funzione per navigare tra le slide
         function mostraSlide(id) {
-            console.log("Passando alla slide: " + id);
-            // Nascondi tutte le slide
             document.querySelectorAll('.slide').forEach(slide => {
                 slide.classList.remove('attiva');
             });
-            // Mostra la slide desiderata
             document.getElementById(id).classList.add('attiva');
         }
-
-        // Assicura che la prima slide sia attiva al caricamento 
-        document.addEventListener('DOMContentLoaded', () => {
-             mostraSlide('slide-principale'); 
-        });
+        document.addEventListener('DOMContentLoaded', () => { mostraSlide('slide-principale'); });
     </script>
 </body>
 </html>
