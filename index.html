@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentario Cozmin Toma (ULTIMO DESIGN)</title>
+    <title>Documentario Cozmin Toma (Scroll Fix)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; }
         body {
-            font-family: 'Montserrat', sans-serif; /* Nuovo font per il corpo */
+            font-family: 'Montserrat', sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
             height: 100vh;
             width: 100vw;
-            overflow: hidden; 
-            background-color: #B4CBD9; /* Colore di fallback */
+            /* CAMBIAMENTO CHIAVE 1: Permettiamo lo scorrimento sul body */
+            overflow-y: auto; 
+            overflow-x: hidden; 
+            background-color: #B4CBD9; 
         }
         
         /* Stile comune per tutte le slide */
@@ -34,6 +36,11 @@
             z-index: 10;
             opacity: 0;
             transition: opacity 0.5s ease-in-out, background-color 0.6s ease;
+            
+            /* CAMBIAMENTO CHIAVE 2: La slide prende tutta l'altezza dello schermo, ma il contenuto scorre al suo interno se necessario */
+            height: 100vh; 
+            overflow-y: auto; /* Permette lo scorrimento VERTICALE se la slide è troppo piena */
+            -webkit-overflow-scrolling: touch; /* Migliora lo scorrimento su iOS */
         }
         
         .slide.attiva {
@@ -41,120 +48,105 @@
             opacity: 1;
         }
 
-        /* SFONDI PASTELLO AGGIORNATI */
-        #slide-principale { background-color: #B4CBD9; /* Beau Blue più intenso */ }
-        #slide-informazioni { background-color: #DFDDF2; /* Lavender Mist - quasi bianco */ }
-        #slide-generali { background-color: #E3D5CA; /* Beige Caldo */ }
-        #slide-piace { background-color: #FADCE4; /* Piggy Pink */ }
-        #slide-carattere { background-color: #D3E4EB; /* Botticelli - Azzurro */ }
+        /* Il tuo Tema e Colori */
+        #slide-principale { background-color: #B4CBD9; }
+        #slide-informazioni { background-color: #DFDDF2; }
+        #slide-generali { background-color: #E3D5CA; }
+        #slide-piace { background-color: #FADCE4; }
+        #slide-carattere { background-color: #D3E4EB; }
 
 
-        /* TITOLI & TESTO - NUOVI FONT */
+        /* TITOLI & TESTO */
         h1 {
-            font-family: 'Bebas Neue', sans-serif; /* Font figo e moderno per i titoli principali */
-            color: #2c3e50; /* Colore scuro per un ottimo contrasto */
-            font-size: clamp(3em, 10vw, 4.5em); /* Ancora più grande */
+            font-family: 'Bebas Neue', sans-serif;
+            color: #2c3e50;
+            font-size: clamp(3em, 10vw, 4.5em);
             margin-bottom: 5px;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.15); /* Ombra più marcata */
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.15);
             letter-spacing: 2px;
         }
 
         h2 {
-            font-family: 'Montserrat', sans-serif; /* Font pulito per sottotitoli */
+            font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #555;
             font-size: clamp(1.2em, 5vw, 1.8em);
             margin-bottom: 30px;
         }
 
-        /* TESTO CORPO - NUOVO DESIGN "TERMINAL LOG" */
+        /* TESTO CORPO - DESIGN "TERMINAL LOG" */
         .testo-corpo {
-            max-width: 650px; /* Un po' più largo */
+            max-width: 650px;
             width: 90%;
             text-align: left;
-            padding: 30px; /* Padding aumentato */
-            background-color: rgba(255, 255, 255, 0.98); /* Quasi bianco, più definito */
-            border-radius: 15px; /* Bordi più morbidi */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25); /* Ombra più pronunciata */
-            max-height: 65vh; /* Altezza leggermente aumentata */
-            overflow-y: auto; /* Scorrimento abilitato */
-            border: 3px solid #E5A8B1; /* Bordo colorato per un look "finestra dati" */
-            line-height: 1.8; /* Maggiore spaziatura per leggibilità */
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            max-height: 65vh; 
+            overflow-y: auto; /* IMPORTANTE: Lo scorrimento è qui per il contenuto */
+            border: 3px solid #E5A8B1;
+            line-height: 1.8;
             position: relative;
-            animation: fadeIn 0.8s ease-out; /* Animazione di comparsa */
         }
-        /* Scorrimento personalizzato per il testo-corpo */
-        .testo-corpo::-webkit-scrollbar {
-            width: 8px;
-        }
-        .testo-corpo::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        .testo-corpo::-webkit-scrollbar-thumb {
-            background: #E5A8B1; /* Scrollbar pastello */
-            border-radius: 10px;
-        }
-        .testo-corpo::-webkit-scrollbar-thumb:hover {
-            background: #D9A7A4;
-        }
-
         .testo-corpo p, .testo-corpo li {
             font-size: clamp(1em, 4vw, 1.15em);
-            margin-bottom: 18px; /* Spazio maggiore tra paragrafi/list item */
-            color: #333; /* Testo più scuro per contrasto */
+            margin-bottom: 18px;
+            color: #333;
         }
         .testo-corpo strong { 
-            color: #8D6E63; /* Marrone caldo per accenti, più sofisticato */
+            color: #8D6E63;
             font-weight: 700;
         }
         .testo-corpo ul {
-            list-style: none; /* Rimuove i bullet point di default */
-            padding-left: 0; /* Rimuove padding di default */
+            list-style: none;
+            padding-left: 0;
         }
-        .testo-corpo li::before { /* Nuovi bullet point stilizzati */
+        .testo-corpo li::before {
             content: '•'; 
-            color: #E5A8B1; /* Bullet point rosa */
+            color: #E5A8B1;
             display: inline-block; 
             width: 1em; 
             margin-left: -1em;
         }
         .testo-corpo li {
             margin-bottom: 15px;
-            padding-left: 1.5em; /* Spazio per i nuovi bullet point */
-            text-indent: -1.5em; /* Allinea il testo con i bullet point */
+            padding-left: 1.5em;
+            text-indent: -1.5em;
         }
+        /* Scrollbar personalizzata per il testo-corpo */
+        .testo-corpo::-webkit-scrollbar { width: 8px; }
+        .testo-corpo::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .testo-corpo::-webkit-scrollbar-thumb { background: #E5A8B1; border-radius: 10px; }
+        .testo-corpo::-webkit-scrollbar-thumb:hover { background: #D9A7A4; }
 
-        /* PULSANTI PAGINA "INFORMAZIONI" - NUOVO DESIGN "SCHEDA DATI" */
+
+        /* PULSANTI SCHEDA DATI */
         .pulsanti-caratteristiche {
-            display: grid; /* Usiamo Grid per un layout più flessibile */
-            grid-template-columns: 1fr; /* Una colonna per mobile */
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 20px;
-            max-width: 500px; /* Larghezza massima per le schede */
+            max-width: 500px;
             width: 90%;
             margin-top: 30px;
         }
-        /* Per desktop, 2 colonne o più se si aggiungono */
         @media (min-width: 768px) {
             .pulsanti-caratteristiche {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adattivo */
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 30px;
             }
         }
-
         .pulsanti-caratteristiche button {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px; /* Spazio tra icona e testo */
-            
-            background-color: #F4F6F9; /* Sfondo quasi bianco, pulito */
+            gap: 12px;
+            background-color: #F4F6F9;
             border: none;
-            border-radius: 18px; /* Bordi arrotondati */
-            
+            border-radius: 18px;
             padding: 30px 20px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Ombra discreta */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             color: #2c3e50;
             font-family: 'Montserrat', sans-serif;
             font-size: clamp(1.1em, 4vw, 1.25em);
@@ -162,66 +154,58 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             cursor: pointer;
-            transition: all 0.25s ease-in-out; /* Transizione più morbida */
+            transition: all 0.25s ease-in-out;
             position: relative;
-            overflow: hidden; /* Nasconde l'effetto hover che esce */
+            overflow: hidden;
         }
-
-        .pulsanti-caratteristiche button::before { /* Effetto "glare" futuristico */
+        .pulsanti-caratteristiche button::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            top: 0; left: -100%; width: 100%; height: 100%;
             background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transition: all 0.4s ease-in-out;
             transform: skewX(-20deg);
         }
-
         .pulsanti-caratteristiche button:hover {
-            transform: translateY(-8px); /* Sollevamento più pronunciato */
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Ombra più intensa */
-            background-color: #EFEFEF; /* Leggermente più scuro al hover */
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            background-color: #EFEFEF;
         }
-        .pulsanti-caratteristiche button:hover::before {
-            left: 100%; /* L'effetto "glare" scorre via */
-        }
+        .pulsanti-caratteristiche button:hover::before { left: 100%; }
         .pulsanti-caratteristiche button:active {
-            transform: translateY(-4px); /* Effetto "premuto" */
+            transform: translateY(-4px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
         .pulsanti-caratteristiche button .emoji {
-            font-size: 2.8em; /* Icone ancora più grandi */
+            font-size: 2.8em;
             margin-bottom: 10px;
-            color: #E5A8B1; /* Icone nel colore principale rosa */
+            color: #E5A8B1;
             line-height: 1;
             transition: transform 0.25s ease-in-out;
         }
         .pulsanti-caratteristiche button:hover .emoji {
-            transform: scale(1.1); /* L'icona si ingrandisce leggermente al hover */
+            transform: scale(1.1);
         }
         
         /* Freccia di Navigazione */
         .nav-freccia {
-            font-size: 3.5em; /* Freccia più grande */
+            font-size: 3.5em;
             cursor: pointer;
             margin-top: 40px;
-            color: #8D6E63; /* Freccia color marrone caldo */
+            color: #8D6E63;
             transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
         }
         .nav-freccia:hover {
             transform: scale(1.15);
-            color: #E5A8B1; /* Cambia colore al hover */
+            color: #E5A8B1;
         }
 
-        /* Animazione Fade-In per il contenuto */
+        /* Animazione Fade-In */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .slide.attiva > *:not(.nav-freccia) { /* Applica animazione a tutti gli elementi tranne la freccia */
+        .slide.attiva > * {
             animation: fadeIn 0.6s ease-out forwards;
         }
     </style>
@@ -232,7 +216,7 @@
         <h1>COZMIN TOMA</h1>
         <h2>ecco delle informazioni su questo esemplare</h2>
         <div class="testo-corpo">
-            <p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di <strong>Homo erectus</strong> (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza.</p>
+            <p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di **Homo erectus** (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza. Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi. E c'è dell'altro! Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi.</p>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">➡️</span>
     </div>
@@ -263,10 +247,11 @@
             <h2>Scheda Anagrafica e Statistiche Essenziali</h2>
             <p>Dopo un'attenta raccolta di dati, le informazioni primarie sull'esemplare Cozmin Toma sono state categorizzate. La sua natura rimane complessa, ma questi punti chiave offrono una prima comprensione delle sue caratteristiche fondamentali.</p>
             <ul>
-                <li>• Data di Nascita: <strong>18 Dicembre</strong> (Rilevanza: Alta, si consiglia celebrazione annuale con protocollo Z-Alpha).</li>
-                <li>• Colore Oculare: <strong>Marrone Scuro</strong> (Classificazione: Profondo, suggerisce introspezione).</li>
-                <li>• Capigliatura: <strong>Ondulata/Ibrida</strong> (Analisi: Un equilibrio tra controllo e libertà, difficile da replicare).</li>
-                <li>• Misura Piedi: <strong>Taglia 42 EU</strong> (Impatto: Sorprendentemente influente sulla stabilità generale dell'esemplare).</li>
+                <li>• Data di Nascita: **18 Dicembre** (Rilevanza: Alta, si consiglia celebrazione annuale con protocollo Z-Alpha).</li>
+                <li>• Colore Oculare: **Marrone Scuro** (Classificazione: Profondo, suggerisce introspezione).</li>
+                <li>• Capigliatura: **Ondulata/Ibrida** (Analisi: Un equilibrio tra controllo e libertà, difficile da replicare).</li>
+                <li>• Misura Piedi: **Taglia 42 EU** (Impatto: Sorprendentemente influente sulla stabilità generale dell'esemplare).</li>
+                <li>• Altri Dati: **Non Rilevati** (Stato: Classificato, accesso negato al pubblico). Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi. Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi.</li>
             </ul>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
@@ -278,12 +263,12 @@
             <h2>Protocolli di Piacere: Rilevamenti ad Alta Priorità</h2>
             <p>Le attività che stimolano l'esemplare Cozmin Toma sono state accuratamente mappate. Questa sezione del database rivela i fattori che attivano la sua soddisfazione e benessere, fondamentali per la sua sostenibilità a lungo termine.</p>
             <ul>
-                <li>• **Immersione Digitale (Nerd):** Dominanza per <strong>Anime e Manga</strong> (Focus Primario: Tokyo Ghoul - Livello di Sospensione dell'Incredulità: Massimo).</li>
-                <li>• **Acquisizione di Conoscenza:** Studio intensivo di <strong>Manga</strong> (Comportamento: Trance profonda, non interrompere).</li>
-                <li>• **Costruzione Virtuale:** Creazione di <strong>Siti Web</strong> (Risultati: Alta produzione di interfacce avanzate, come quella corrente).</li>
-                <li>• **Interazione Biodiversa:** Affinità elevata con tutte le <strong>Specie Animali</strong> (Rapporto: Amore incondizionato, senza distinzioni).</li>
-                <li>• **Dominio Virtuale:** Operazioni di <strong>Gaming su Console</strong> (Metodo: Maestro Strategico, risultati spesso schiaccianti).</li>
-                <li>• **Potenziamento Fisico:** Sessioni di <strong>Corsa</strong> (Effetto: Agilità e resistenza fuori scala, "gambe da fulmine" rilevate).</li>
+                <li>• **Immersione Digitale (Nerd):** Dominanza per **Anime e Manga** (Focus Primario: Tokyo Ghoul - Livello di Sospensione dell'Incredulità: Massimo).</li>
+                <li>• **Acquisizione di Conoscenza:** Studio intensivo di **Manga** (Comportamento: Trance profonda, non interrompere).</li>
+                <li>• **Costruzione Virtuale:** Creazione di **Siti Web** (Risultati: Alta produzione di interfacce avanzate, come quella corrente).</li>
+                <li>• **Interazione Biodiversa:** Affinità elevata con tutte le **Specie Animali** (Rapporto: Amore incondizionato, senza distinzioni).</li>
+                <li>• **Dominio Virtuale:** Operazioni di **Gaming su Console** (Metodo: Maestro Strategico, risultati spesso schiaccianti).</li>
+                <li>• **Potenziamento Fisico:** Sessioni di **Corsa** (Effetto: Agilità e resistenza fuori scala, "gambe da fulmine" rilevate).</li>
             </ul>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
@@ -307,10 +292,16 @@
 
     <script>
         function mostraSlide(id) {
+            // Nascondi tutte le slide
             document.querySelectorAll('.slide').forEach(slide => {
                 slide.classList.remove('attiva');
             });
-            document.getElementById(id).classList.add('attiva');
+            // Mostra la slide desiderata
+            const nextSlide = document.getElementById(id);
+            nextSlide.classList.add('attiva');
+
+            // Riporta la nuova slide in alto (importante per lo scorrimento)
+            nextSlide.scrollTop = 0; 
         }
         document.addEventListener('DOMContentLoaded', () => { mostraSlide('slide-principale'); });
     </script>
