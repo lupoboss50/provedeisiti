@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentario Cozmin Toma (Scroll Fix)</title>
+    <title>Documentario Cozmin Toma (FINALE)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -15,7 +15,6 @@
             padding: 0;
             height: 100vh;
             width: 100vw;
-            /* CAMBIAMENTO CHIAVE 1: Permettiamo lo scorrimento sul body */
             overflow-y: auto; 
             overflow-x: hidden; 
             background-color: #B4CBD9; 
@@ -37,10 +36,9 @@
             opacity: 0;
             transition: opacity 0.5s ease-in-out, background-color 0.6s ease;
             
-            /* CAMBIAMENTO CHIAVE 2: La slide prende tutta l'altezza dello schermo, ma il contenuto scorre al suo interno se necessario */
             height: 100vh; 
-            overflow-y: auto; /* Permette lo scorrimento VERTICALE se la slide è troppo piena */
-            -webkit-overflow-scrolling: touch; /* Migliora lo scorrimento su iOS */
+            overflow-y: auto; /* Permette lo scorrimento se il contenuto è troppo pieno */
+            -webkit-overflow-scrolling: touch;
         }
         
         .slide.attiva {
@@ -48,7 +46,7 @@
             opacity: 1;
         }
 
-        /* Il tuo Tema e Colori */
+        /* SFONDI PASTELLO AGGIORNATI */
         #slide-principale { background-color: #B4CBD9; }
         #slide-informazioni { background-color: #DFDDF2; }
         #slide-generali { background-color: #E3D5CA; }
@@ -84,7 +82,7 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             max-height: 65vh; 
-            overflow-y: auto; /* IMPORTANTE: Lo scorrimento è qui per il contenuto */
+            overflow-y: auto;
             border: 3px solid #E5A8B1;
             line-height: 1.8;
             position: relative;
@@ -216,7 +214,7 @@
         <h1>COZMIN TOMA</h1>
         <h2>ecco delle informazioni su questo esemplare</h2>
         <div class="testo-corpo">
-            <p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di **Homo erectus** (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza. Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi. E c'è dell'altro! Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi.</p>
+            <p>Cozmin Toma, leggende e racconti: ecco cosa c’è da sapere su questo esemplare di **Homo erectus** (e c’è un’altra cosa eretta!). Preparatevi a quello che vedrete, perché queste notizie sono scioccanti. Queste informazioni hanno lo scopo di aiutare questo esemplare a trovare una compagna e a non portare all’estinzione la sua razza.</p>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">➡️</span>
     </div>
@@ -251,7 +249,7 @@
                 <li>• Colore Oculare: **Marrone Scuro** (Classificazione: Profondo, suggerisce introspezione).</li>
                 <li>• Capigliatura: **Ondulata/Ibrida** (Analisi: Un equilibrio tra controllo e libertà, difficile da replicare).</li>
                 <li>• Misura Piedi: **Taglia 42 EU** (Impatto: Sorprendentemente influente sulla stabilità generale dell'esemplare).</li>
-                <li>• Altri Dati: **Non Rilevati** (Stato: Classificato, accesso negato al pubblico). Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi. Per garantire un'esperienza ottimale su tutti i dispositivi, abbiamo dovuto aumentare la quantità di testo qui presente, ma tranquillo, puoi scorrere verso il basso senza problemi.</li>
+                <li>• Altri Dati: **Non Rilevati** (Stato: Classificato, accesso negato al pubblico).</li>
             </ul>
         </div>
         <span class="nav-freccia" onclick="mostraSlide('slide-informazioni')">⬅️</span>
