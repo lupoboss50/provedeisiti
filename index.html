@@ -49,7 +49,6 @@
             height: 100%;
         }
 
-        /* Lettera ridimensionata (non riempie più tutto lo schermo) */
         .img-button img {
             width: 70%;
             max-width: 280px;
@@ -68,11 +67,11 @@
         }
 
         .title-parte2 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
             letter-spacing: 1px;
-            color: #4A3267; /* Viola scuro elegante in contrasto con il pastello */
-            margin-bottom: 25px;
+            color: #4A3267;
+            margin-bottom: 20px;
             text-align: center;
             text-transform: uppercase;
         }
@@ -83,26 +82,41 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
+        /* Pulsanti stile scheda con foto */
         .accordion-btn {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #4A3267;
+            background-color: #ffffff;
             border: none;
-            padding: 15px 20px;
-            font-size: 1.1rem;
-            font-weight: 700;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             cursor: pointer;
             width: 100%;
-            text-align: center;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
             transition: all 0.2s ease;
         }
 
         .accordion-btn:active {
             transform: scale(0.97);
-            background-color: #ffffff;
+        }
+
+        .btn-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .btn-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4A3267;
         }
 
         .accordion-content {
@@ -114,6 +128,7 @@
             font-size: 0.95rem;
             line-height: 1.5;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+            margin-top: -4px;
         }
 
         /* --- PARTE 3 --- */
@@ -126,34 +141,43 @@
 </head>
 <body>
 
-    <!-- PARTE 1: Busta rimpicciolita che rimanda alla Parte 2 -->
+    <!-- PARTE 1 -->
     <section class="slide" id="parte1">
         <a href="#parte2" class="img-button">
             <img src="IMG_9947.PNG" alt="Apri la lettera">
         </a>
     </section>
 
-    <!-- PARTE 2: Titolo + 3 Pulsanti interattivi -->
+    <!-- PARTE 2 -->
     <section class="slide" id="parte2">
         <h2 class="title-parte2">MOTIVI PER CUI SEI SPECIALE</h2>
         
         <div class="accordion-container">
-            <!-- Pulsante A -->
-            <button class="accordion-btn" onclick="toggleText('textA')">A</button>
+            <!-- Pulsante A (Gatto) -->
+            <button class="accordion-btn" onclick="toggleText('textA')">
+                <img src="gatto.JPG" alt="Gatto" class="btn-img">
+                <span class="btn-label">Premimi ❤️</span>
+            </button>
             <div id="textA" class="accordion-content">
-                Qui inserirai il primo testo.
+                Sei una ragazza bellissima, mi ci specchio nei tuoi occhini marroni, poi i tuoi capelli ricci li amo, non capisco perché tu li odi ma sappi che per me sono stupendi (forse per la mia ossessione per le ricce con gli occhi) ma sappi che ai miei occhi sei la donna più bella che conosca (SEI BELLISSIMA AMORE MIO).
             </div>
 
-            <!-- Pulsante B -->
-            <button class="accordion-btn" onclick="toggleText('textB')">B</button>
+            <!-- Pulsante B (Mare) -->
+            <button class="accordion-btn" onclick="toggleText('textB')">
+                <img src="mare.JPG" alt="Mare" class="btn-img">
+                <span class="btn-label">Premimi 🌊</span>
+            </button>
             <div id="textB" class="accordion-content">
-                Qui inserirai il secondo testo.
+                Sei una ragazza forte, e non smetterò di dire che io sono orgoglioso di te vabbè orgoglioso della mia donna, sei carinissima, gentilissima, affettuosissima, splendida, finisco qui che poi diventa troppo lungo.
             </div>
 
-            <!-- Pulsante C -->
-            <button class="accordion-btn" onclick="toggleText('textC')">C</button>
+            <!-- Pulsante C (Libri) -->
+            <button class="accordion-btn" onclick="toggleText('textC')">
+                <img src="libri.JPG" alt="Libri" class="btn-img">
+                <span class="btn-label">Premimi 📖</span>
+            </button>
             <div id="textC" class="accordion-content">
-                Qui inserirai il terzo testo.
+                Sei speciale per me e non lo dico così giusto per, ma perché è così siamo simili, sei una donna che non si smette mai di amare, infatti io non smetto di amarti, mi fai sentire bene, parlarti con te sempre, perché mi fai stare bene.
             </div>
         </div>
     </section>
@@ -168,14 +192,14 @@
         function toggleText(id) {
             const content = document.getElementById(id);
             
-            // Chiude gli altri blocchi per mantenere pulita la schermata mobile
+            // Chiude gli altri testi aperti
             document.querySelectorAll('.accordion-content').forEach(item => {
                 if (item.id !== id) {
                     item.style.display = 'none';
                 }
             });
 
-            // Apre o chiude il blocco cliccato
+            // Mostra o nasconde quello cliccato
             if (content.style.display === 'block') {
                 content.style.display = 'none';
             } else {
