@@ -2,7 +2,108 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentario Cozmin Toma (FINALE)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Viewport ottimizzato per smartphone -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sito Mobile</title>
     
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Scorrimento fluido e blocco sulle slide */
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #000;
+        }
+
+        /* Ognuna delle 3 parti occupa esattamente l'altezza dello schermo del telefono */
+        .slide {
+            width: 100vw;
+            height: 100dvh; /* 'dvh' adatta l'altezza perfetta sui browser mobile con barra di navigazione */
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- PARTE 1 --- */
+        #parte1 {
+            padding: 0;
+        }
+
+        .img-button {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+        }
+
+        .img-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Copre tutto lo schermo senza sgranarsi o deformarsi */
+            display: block;
+        }
+
+        /* --- PARTE 2 --- */
+        #parte2 {
+            background-color: #BAA8D6; /* Il tuo colore scelto */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* --- PARTE 3 --- */
+        #parte3 {
+            background-color: #1a1a1a; /* Esempio di colore per la terza parte */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Stile opzionale per i testi nelle slide */
+        h1, h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PARTE 1: Foto a tutto schermo che fa da pulsante -->
+    <section class="slide" id="parte1">
+        <a href="#parte2" class="img-button">
+            <img src="IMG_9947.PNG" alt="Premi per continuare">
+        </a>
+    </section>
+
+    <!-- PARTE 2: Colore di sfondo #BAA8D6 -->
+    <section class="slide" id="parte2">
+        <h2>Seconda Parte</h2>
+        <p>Qui puoi inserire i contenuti della seconda slide.</p>
+    </section>
+
+    <!-- PARTE 3: Terza slide -->
+    <section class="slide" id="parte3">
+        <h2>Terza Parte</h2>
+        <p>Qui puoi inserire i contenuti della terza slide.</p>
+    </section>
+
+</body>
+</html>
