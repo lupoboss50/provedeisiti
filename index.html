@@ -2,7 +2,6 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport ottimizzato per smartphone -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sito Mobile</title>
     
@@ -13,97 +12,177 @@
             box-sizing: border-box;
         }
 
-        /* Scorrimento fluido e blocco sulle slide */
         html {
             scroll-behavior: smooth;
             scroll-snap-type: y mandatory;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
-            background-color: #000;
+            background-color: #BAA8D6;
         }
 
-        /* Ognuna delle 3 parti occupa esattamente l'altezza dello schermo del telefono */
         .slide {
             width: 100vw;
-            height: 100dvh; /* 'dvh' adatta l'altezza perfetta sui browser mobile con barra di navigazione */
+            height: 100dvh;
             scroll-snap-align: start;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         /* --- PARTE 1 --- */
         #parte1 {
-            padding: 0;
+            background-color: #BAA8D6;
         }
 
         .img-button {
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
             width: 100%;
             height: 100%;
-            text-decoration: none;
         }
 
+        /* Lettera ridimensionata (non riempie più tutto lo schermo) */
         .img-button img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Copre tutto lo schermo senza sgranarsi o deformarsi */
-            display: block;
+            width: 70%;
+            max-width: 280px;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+        }
+
+        .img-button img:active {
+            transform: scale(0.95);
         }
 
         /* --- PARTE 2 --- */
         #parte2 {
-            background-color: #BAA8D6; /* Il tuo colore scelto */
-            color: #ffffff;
-            padding: 20px;
+            background-color: #BAA8D6;
+        }
+
+        .title-parte2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #4A3267; /* Viola scuro elegante in contrasto con il pastello */
+            margin-bottom: 25px;
             text-align: center;
+            text-transform: uppercase;
+        }
+
+        .accordion-container {
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .accordion-btn {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #4A3267;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .accordion-btn:active {
+            transform: scale(0.97);
+            background-color: #ffffff;
+        }
+
+        .accordion-content {
+            display: none;
+            background-color: #ffffff;
+            color: #5A4378;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
         }
 
         /* --- PARTE 3 --- */
         #parte3 {
-            background-color: #1a1a1a; /* Esempio di colore per la terza parte */
+            background-color: #9D88BD;
             color: #ffffff;
-            padding: 20px;
             text-align: center;
-        }
-
-        /* Stile opzionale per i testi nelle slide */
-        h1, h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-    <!-- PARTE 1: Foto a tutto schermo che fa da pulsante -->
+    <!-- PARTE 1: Busta rimpicciolita che rimanda alla Parte 2 -->
     <section class="slide" id="parte1">
         <a href="#parte2" class="img-button">
-            <img src="IMG_9947.PNG" alt="Premi per continuare">
+            <img src="IMG_9947.PNG" alt="Apri la lettera">
         </a>
     </section>
 
-    <!-- PARTE 2: Colore di sfondo #BAA8D6 -->
+    <!-- PARTE 2: Titolo + 3 Pulsanti interattivi -->
     <section class="slide" id="parte2">
-        <h2>Seconda Parte</h2>
-        <p>Qui puoi inserire i contenuti della seconda slide.</p>
+        <h2 class="title-parte2">MOTIVI PER CUI SEI SPECIALE</h2>
+        
+        <div class="accordion-container">
+            <!-- Pulsante A -->
+            <button class="accordion-btn" onclick="toggleText('textA')">A</button>
+            <div id="textA" class="accordion-content">
+                Qui inserirai il primo testo.
+            </div>
+
+            <!-- Pulsante B -->
+            <button class="accordion-btn" onclick="toggleText('textB')">B</button>
+            <div id="textB" class="accordion-content">
+                Qui inserirai il secondo testo.
+            </div>
+
+            <!-- Pulsante C -->
+            <button class="accordion-btn" onclick="toggleText('textC')">C</button>
+            <div id="textC" class="accordion-content">
+                Qui inserirai il terzo testo.
+            </div>
+        </div>
     </section>
 
-    <!-- PARTE 3: Terza slide -->
+    <!-- PARTE 3 -->
     <section class="slide" id="parte3">
         <h2>Terza Parte</h2>
-        <p>Qui puoi inserire i contenuti della terza slide.</p>
+        <p>Contenuto della terza slide.</p>
     </section>
+
+    <script>
+        function toggleText(id) {
+            const content = document.getElementById(id);
+            
+            // Chiude gli altri blocchi per mantenere pulita la schermata mobile
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                if (item.id !== id) {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Apre o chiude il blocco cliccato
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        }
+    </script>
 
 </body>
 </html>
