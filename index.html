@@ -25,7 +25,7 @@
         body {
             font-family: 'Quicksand', sans-serif;
             overflow-x: hidden;
-            background-color: #F5EBF2; /* Sfondo Rosa Cipria Pastello */
+            background-color: #F5EBF2;
             color: #5C3A4D;
         }
 
@@ -55,8 +55,9 @@
         }
 
         .img-container img {
-            width: 75%;
-            max-width: 280px;
+            width: 80%;
+            max-width: 290px;
+            max-height: 70vh;
             height: auto;
             object-fit: contain;
             filter: drop-shadow(0 8px 16px rgba(92, 58, 77, 0.08));
@@ -87,7 +88,6 @@
             overflow-y: auto;
         }
 
-        /* Schede pulsante */
         .accordion-btn {
             background-color: #E8D3DF;
             border: 2px solid #DFBFCF;
@@ -121,7 +121,6 @@
             color: #5C3A4D;
         }
 
-        /* Box testo aperto */
         .accordion-content {
             display: none;
             background-color: #FAF2F7;
@@ -134,6 +133,7 @@
             line-height: 1.6;
             box-shadow: 0 4px 12px rgba(140, 83, 116, 0.06);
             margin-top: -4px;
+            text-align: center;
         }
 
         /* --- PARTE 3 --- */
@@ -164,62 +164,81 @@
             transform: scale(0.85);
         }
 
-        /* Blocco Bacini posizionato sotto a destra */
-        .kiss-section {
-            align-self: flex-end;
-            margin-top: 15px;
+        /* Box Bacini strutturato verticale */
+        .bacini-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-        }
-
-        .kiss-label {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #8C5374;
-        }
-
-        .kiss-btn {
+            gap: 10px;
             background-color: #E8D3DF;
-            color: #5C3A4D;
             border: 2px solid #DFBFCF;
-            border-radius: 50px;
-            padding: 10px 22px;
-            font-family: 'Quicksand', sans-serif;
+            padding: 16px 24px;
+            border-radius: 24px;
+            box-shadow: 0 6px 15px rgba(140, 83, 116, 0.08);
+            margin-top: 15px;
+            min-width: 160px;
+        }
+
+        /* Rettangolo Rosso: Titolo */
+        .bacini-title {
             font-size: 1.2rem;
             font-weight: 800;
-            box-shadow: 0 4px 12px rgba(140, 83, 116, 0.1);
+            color: #8C5374;
+            text-transform: lowercase;
+        }
+
+        /* Cerchio Verde: Tasto Bacio */
+        .kiss-btn {
+            background-color: #FAF2F7;
+            border: 2px solid #DFBFCF;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
             cursor: pointer;
-            transition: transform 0.15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.15s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .kiss-btn:active {
-            transform: scale(0.88);
+            transform: scale(0.85);
             background-color: #DFBFCF;
+        }
+
+        /* Cerchio Viola: Numero di volte */
+        .kiss-counter {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #5C3A4D;
+            background-color: #FAF2F7;
+            padding: 4px 18px;
+            border-radius: 12px;
+            border: 1px solid #DFBFCF;
+            min-width: 50px;
         }
     </style>
 </head>
 <body>
 
-    <!-- PARTE 1: Nuova foto lettera.PNG -->
+    <!-- PARTE 1 -->
     <section class="slide" id="parte1">
         <div class="img-container">
-            <img src="lettera.PNG" alt="Lettera">
+            <img src="./lettera.PNG" alt="Lettera">
         </div>
     </section>
 
-    <!-- PARTE 2: Motivi -->
+    <!-- PARTE 2 -->
     <section class="slide" id="parte2">
         <h2 class="title-parte2">MOTIVI PER CUI SEI SPECIALE</h2>
         
         <div class="accordion-container">
             <!-- Pulsante A (Gatto) -->
             <button class="accordion-btn" onclick="toggleText('textA')">
-                <img src="gatto.JPG" alt="Gatto" class="btn-img">
+                <img src="./gatto.JPG" alt="Gatto" class="btn-img">
                 <span class="btn-label">CLICCAMI💘</span>
             </button>
             <div id="textA" class="accordion-content">
@@ -228,7 +247,7 @@
 
             <!-- Pulsante B (Mare) -->
             <button class="accordion-btn" onclick="toggleText('textB')">
-                <img src="mare.JPG" alt="Mare" class="btn-img">
+                <img src="./mare.JPG" alt="Mare" class="btn-img">
                 <span class="btn-label">CLICCAMI💘</span>
             </button>
             <div id="textB" class="accordion-content">
@@ -237,7 +256,7 @@
 
             <!-- Pulsante C (Libro) -->
             <button class="accordion-btn" onclick="toggleText('textC')">
-                <img src="libro.JPG" alt="Libro" class="btn-img">
+                <img src="./libro.JPG" alt="Libro" class="btn-img">
                 <span class="btn-label">CLICCAMI💘</span>
             </button>
             <div id="textC" class="accordion-content">
@@ -246,23 +265,23 @@
         </div>
     </section>
 
-    <!-- PARTE 3: Cuore Cliccabile + Contatore Bacini -->
+    <!-- PARTE 3 -->
     <section class="slide" id="parte3">
         <div class="parte3-container">
             <button class="heart-button" onclick="toggleText('textParte3')">
                 💘
             </button>
             
+            <!-- Messaggio speciale al click sul cuore -->
             <div id="textParte3" class="accordion-content" style="margin-bottom: 15px; width: 100%;">
-                Qui inseriremo il messaggio finale che mi manderai!
+                mo foto cosce?
             </div>
 
-            <!-- Pulsante Bacini con Contatore -->
-            <div class="kiss-section">
-                <span class="kiss-label">bacini 💋</span>
-                <button class="kiss-btn" onclick="addKiss()">
-                    <span id="kissCount">0</span>
-                </button>
+            <!-- Box Bacini (Titolo, Emoji e Numero di click) -->
+            <div class="bacini-box">
+                <span class="bacini-title">bacini</span>
+                <button class="kiss-btn" onclick="addKiss()">💋</button>
+                <div class="kiss-counter"><span id="kissCount">0</span></div>
             </div>
         </div>
     </section>
