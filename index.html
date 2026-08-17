@@ -25,7 +25,7 @@
         body {
             font-family: 'Quicksand', sans-serif;
             overflow-x: hidden;
-            background-color: #F5EBF2; /* Lavanda cipria pastello */
+            background-color: #F5EBF2; /* Sfondo Rosa Cipria Pastello */
             color: #5C3A4D;
         }
 
@@ -55,8 +55,8 @@
         }
 
         .img-container img {
-            width: 70%;
-            max-width: 270px;
+            width: 75%;
+            max-width: 280px;
             height: auto;
             object-fit: contain;
             filter: drop-shadow(0 8px 16px rgba(92, 58, 77, 0.08));
@@ -71,7 +71,7 @@
             font-size: 1.25rem;
             font-weight: 800;
             letter-spacing: 0.5px;
-            color: #8C5374; /* Rosa antico pastello */
+            color: #8C5374;
             margin-bottom: 22px;
             text-align: center;
             text-transform: uppercase;
@@ -89,7 +89,7 @@
 
         /* Schede pulsante */
         .accordion-btn {
-            background-color: #E8D3DF; /* Rosa pastello morbido */
+            background-color: #E8D3DF;
             border: 2px solid #DFBFCF;
             border-radius: 20px;
             box-shadow: 0 6px 15px rgba(140, 83, 116, 0.08);
@@ -142,6 +142,14 @@
             text-align: center;
         }
 
+        .parte3-container {
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .heart-button {
             background: none;
             border: none;
@@ -150,28 +158,57 @@
             transition: transform 0.2s ease;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
-            margin-bottom: 15px;
         }
 
         .heart-button:active {
             transform: scale(0.85);
         }
 
-        .parte3-container {
-            width: 100%;
-            max-width: 320px;
+        /* Blocco Bacini posizionato sotto a destra */
+        .kiss-section {
+            align-self: flex-end;
+            margin-top: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 4px;
+        }
+
+        .kiss-label {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #8C5374;
+        }
+
+        .kiss-btn {
+            background-color: #E8D3DF;
+            color: #5C3A4D;
+            border: 2px solid #DFBFCF;
+            border-radius: 50px;
+            padding: 10px 22px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(140, 83, 116, 0.1);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kiss-btn:active {
+            transform: scale(0.88);
+            background-color: #DFBFCF;
         }
     </style>
 </head>
 <body>
 
-    <!-- PARTE 1: Lettera -->
+    <!-- PARTE 1: Nuova foto lettera.PNG -->
     <section class="slide" id="parte1">
         <div class="img-container">
-            <img src="IMG_9947.PNG" alt="Lettera">
+            <img src="lettera.PNG" alt="Lettera">
         </div>
     </section>
 
@@ -209,14 +246,23 @@
         </div>
     </section>
 
-    <!-- PARTE 3: Cuore Cliccabile -->
+    <!-- PARTE 3: Cuore Cliccabile + Contatore Bacini -->
     <section class="slide" id="parte3">
         <div class="parte3-container">
             <button class="heart-button" onclick="toggleText('textParte3')">
                 💘
             </button>
-            <div id="textParte3" class="accordion-content">
+            
+            <div id="textParte3" class="accordion-content" style="margin-bottom: 15px; width: 100%;">
                 Qui inseriremo il messaggio finale che mi manderai!
+            </div>
+
+            <!-- Pulsante Bacini con Contatore -->
+            <div class="kiss-section">
+                <span class="kiss-label">bacini 💋</span>
+                <button class="kiss-btn" onclick="addKiss()">
+                    <span id="kissCount">0</span>
+                </button>
             </div>
         </div>
     </section>
@@ -225,19 +271,23 @@
         function toggleText(id) {
             const content = document.getElementById(id);
             
-            // Chiude gli altri testi della pagina
             document.querySelectorAll('.accordion-content').forEach(item => {
                 if (item.id !== id) {
                     item.style.display = 'none';
                 }
             });
 
-            // Apre o chiude il testo selezionato
             if (content.style.display === 'block') {
                 content.style.display = 'none';
             } else {
                 content.style.display = 'block';
             }
+        }
+
+        let kisses = 0;
+        function addKiss() {
+            kisses++;
+            document.getElementById('kissCount').innerText = kisses;
         }
     </script>
 
