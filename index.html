@@ -40,25 +40,20 @@
             background-color: #BAA8D6;
         }
 
-        .img-button {
+        .img-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            text-decoration: none;
             width: 100%;
             height: 100%;
         }
 
-        .img-button img {
+        /* Lettera statica (senza link di reindirizzamento) */
+        .img-container img {
             width: 70%;
             max-width: 280px;
             height: auto;
             object-fit: contain;
-            transition: transform 0.2s ease;
-        }
-
-        .img-button img:active {
-            transform: scale(0.95);
         }
 
         /* --- PARTE 2 --- */
@@ -70,7 +65,7 @@
             font-size: 1.2rem;
             font-weight: 800;
             letter-spacing: 1px;
-            color: #4A3267;
+            color: #E68A8D; /* Colore personalizzato per il titolo */
             margin-bottom: 20px;
             text-align: center;
             text-transform: uppercase;
@@ -86,12 +81,12 @@
             overflow-y: auto;
         }
 
-        /* Pulsanti stile scheda con foto */
+        /* Schede pulsante con sfondo #795CAA */
         .accordion-btn {
-            background-color: #ffffff;
+            background-color: #795CAA;
             border: none;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
             cursor: pointer;
             width: 100%;
             padding: 8px 12px;
@@ -113,21 +108,23 @@
             flex-shrink: 0;
         }
 
+        /* Scritta con colore #1D3577 */
         .btn-label {
             font-size: 1.1rem;
-            font-weight: 700;
-            color: #4A3267;
+            font-weight: 800;
+            color: #1D3577;
         }
 
+        /* Box testo aperto con sfondo #795CAA */
         .accordion-content {
             display: none;
-            background-color: #ffffff;
-            color: #5A4378;
+            background-color: #795CAA;
+            color: #ffffff;
             padding: 16px;
             border-radius: 14px;
             font-size: 0.95rem;
             line-height: 1.5;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             margin-top: -4px;
         }
 
@@ -141,11 +138,11 @@
 </head>
 <body>
 
-    <!-- PARTE 1 -->
+    <!-- PARTE 1: Lettera statica (senza azione al click) -->
     <section class="slide" id="parte1">
-        <a href="#parte2" class="img-button">
-            <img src="IMG_9947.PNG" alt="Apri la lettera">
-        </a>
+        <div class="img-container">
+            <img src="IMG_9947.PNG" alt="Lettera">
+        </div>
     </section>
 
     <!-- PARTE 2 -->
@@ -156,7 +153,7 @@
             <!-- Pulsante A (Gatto) -->
             <button class="accordion-btn" onclick="toggleText('textA')">
                 <img src="gatto.JPG" alt="Gatto" class="btn-img">
-                <span class="btn-label">Premimi ❤️</span>
+                <span class="btn-label">CLICCAMI💘</span>
             </button>
             <div id="textA" class="accordion-content">
                 Sei una ragazza bellissima, mi ci specchio nei tuoi occhini marroni, poi i tuoi capelli ricci li amo, non capisco perché tu li odi ma sappi che per me sono stupendi (forse per la mia ossessione per le ricce con gli occhi) ma sappi che ai miei occhi sei la donna più bella che conosca (SEI BELLISSIMA AMORE MIO).
@@ -165,7 +162,7 @@
             <!-- Pulsante B (Mare) -->
             <button class="accordion-btn" onclick="toggleText('textB')">
                 <img src="mare.JPG" alt="Mare" class="btn-img">
-                <span class="btn-label">Premimi 🌊</span>
+                <span class="btn-label">CLICCAMI💘</span>
             </button>
             <div id="textB" class="accordion-content">
                 Sei una ragazza forte, e non smetterò di dire che io sono orgoglioso di te vabbè orgoglioso della mia donna, sei carinissima, gentilissima, affettuosissima, splendida, finisco qui che poi diventa troppo lungo.
@@ -174,7 +171,7 @@
             <!-- Pulsante C (Libri) -->
             <button class="accordion-btn" onclick="toggleText('textC')">
                 <img src="libri.JPG" alt="Libri" class="btn-img">
-                <span class="btn-label">Premimi 📖</span>
+                <span class="btn-label">CLICCAMI💘</span>
             </button>
             <div id="textC" class="accordion-content">
                 Sei speciale per me e non lo dico così giusto per, ma perché è così siamo simili, sei una donna che non si smette mai di amare, infatti io non smetto di amarti, mi fai sentire bene, parlarti con te sempre, perché mi fai stare bene.
@@ -192,14 +189,12 @@
         function toggleText(id) {
             const content = document.getElementById(id);
             
-            // Chiude gli altri testi aperti
             document.querySelectorAll('.accordion-content').forEach(item => {
                 if (item.id !== id) {
                     item.style.display = 'none';
                 }
             });
 
-            // Mostra o nasconde quello cliccato
             if (content.style.display === 'block') {
                 content.style.display = 'none';
             } else {
