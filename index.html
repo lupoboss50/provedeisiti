@@ -46,21 +46,84 @@
             background-color: #F5EBF2;
         }
 
-        .img-container {
+        .letter-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
             height: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .img-container img {
+        .letter-btn img {
             width: 80%;
             max-width: 290px;
             max-height: 70vh;
             height: auto;
             object-fit: contain;
             filter: drop-shadow(0 8px 16px rgba(92, 58, 77, 0.08));
+            transition: transform 0.2s ease;
+        }
+
+        .letter-btn img:active {
+            transform: scale(0.95);
+        }
+
+        /* Scheda messaggio lettera */
+        .letter-card {
+            display: none;
+            width: 100%;
+            max-width: 320px;
+            background-color: #FAF2F7;
+            border: 2px solid #E8D3DF;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(140, 83, 116, 0.12);
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .letter-text {
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #5C3A4D;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .cozmin-img {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 15px;
+        }
+
+        /* Tasto indietro in basso a destra */
+        .back-btn {
+            align-self: flex-end;
+            background-color: #E8D3DF;
+            border: 2px solid #DFBFCF;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .back-btn:active {
+            transform: scale(0.85);
+            background-color: #DFBFCF;
         }
 
         /* --- PARTE 2 --- */
@@ -164,7 +227,6 @@
             transform: scale(0.85);
         }
 
-        /* Box Bacini strutturato verticale */
         .bacini-box {
             display: flex;
             flex-direction: column;
@@ -179,7 +241,6 @@
             min-width: 160px;
         }
 
-        /* Rettangolo Rosso: Titolo */
         .bacini-title {
             font-size: 1.2rem;
             font-weight: 800;
@@ -187,7 +248,6 @@
             text-transform: lowercase;
         }
 
-        /* Cerchio Verde: Tasto Bacio */
         .kiss-btn {
             background-color: #FAF2F7;
             border: 2px solid #DFBFCF;
@@ -209,7 +269,6 @@
             background-color: #DFBFCF;
         }
 
-        /* Cerchio Viola: Numero di volte */
         .kiss-counter {
             font-size: 1.3rem;
             font-weight: 800;
@@ -226,8 +285,19 @@
 
     <!-- PARTE 1 -->
     <section class="slide" id="parte1">
-        <div class="img-container">
+        <!-- Bottone Immagine Lettera -->
+        <button id="letterBtn" class="letter-btn" onclick="openLetter()">
             <img src="./lettera.PNG" alt="Lettera">
+        </button>
+
+        <!-- Scheda Messaggio + Foto Cozmin -->
+        <div id="letterCard" class="letter-card">
+            <p class="letter-text">
+                sai quando i bambini allungano le braccia quando voglio indicare qualcosa di grande.<br><br>
+                Ecco io ti amo così tanto.
+            </p>
+            <img src="./cozmin.PNG" alt="Cozmin" class="cozmin-img">
+            <button class="back-btn" onclick="closeLetter()">⬅️</button>
         </div>
     </section>
 
@@ -272,12 +342,10 @@
                 💘
             </button>
             
-            <!-- Messaggio speciale al click sul cuore -->
             <div id="textParte3" class="accordion-content" style="margin-bottom: 15px; width: 100%;">
                 mo foto cosce?
             </div>
 
-            <!-- Box Bacini (Titolo, Emoji e Numero di click) -->
             <div class="bacini-box">
                 <span class="bacini-title">bacini</span>
                 <button class="kiss-btn" onclick="addKiss()">💋</button>
@@ -287,6 +355,18 @@
     </section>
 
     <script>
+        // Funzioni per la lettera (Parte 1)
+        function openLetter() {
+            document.getElementById('letterBtn').style.display = 'none';
+            document.getElementById('letterCard').style.display = 'flex';
+        }
+
+        function closeLetter() {
+            document.getElementById('letterCard').style.display = 'none';
+            document.getElementById('letterBtn').style.display = 'flex';
+        }
+
+        // Funzioni per le schede di testo
         function toggleText(id) {
             const content = document.getElementById(id);
             
@@ -303,6 +383,7 @@
             }
         }
 
+        // Funzione per il contatore bacini
         let kisses = 0;
         function addKiss() {
             kisses++;
